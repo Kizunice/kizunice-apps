@@ -17,18 +17,18 @@ export default function Sidebar()  {
       <div className="drawer-side z-30">
         <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label> 
         <div className="menu flex justify-between p-4 w-80 min-h-full bg-secondary text-base-content">
-          <div className="mb-6 mx-auto items-center">
-            <Image src="/logo.png" className="w-30" width={140} height={40} alt="Kizunice App Logo"/>
+          <div className="relative mb-6 mx-auto items-center w-30 h-auto">
+            <Image src="/logo.png" width={100} height={100} className="w-full h-auto" priority={false} alt="Kizunice App Logo"/>
           </div>
           <div className="mb-auto">
             <ul>
-            {routes.map((link) => (
-              <li >
-                <Link href={link.path} key={link.key} className="flex text-whitegray text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">
-                  {link.icon}{link.name}
-                </Link>
-              </li>          
-              ))}
+              <li>
+                {routes.map((link, i) => (
+                  <Link href={link.path} key={i} className="flex text-whitegray text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">
+                    {link.icon}{link.name}
+                  </Link>
+                ))}
+              </li> 
             </ul>
           </div>
           <div className="mx-auto justify-center">
