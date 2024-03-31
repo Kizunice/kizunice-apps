@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import {FaBars} from "react-icons/fa"
 
 
@@ -22,9 +21,7 @@ export default function Header()  {
               </span>
               <span className="block text-xs text-black">Admin</span>
             </span>
-            <div className="w-10 rounded-full">
-              <img alt="Tailwind CSS Navbar component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-            </div>
+
             
           </div>
           <ul tabIndex={0} className="mt-3 z-[9] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">

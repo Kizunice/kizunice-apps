@@ -18,7 +18,7 @@ export default function Sidebar()  {
         <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label> 
         <div className="menu flex justify-between p-4 w-80 min-h-full bg-secondary text-base-content">
           <div className="mb-6 mx-auto items-center">
-            <Image src="/logo.png" width={140} height={40} alt="Kizunice App Logo"/>
+            <Image src="/logo.png" className="w-30" width={140} height={40} alt="Kizunice App Logo"/>
           </div>
           <div className="mb-auto">
             <ul>

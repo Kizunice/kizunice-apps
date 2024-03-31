@@ -16,51 +16,61 @@ const routes = [
     path: '/',
     icon: <MdDashboard size={22} />,
     name: 'Dashboard',
+    key: '0',
   },
   {
     path: '/attendance',
     icon: <IoCalendar size={22} />,
     name: 'Attendance',
+    key: '1',
   },
   {
     path: '/learning',
     icon: <ImBook size={22} />,
     name: 'Learning',
+    key: '2',
   },
   {
     path: '/jobs',
     icon: <FaSuitcase size={22} />,
     name: 'Jobs',
+    key: '3',
   },
   {
     path: '/document',
     icon: <IoDocumentText size={22} />,
     name: 'Document',
+    key: '4',
   },
   {
     path: '/student-data',
     icon: <HiUsers size={22} />,
     name: 'Data Student',
+    key: '5',
   },
   {
     path: '/partner-data',
     icon: <HiUsers size={22} />,
     name: 'Data Partner',
+    key: '6',
   },
   {
     path: '/finance',
     icon: <FaCoins size={22} />,
     name: 'Finance',
+    key: '7',
   },
   {
     path: '/content',
     icon: <BiSolidBookContent size={22} />,
     name: 'Content',
+    key: '8',
   },
   {
     path: '/settings',
     icon: <IoMdSettings size={22} />,
     name: 'Settings',
+    key: '9',
   },
 ];
 
