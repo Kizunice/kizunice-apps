@@ -1,7 +1,7 @@
 import DefaultLayout from '@/components/layout/DefaultLayout';
 
 
-export default function() {
+export default function Learning() {
     return (
         <>
             <DefaultLayout />
