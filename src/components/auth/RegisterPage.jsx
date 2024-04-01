@@ -1,14 +1,13 @@
 'use client'
 
-// import { signIn } from "next-auth/react";
 import React, { useState } from 'react';
 import Link from "next/link";
-// import { useRouter } from "next/navigation";
-// import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
 import { FaGoogle } from "react-icons/fa";
 
 export default function RegisterForm() {
-//   const router = useRouter()
+  const router = useRouter()
 
   const [formValues, setFormValues] = useState({
     name: "",
@@ -20,35 +19,36 @@ export default function RegisterForm() {
 
   async function handleSubmit(event) {
     event.preventDefault()
-    // setLoading(true);
-    // setFormValues({ name: "", email: "", password: "" });
+    setLoading(true);
+    setFormValues({ name: "", email: "", password: "" });
+    console.log(formValues)
 
-    // try {
-    //   const response = await fetch("/api/register", {
-    //     method: "POST",
-    //     body: JSON.stringify(formValues),
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
+    try {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        body: JSON.stringify(formValues),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       
-    //   if (response.ok) {
-    //     setLoading(false);
-    //     toast.success("User Created Successfully");
-    //     router.push("/login");
-    //   } else {
-    //     setLoading(false);
-    //     if (response.status === 409) {
-    //       setEmailErr("User with this Email already exists");
-    //       toast.error("User with this Email already exists");
-    //     } else {
-    //       toast.error("Oops Something Went wrong");
-    //     }
-    //   }
-    // } catch (error) {
-    //   setLoading(false);
-    //   console.error("Network Error:", error);
-    // }
+      if (response.ok) {
+        setLoading(false);
+        toast.success("User Created Successfully");
+        router.push("/login");
+      } else {
+        setLoading(false);
+        if (response.status === 409) {
+          setEmailErr("User with this Email already exists");
+          toast.error("User with this Email already exists");
+        } else {
+          toast.error("Oops Something Went wrong");
+        }
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("Network Error:", error);
+    }
   }
 
   const handleChange = (event) =>{
@@ -59,7 +59,7 @@ export default function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {/* <Toaster /> */}
+      <Toaster />
       <div>
         <label
           htmlFor="name"
@@ -71,7 +71,7 @@ export default function RegisterForm() {
           type="text"
           name="name"
           id="name"
-          className="bg-white border border-white text-white sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
+          className="bg-white border border-white text-black sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
           placeholder="John Doe"
           value={formValues.name}
           onChange={handleChange}
@@ -93,7 +93,7 @@ export default function RegisterForm() {
           type="email"
           name="email"
           id="email"
-          className="bg-white border border-white text-white sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
+          className="bg-white border border-white text-black sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
           placeholder="name@company.com"
           value={formValues.email}
           onChange={handleChange}
@@ -118,7 +118,7 @@ export default function RegisterForm() {
           name="password"
           id="password"
           placeholder="••••••••"
-          className="bg-white border border-white text-white sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
+          className="bg-white border border-white text-black sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
           value={formValues.password}
           onChange={handleChange}
         />

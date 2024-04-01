@@ -1,10 +1,10 @@
 "use client";
 
-// import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 // import { useForm } from "react-hook-form";
-// import toast, { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
 // import { useEffect } from "react";
 // import { getData } from "@/lib/getData";
@@ -14,35 +14,35 @@ export default function LoginForm() {
     email: "",
     password: "",
   });
+  const router = useRouter()
   const [loading, setLoading] = useState(false);
-//   const router = useRouter()
   // const searchParams = useSearchParams();
-  // const callbackUrl = searchParams.get('callbackUrl') || '/profile';
+  // const callbackUrl = searchParams.get('callbackUrl') || '/';
 
   async function handleSubmit(e) {
     e.preventDefault()
     setLoading(true)
     setFormValues({email: "", password: "" });
-    // const data = JSON.stringify(formValues)
-    // try {
-    //   const response = await signIn("credentials", {
-    //     ...data,
-    //     redirect: false,
-    //     // redirectTo: callbackUrl 
-    //   });
+
+    try {
+      const response = await signIn("credentials", {
+        email: formValues.email,
+        password: formValues.password,
+        redirect: false,
+      });
       
-    //   if (response.ok) {
-    //     setLoading(false)
-    //     toast.success("Account Verified Successfully");
-    //     router.push("/profile")
-    //   } else {
-    //     setLoading(false)
-    //     toast.error("Something Went wrong");
-    //   }
-    // } catch (error) {
-    //   setLoading(false);
-    //   console.error("Network Error:", error);
-    // }
+      if (response.ok) {
+        setLoading(false)
+        toast.success("Account Verified Successfully");
+        router.push("/")
+      } else {
+        setLoading(false)
+        toast.error("Something Went wrong");
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("Network Error:", error);
+    }
   }
   
   const handleChange = (e) =>{
@@ -132,7 +132,7 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {/* <Toaster /> */}
+      <Toaster />
       {/* {isVerifying && <p>verifying please wait...</p>} */}
       <div>
         <label
