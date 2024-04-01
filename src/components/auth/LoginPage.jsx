@@ -1,8 +1,8 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect} from "react";
 // import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
@@ -16,34 +16,60 @@ export default function LoginForm() {
   });
   const router = useRouter()
   const [loading, setLoading] = useState(false);
+  const { data:session } = useSession()
+
   // const searchParams = useSearchParams();
   // const callbackUrl = searchParams.get('callbackUrl') || '/';
 
-  async function handleSubmit(e) {
-    e.preventDefault()
-    setLoading(true)
-    setFormValues({email: "", password: "" });
+  // async function handleSubmit(e) {
+  //   e.preventDefault()
+  //   setLoading(true)
+  //   setFormValues({email: "", password: "" });
 
-    try {
-      const response = await signIn("credentials", {
-        email: formValues.email,
-        password: formValues.password,
-        redirect: false,
-      });
+  //   try {
+  //     const res = signIn("credentials", {
+  //       email: formValues.email,
+  //       password: formValues.password,
+  //       redirect: false,
+  //     });
       
-      if (response.ok) {
-        setLoading(false)
-        toast.success("Account Verified Successfully");
-        router.push("/")
-      } else {
-        setLoading(false)
-        toast.error("Something Went wrong");
-      }
-    } catch (error) {
-      setLoading(false);
-      console.error("Network Error:", error);
-    }
-  }
+  //     if (res.ok) {
+  //       setLoading(false)
+  //       toast.success("Account Verified Successfully");
+  //       router.push("/")
+  //     } else {
+  //       setLoading(false)
+  //       toast.error("Something Went wrong");
+  //     }
+  //   } catch (error) {
+  //     setLoading(false);
+  //     console.error("Network Error:", error);
+  //   }
+  // }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setFormValues({email: "", password: "" });
+    setLoading(true)
+
+    signIn('credentials', {
+      email : formValues.email,
+      password : formValues.password, 
+      redirect: false
+    })
+    .then((callback) => {
+        if (callback?.error) {
+          toast.error(callback.error)
+          setLoading(false)
+        }
+
+        if(callback?.ok && !callback?.error) {
+          setLoading(false)
+          toast.success('Logged in successfully!')
+          router.push("/")
+        }
+    } )
+}
   
   const handleChange = (e) =>{
     const name = e.target.name;

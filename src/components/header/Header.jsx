@@ -1,8 +1,11 @@
 import Link from "next/link";
 import {FaBars} from "react-icons/fa"
 import Image from "next/image";
-
+import { useSession, signOut } from 'next-auth/react'
+import { useRouter } from "next/navigation";
 export default function Header()  {
+  const {data:session} = useSession()
+  const router = useRouter()
   return (
     <header className="navbar sticky top-0 z-10 h-20 bg-white justify-end lg:px-8">
       <div className="flex-1">
@@ -17,7 +20,7 @@ export default function Header()  {
           <div tabIndex={0} role="button" className="flex gap-4 avatar">
             <span className="text-right lg:block">
               <span className="block text-sm font-medium text-black">
-                Andre Taulany
+                {session?.user?.name}
               </span>
               <span className="block text-xs text-black">Admin</span>
             </span>
@@ -34,7 +37,9 @@ export default function Header()  {
               </a>
             </li>
             <li><a>Settings</a></li>
-            <li><a>Logout</a></li>
+            <li><button onClick={() => signOut({ redirect: false }).then(() => {
+        router.push("/login"); // Redirect to the dashboard page after signing out
+    })}>Logout</button></li>
           </ul>
         </div>
       </div>
