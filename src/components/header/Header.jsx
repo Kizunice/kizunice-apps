@@ -27,7 +27,7 @@ export default function Header()  {
               <span className="block text-xs text-black">{session?.role}</span>
             </span>
             <div className="w-10 rounded-full">
-              <Image src={avatar ? avatar : "/avatar.png"} width={20} height={20}/> 
+              <Image src={avatar ? avatar : "/avatar.png"} width={20} height={20} alt="Avatar Kizunice"/> 
             </div>
           </div>
           <ul tabIndex={0} className="mt-3 z-[9] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"> 
