@@ -1,8 +1,10 @@
 
 export default function Attendance() {
   return (
-    <div className="text-black">
-      INI PAGE ABSEN
-    </div>
+    <DefaultLayout>
+      <div className="text-black">
+          INI PAGE ATTENDANCE
+      </div>
+    </DefaultLayout>
   );
 }

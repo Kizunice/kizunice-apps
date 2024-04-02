@@ -1,8 +1,12 @@
+import DefaultLayout from "@/components/layout/DefaultLayout";
+
 
 export default function Finance() {
     return (
-        <div className="text-black">
-            INI PAGE FINANCE
-        </div>
+        <DefaultLayout>
+            <div className="text-black">
+                INI PAGE FINANCE
+            </div>
+        </DefaultLayout>
     );
 }

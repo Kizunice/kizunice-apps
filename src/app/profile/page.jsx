@@ -1,8 +1,12 @@
+import DefaultLayout from "@/components/layout/DefaultLayout";
+
 
 export default function Profile() {
     return (
-        <div className="text-black">
-            INI PAGE PROFILE
-        </div>
+        <DefaultLayout>
+            <div className="text-black">
+                INI PAGE PROFILE
+            </div>
+        </DefaultLayout>
     );
 }

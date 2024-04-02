@@ -1,8 +1,12 @@
+import DefaultLayout from "@/components/layout/DefaultLayout";
+
 
 export default function DataStudent() {
     return (
-        <div className="text-black">
-            INI PAGE DATA STUDENT
-        </div>
+        <DefaultLayout>
+            <div className="text-black">
+                INI PAGE STUDENT
+            </div>
+        </DefaultLayout>
     );
 }
