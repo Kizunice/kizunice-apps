@@ -43,13 +43,13 @@ const routes = [
     key: '4',
   },
   {
-    path: '/student-data',
+    path: '/data-student',
     icon: <HiUsers size={22} />,
     name: 'Data Student',
     key: '5',
   },
   {
-    path: '/partner-data',
+    path: '/data-partner',
     icon: <HiUsers size={22} />,
     name: 'Data Partner',
     key: '6',
