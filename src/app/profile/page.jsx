@@ -1,8 +1,8 @@
 
-export default function Settings() {
+export default function Profile() {
     return (
         <div className="text-black">
-            INI PAGE SETTINGS
+            INI PAGE PROFILE
         </div>
     );
 }

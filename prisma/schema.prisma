@@ -9,21 +9,94 @@ datasource db {
 }
 
 model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  userId Int     @unique
-  User   User    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id                  Int                  @id @default(autoincrement())
+  bio                 String?
+  userId              Int                  @unique
+  User                User                 @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dateOfBirth         DateTime?
+  placeOfBirth        String?
+  originCountry       String?
+  attendances         Attendance[]
+  learningMaterials   LearningMaterial[]
+  jobOppotunity       JobOpportunity[]
+  jobApplications     JobApplication[]
+  financeTransactions FinanceTransaction[]
+}
+
+model Attendance {
+  id        Int      @id @default(autoincrement())
+  studentId Int
+  date      DateTime
+  status    String
+  student   Profile  @relation(fields: [studentId], references: [id])
+
+  @@unique([studentId, date])
+}
+
+model LearningMaterial {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  fileUrl     String
+  uploadedBy  Int
+  uploadDate  DateTime
+  uploader    Profile  @relation(fields: [uploadedBy], references: [id])
+}
+
+// model LearningScore {
+//   id          Int      @id @default(autoincrement())
+//   studentId   Int
+//   senseiId    Int
+//   score       Float
+//   comments    String?
+//   date        DateTime
+//   student     Profile     @relation("studentScores", fields: [studentId], references: [id])
+//   sensei      Profile     @relation("senseiScores", fields: [senseiId], references: [id])
+// }
+
+model JobOpportunity {
+  id                  Int              @id @default(autoincrement())
+  title               String
+  description         String
+  postedBy            Int
+  postDate            DateTime
+  applicationDeadline DateTime
+  poster              Profile          @relation(fields: [postedBy], references: [id])
+  applications        JobApplication[]
+}
+
+model JobApplication {
+  id              Int            @id @default(autoincrement())
+  jobId           Int
+  studentId       Int
+  applicationDate DateTime
+  status          String
+  job             JobOpportunity @relation(fields: [jobId], references: [id])
+  student         Profile        @relation(fields: [studentId], references: [id])
+}
+
+model FinanceTransaction {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  transactionType String // Consider using an enum for specific transaction types
+  amount          Float
+  description     String?
+  transactionDate DateTime
+  user            Profile  @relation(fields: [userId], references: [id])
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
-  name          String?   @db.VarChar(255)
-  email         String    @unique @db.VarChar(255)
-  password      String
-  emailVerified DateTime?
-  image         String?
-  role          Role      @default(STUDENT)
-  Profile       Profile?
+  id              Int       @id @default(autoincrement())
+  name            String?   @db.VarChar(255)
+  email           String    @unique @db.VarChar(255)
+  password        String
+  emailVerified   DateTime?
+  emailVerifToken String?   @db.VarChar(255)
+  image           String?
+  role            Role      @default(STUDENT)
+  createdAt       DateTime? @default(now())
+  updatedAt       DateTime? @updatedAt
+  Profile         Profile?
 }
 
 model Account {

@@ -17,36 +17,7 @@ export default function LoginForm() {
   const router = useRouter()
   const [loading, setLoading] = useState(false);
   const { data:session } = useSession()
-
-  // const searchParams = useSearchParams();
-  // const callbackUrl = searchParams.get('callbackUrl') || '/';
-
-  // async function handleSubmit(e) {
-  //   e.preventDefault()
-  //   setLoading(true)
-  //   setFormValues({email: "", password: "" });
-
-  //   try {
-  //     const res = signIn("credentials", {
-  //       email: formValues.email,
-  //       password: formValues.password,
-  //       redirect: false,
-  //     });
-      
-  //     if (res.ok) {
-  //       setLoading(false)
-  //       toast.success("Account Verified Successfully");
-  //       router.push("/")
-  //     } else {
-  //       setLoading(false)
-  //       toast.error("Something Went wrong");
-  //     }
-  //   } catch (error) {
-  //     setLoading(false);
-  //     console.error("Network Error:", error);
-  //   }
-  // }
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault()
     setFormValues({email: "", password: "" });

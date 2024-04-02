@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 export default function Header()  {
   const {data:session} = useSession()
   const router = useRouter()
-  const avatar = session?.user?.image
+  const avatar = session?.image
+
   return (
     <header className="navbar sticky top-0 z-10 h-20 bg-white justify-end lg:px-8">
       <div className="flex-1">
@@ -20,23 +21,18 @@ export default function Header()  {
         <div className="dropdown dropdown-end ml-4">
           <div tabIndex={0} role="button" className="flex gap-4 avatar">
             <span className="text-right lg:block">
-              <span className="block text-sm font-medium text-black">
-                  {session?.user?.name}
+              <span className="block text-sm font-bold text-black">
+                  {session?.name}
               </span>
-              <span className="block text-xs text-black">Admin</span>
+              <span className="block text-xs text-black">{session?.role}</span>
             </span>
             <div className="w-10 rounded-full">
-              {avatar ? <Image src={avatar} width={20} height={20}/> : <Image src={"/avatar.png"} width={20} height={20} alt="dummy avatar" />}
+              <Image src={avatar ? avatar : "/avatar.png"} width={20} height={20}/> 
             </div>
           </div>
-          <ul tabIndex={0} className="mt-3 z-[9] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-            <li>
-              <a className="justify-between">
-                Profile
-                <span className="badge">New</span>
-              </a>
-            </li>
-            <li><a>Settings</a></li>
+          <ul tabIndex={0} className="mt-3 z-[9] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"> 
+            <li><Link href={"/profile"}>Profile</Link></li>
+            <li><Link href={"/settings"}>Settings</Link></li>
             <li><button onClick={() => signOut({ redirect: false }).then(() => {
         router.push("/login"); // Redirect to the dashboard page after signing out
     })}>Logout</button></li>

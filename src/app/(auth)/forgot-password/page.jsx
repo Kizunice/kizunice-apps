@@ -1,9 +1,9 @@
 import React from 'react';
-import LoginForm from '@/components/auth/LoginPage';
+import ForgotPassForm from '@/components/auth/ForgotPage';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default function ForgotPass() {
+export default function ForgotPage() {
     return (
       <section className="bg-gray-50 dark:bg-gray-900">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -15,7 +15,7 @@ export default function ForgotPass() {
                   
                   </Link>
               </div>
-                <LoginForm />
+                <ForgotPassForm />
             </div>
           </div>
         </div>

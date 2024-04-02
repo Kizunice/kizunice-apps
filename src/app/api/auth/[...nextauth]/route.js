@@ -14,35 +14,34 @@ export const authOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        // check to see if email and password is there
         if (!credentials.email || !credentials.password) {
           throw new Error('Please enter an email and password');
         }
 
-        // check to see if user exists
         const user = await prisma.user.findUnique({
           where: {
             email: credentials.email,
           },
         });
 
-        // if no user was found
         if (!user || !user?.password) {
           throw new Error('No user found');
         }
 
-        // check to see if password matches
         const passwordMatch = await bcrypt.compare(
           credentials.password,
           user.password
         );
 
-        // if password does not match
         if (!passwordMatch) {
           throw new Error('Incorrect password');
         }
-
-        return user;
+        return {
+          email: user.email,
+          name: user.name,
+          image: user.image,
+          role: user.role,
+        };
       },
     }),
   ],
@@ -54,30 +53,18 @@ export const authOptions = {
     signIn: '/login',
     error: '/login',
   },
-  // debug: process.env.NODE_ENV === 'development',
-  // callbacks: {
-  //   async signIn(user, account, profile) {
-  //     const isAllowedToSignIn = true;
-  //     if (isAllowedToSignIn) {
-  //       return true;
-  //     } else {
-  //       // Return false to display a default error message
-  //       return false;
-  //       // Or you can return a URL to redirect to:
-  //       // return '/unauthorized'
-  //     }
-  //   },
-  //   // async signIn({ user, account, profile, email, credentials }) {
-  //   //   if (user?.error === 'my custom error') {
-  //   //     throw new Error('custom error to the client');
-  //   //   }
-  //   //   return true;
-  //   // },
-
-  //   // async session(session, user) {
-  //   //   return session;
-  //   // },
-  // },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        return { ...token, ...user };
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session = token;
+      return session;
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);
