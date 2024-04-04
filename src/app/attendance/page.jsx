@@ -1,11 +1,9 @@
 import DefaultLayout from "@/components/layout/DefaultLayout";
-
-export default function Attendance() {
+import Attendance from "@/components/attendance/Attendance";
+export default function AttendancePage() {
   return (
     <DefaultLayout>
-      <div className="text-black">
-          INI PAGE ATTENDANCE
-      </div>
+      <Attendance/>
     </DefaultLayout>
   );
 }

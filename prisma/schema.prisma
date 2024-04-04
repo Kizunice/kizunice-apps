@@ -9,24 +9,26 @@ datasource db {
 }
 
 model Profile {
-  id                  Int                  @id @default(autoincrement())
+  id                  String               @id @default(cuid())
   bio                 String?
-  userId              Int                  @unique
+  userId              String               @unique
   User                User                 @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   dateOfBirth         DateTime?
   placeOfBirth        String?
   originCountry       String?
   attendances         Attendance[]
-  learningMaterials   LearningMaterial[]
+  learningMaterial    LearningMaterial[]
   jobOppotunity       JobOpportunity[]
   jobApplications     JobApplication[]
   financeTransactions FinanceTransaction[]
 }
 
 model Attendance {
-  id        Int      @id @default(autoincrement())
-  studentId Int
+  id        String   @id @default(cuid())
+  studentId String
   date      DateTime
+  clockIn   DateTime
+  clockOut  DateTime
   status    String
   student   Profile  @relation(fields: [studentId], references: [id])
 
@@ -34,17 +36,17 @@ model Attendance {
 }
 
 model LearningMaterial {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(cuid())
   title       String
   description String?
   fileUrl     String
-  uploadedBy  Int
+  uploadedBy  String
   uploadDate  DateTime
   uploader    Profile  @relation(fields: [uploadedBy], references: [id])
 }
 
 // model LearningScore {
-//   id          Int      @id @default(autoincrement())
+//   id          Int      @id @default(cuid())
 //   studentId   Int
 //   senseiId    Int
 //   score       Float
@@ -55,10 +57,10 @@ model LearningMaterial {
 // }
 
 model JobOpportunity {
-  id                  Int              @id @default(autoincrement())
+  id                  String           @id @default(cuid())
   title               String
   description         String
-  postedBy            Int
+  postedBy            String
   postDate            DateTime
   applicationDeadline DateTime
   poster              Profile          @relation(fields: [postedBy], references: [id])
@@ -66,9 +68,9 @@ model JobOpportunity {
 }
 
 model JobApplication {
-  id              Int            @id @default(autoincrement())
-  jobId           Int
-  studentId       Int
+  id              String         @id @default(cuid())
+  jobId           String
+  studentId       String
   applicationDate DateTime
   status          String
   job             JobOpportunity @relation(fields: [jobId], references: [id])
@@ -76,8 +78,8 @@ model JobApplication {
 }
 
 model FinanceTransaction {
-  id              Int      @id @default(autoincrement())
-  userId          Int
+  id              String   @id @default(cuid())
+  userId          String
   transactionType String // Consider using an enum for specific transaction types
   amount          Float
   description     String?
@@ -86,7 +88,7 @@ model FinanceTransaction {
 }
 
 model User {
-  id              Int       @id @default(autoincrement())
+  id              String    @id @default(cuid())
   name            String?   @db.VarChar(255)
   email           String    @unique @db.VarChar(255)
   password        String

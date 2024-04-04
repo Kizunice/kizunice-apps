@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 export default function Header()  {
   const {data:session} = useSession()
   const router = useRouter()
-  const avatar = session?.image
+  const avatar = session?.user.image
 
   return (
     <header className="navbar sticky top-0 z-10 h-20 bg-white justify-end lg:px-8">
@@ -22,9 +22,9 @@ export default function Header()  {
           <div tabIndex={0} role="button" className="flex gap-4 avatar">
             <span className="text-right lg:block">
               <span className="block text-sm font-bold text-black">
-                  {session?.name}
+                  {session?.user.name}
               </span>
-              <span className="block text-xs text-black">{session?.role}</span>
+              <span className="block text-xs text-black">{session?.user.role}</span>
             </span>
             <div className="w-10 rounded-full">
               <Image src={avatar ? avatar : "/avatar.png"} width={20} height={20} alt="Avatar Kizunice"/> 

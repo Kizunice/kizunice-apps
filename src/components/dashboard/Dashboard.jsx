@@ -1,12 +1,11 @@
 'use client'
-import DashboardStats from "./components/DashboardStats";
 import { IoCalendar } from 'react-icons/io5';
 import { ImBook } from 'react-icons/im';
 import { FaSuitcase } from 'react-icons/fa6';
 import { HiUsers } from 'react-icons/hi2';
-
 import LineChart from "./components/LineChart";
 import DoughnutChart from "./components/DoughnutChart";
+import Stats from "../ui/Stats/StatsCard";
 
 const statsData = [
     {title : "Total Attendance", value : "9723", icon: <IoCalendar size={30}/>},
@@ -22,7 +21,7 @@ function dashboard() {
             {
                 statsData.map((d, k) => {
                     return (
-                        <DashboardStats key={k} {...d} colorIndex={k}/>
+                        <Stats key={k} {...d} colorIndex={k}/>
                     )
                 })
             }
