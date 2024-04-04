@@ -1,5 +1,5 @@
 'use client'
-// import { useState, useEffect } from "react";
+import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useSession } from 'next-auth/react'
 
@@ -29,38 +29,38 @@ const TopSideButtons = () => {
 }
 
 function attendance() {
-    // const [data, setData] = useState(DUMMY_ATTENDANCE)
+    const [data, setData] = useState(DUMMY_ATTENDANCE)
     // const [loading, setLoading] = useState(false)
 
     // const [today, setToday] = useState()
     // const [absent, setAbsent] = useState()
     // const [late, setLate] = useState()
 
-    // useEffect(() =>{
-    //     setLoading(true)
-    //     setData(DUMMY_ATTENDANCE)
-    //     const date = moment("1/4/2024"); // Thursday Feb 2015
-    //     const dow = date.day();
-    //     const sortToday = data.filter(dt => {
-    //         // console.log(dt.date)
-    //        return moment().isSame(moment(dt.date).day()) === true
-    //     });
-    //     console.log(sortToday)
-    //     // console.log(now.format("d/m/yyyy"))
-    //     // data.find((date) =>{
-    //     //     console.log(date)
-    //     //     if(date === now){
-    //     //         console.log("yes")
-    //     //     }
-    //     //     console.log("no")
-    //     // })
-    //     // data.map((d) =>{
-    //     //     // console.log(d.date)
-    //     //     setToday(d.date.length)
+    useEffect(() =>{
+        // setLoading(true)
+        setData(DUMMY_ATTENDANCE)
+        // const date = moment("1/4/2024"); // Thursday Feb 2015
+        // const dow = date.day();
+        // const sortToday = data.filter(dt => {
+        //     // console.log(dt.date)
+        //    return moment().isSame(moment(dt.date).day()) === true
+        // });
+        // console.log(sortToday)
+        // console.log(now.format("d/m/yyyy"))
+        // data.find((date) =>{
+        //     console.log(date)
+        //     if(date === now){
+        //         console.log("yes")
+        //     }
+        //     console.log("no")
+        // })
+        // data.map((d) =>{
+        //     // console.log(d.date)
+        //     setToday(d.date.length)
             
-    //     // })
-    //     // // console.log(today)
-    // })
+        // })
+        // // console.log(today)
+    })
 
     return (
         <>
@@ -88,11 +88,9 @@ function attendance() {
                                     <td>{d.date}</td>
                                     <td>{d.clockIn}</td>
                                     <td>{d.clockOut}</td>
-                                    <th >
-                                        <div className="flex items-center">
-                                            <div className="badge badge-success text-white font-normal">{d.status}</div>
-                                        </div>
-                                    </th>
+                                    <td className="flex items-center">
+                                        <span className="badge badge-success px-4 text-white font-normal"></span>
+                                    </td>
                                     </tr>
                                 )
                             })
