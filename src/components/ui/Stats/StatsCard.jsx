@@ -1,6 +1,6 @@
-function Stats({title, icon, value, description, colorIndex}){
+function Stats({title, icon, value, description, color}){
 
-    const COLORS = ["primary", "primary"]
+    const COLOR = ["primary", "primary"]
 
     const getDescStyle = () => {
         if(description.includes("↗︎"))return "font-bold text-green-700 dark:text-green-300"
@@ -9,7 +9,7 @@ function Stats({title, icon, value, description, colorIndex}){
     }
 
     return(
-        <div className="stats bg-white text-black shadow-sm">
+        <div className={`stats ${color} shadow-sm`} >
             <div className="stat gap-2">
                 <div className="stat-figure text-secondary">{icon}</div>
                 <div className="stat-title text-grey">{title}</div>

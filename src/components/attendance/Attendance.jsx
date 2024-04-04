@@ -1,19 +1,20 @@
 'use client'
 import { useEffect, useState } from 'react';
-import moment from 'moment';
+// import moment from 'moment';
 import { useSession } from 'next-auth/react'
-
+import { IoCalendar } from 'react-icons/io5';
+import { ImBook } from 'react-icons/im';
+import { HiUsers } from 'react-icons/hi2';
 import Stats from "../ui/Stats/StatsCard";
 import TitleCard from "../ui/Cards/TitleCards";
 import { DUMMY_ATTENDANCE } from "@/lib/dummyData";
 
 
-// const statsData = [
-//     {title : "Total Attendance", value : "9723", icon: <IoCalendar size={30}/>},
-//     {title : "Learning Content", value : "23" , icon: <ImBook size={30}/>},
-//     {title : "Total Jobs", value : "45", icon: <FaSuitcase size={30}/>},
-//     {title : "Total Student", value : "745", icon: <HiUsers size={30}/>},
-// ]
+const statsData = [
+    {title : "Today", value : "150", icon: <IoCalendar size={30}/>, color:"bg-white"},
+    {title : "OnTime", value : "145" , icon: <ImBook size={30}/>, color:"bg-success text-white"},
+    {title : "Late", value : "5", icon: <HiUsers size={30}/>, color:"bg-error text-white"},
+]
 
 const TopSideButtons = () => {
 
@@ -21,7 +22,7 @@ const TopSideButtons = () => {
     if (session?.user.role == 'STUDENT') {
         return(
             <div className="inline-block float-right">
-                <button className="btn px-4 btn-sm normal-case bg-primary text-white" >Add Attendance</button>
+                <button className="btn px-4 btn-sm normal-case bg-primary text-white" >Add New</button>
             </div>
         )
     }
@@ -64,6 +65,15 @@ function attendance() {
 
     return (
         <>
+         <div className="grid lg:grid-cols-3 mt-2 md:grid-cols-3 grid-cols-1 gap-6 mb-6">
+            {
+                statsData.map((d, k) => {
+                    return (
+                        <Stats key={k} {...d} />
+                    )
+                })
+            }
+        </div>
         
         <TitleCard title={"Attendance"} topMargin="mt-2" TopSideButtons={<TopSideButtons/>}>
             <div className="overflow-x-auto w-full">
