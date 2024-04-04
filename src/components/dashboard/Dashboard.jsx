@@ -27,7 +27,7 @@ function dashboard() {
             }
         </div>
 
-        <div className="grid lg:grid-cols-3 mt-4 grid-cols-1 gap-6">
+        <div className="grid lg:grid-cols-3  grid-cols-1 gap-6">
             <div className="col-span-2">
                 <LineChart />
             </div>

@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react';
+// import { useState } from 'react';
 // import moment from 'moment';
 import { useSession } from 'next-auth/react'
 import { IoCalendar } from 'react-icons/io5';
@@ -30,7 +30,7 @@ const TopSideButtons = () => {
 }
 
 function attendance() {
-    const [data, setData] = useState(DUMMY_ATTENDANCE)
+    // const [data, setData] = useState(DUMMY_ATTENDANCE)
     // const [loading, setLoading] = useState(false)
 
     // const [today, setToday] = useState()
@@ -90,7 +90,7 @@ function attendance() {
                     </thead>
                     <tbody>
                         {
-                            data.map((d, k) =>{
+                            DUMMY_ATTENDANCE.map((d, k) =>{
                                 return (
                                     <tr key={k} className="text-grey ">
                                     <td>{d.user.name}</td>
