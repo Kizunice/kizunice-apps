@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import moment from 'moment';
 import { useSession } from 'next-auth/react'
 
@@ -29,12 +29,12 @@ const TopSideButtons = () => {
 }
 
 function attendance() {
-    const [data, setData] = useState(DUMMY_ATTENDANCE)
-    const [loading, setLoading] = useState(false)
+    // const [data, setData] = useState(DUMMY_ATTENDANCE)
+    // const [loading, setLoading] = useState(false)
 
-    const [today, setToday] = useState()
-    const [absent, setAbsent] = useState()
-    const [late, setLate] = useState()
+    // const [today, setToday] = useState()
+    // const [absent, setAbsent] = useState()
+    // const [late, setLate] = useState()
 
     // useEffect(() =>{
     //     setLoading(true)
