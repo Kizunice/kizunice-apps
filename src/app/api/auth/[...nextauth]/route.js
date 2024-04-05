@@ -37,6 +37,7 @@ export const authOptions = {
           throw new Error('Incorrect password');
         }
         return {
+          id: user.id,
           email: user.email,
           name: user.name,
           image: user.image,

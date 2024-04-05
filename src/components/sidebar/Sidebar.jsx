@@ -1,16 +1,12 @@
 "use client"
-import React, { useEffect, useRef, useState } from "react"
-import { usePathname } from "next/navigation"
-import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import {FaBars} from "react-icons/fa"
-import routes from "@/constants/routes";
+import {ROUTES, ADMIN_ROUTES} from "@/constants/routes"
+import { useSession } from "next-auth/react";
 
 export default function Sidebar()  {
-  const pathname = usePathname()
-
-  const [collapseShow, setCollapseShow] = React.useState("hidden");
+  const {data:session} = useSession()
   return (
     <div className="drawer lg:drawer-open bg-white ">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -23,11 +19,7 @@ export default function Sidebar()  {
           <div className="mb-auto">
             <ul>
               <li>
-                {routes.map((link, i) => (
-                  <Link href={link.path} key={i} className="flex text-whitegray text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">
-                    {link.icon}{link.name}
-                  </Link>
-                ))}
+                <SidebarLink userRole={session?.user?.role}/>
               </li> 
             </ul>
           </div>
@@ -39,4 +31,19 @@ export default function Sidebar()  {
       </div>
     </div>
   )
+}
+
+const SidebarLink =({userRole}) =>{
+  if(userRole === 'ADMIN'){
+    return ADMIN_ROUTES.map((link, i) => (
+      <Link href={link.path} key={i} className="flex text-whitegray text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">
+        {link.icon}{link.name}
+      </Link>
+    )) 
+  }
+  return ROUTES.map((link, i) => (
+    <Link href={link.path} key={i} className="flex text-whitegray text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">
+      {link.icon}{link.name}
+    </Link>
+  ))
 }

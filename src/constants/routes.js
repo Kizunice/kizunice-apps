@@ -8,10 +8,7 @@ import { FaCoins } from 'react-icons/fa';
 import { BiSolidBookContent } from 'react-icons/bi';
 import { IoMdSettings } from 'react-icons/io';
 
-const iconClasses = `h-8 w-8`;
-const submenuIconClasses = `h-5 w-5`;
-
-const routes = [
+export const ADMIN_ROUTES = [
   {
     path: '/',
     icon: <MdDashboard size={22} />,
@@ -67,11 +64,48 @@ const routes = [
     key: '8',
   },
   {
+    path: '/users',
+    icon: <HiUsers size={22} />,
+    name: 'Users',
+    key: '9',
+  },
+  {
     path: '/settings',
     icon: <IoMdSettings size={22} />,
     name: 'Settings',
-    key: '9',
+    key: '10',
   },
 ];
 
-export default routes;
+export const ROUTES = [
+  {
+    path: '/',
+    icon: <MdDashboard size={22} />,
+    name: 'Dashboard',
+    key: '0',
+  },
+  {
+    path: '/attendance',
+    icon: <IoCalendar size={22} />,
+    name: 'Attendance',
+    key: '1',
+  },
+  {
+    path: '/learning',
+    icon: <ImBook size={22} />,
+    name: 'Learning',
+    key: '2',
+  },
+  {
+    path: '/jobs',
+    icon: <FaSuitcase size={22} />,
+    name: 'Jobs',
+    key: '3',
+  },
+  {
+    path: '/settings',
+    icon: <IoMdSettings size={22} />,
+    name: 'Settings',
+    key: '4',
+  },
+];

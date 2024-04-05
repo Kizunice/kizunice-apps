@@ -56,7 +56,7 @@ export default function ForgotPassForm() {
       <div>
         <label
           htmlFor="email"
-          className="block mb-2 text-sm font-medium text-gray"
+          className="block mb-2 text-sm font-medium text-whitegray"
         >
           Your Registration Email
         </label>
