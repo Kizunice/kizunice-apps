@@ -4,10 +4,10 @@ import TitleCard from "../ui/Cards/TitleCards";
 import moment from "moment";
 
 export default async function PartnerPage() {
-    const users = await fetchUsersByRole("PARTNER")
+    const users = await fetchUsersByRole("SENSEI")
 
     return (
-        <TitleCard title={"Data Partner"} topMargin="mt-2" >
+        <TitleCard title={"Data Sensei"} topMargin="mt-2" >
             <div className="overflow-x-auto w-full">
                 <table className="table w-full">
                     <thead >

@@ -1,31 +1,9 @@
-import { fetchUsersByRole } from "@/app/api/queries/users";
-// import { useEffect, useState } from "react";
+import { fetchUsers, fetchUsersByRole } from "@/app/api/queries/users";
 import TitleCard from "../ui/Cards/TitleCards";
 import moment from "moment";
 
 export default async function StudentPage() {
-    // const users = await fetchUsersByRole("STUDENT")
-
-    // const [loading, setLoading] = useState(true)
-    const [data, setData] = useState([users])
-
-    const getData = async () => {
-        const users = await fetchUsersByRole("STUDENT")
-        console.log(users)
-        // try {
-        //     const users = await fetchUsers()
-        //     console.log(users, "woow")
-        //     setData(users)
-        //     setLoading(false);
-        // } catch (err) {
-        //   console.log("[collections_GET]", err);
-        // }
-      };
-
-    useEffect(() => {
-    getData();
-    }, []);
-    
+    const users = await fetchUsersByRole("STUDENT")
 
     return (
         <TitleCard title={"Data Student"} topMargin="mt-2" >
@@ -40,7 +18,7 @@ export default async function StudentPage() {
                     </tr>
                     </thead>
                     <tbody>
-                        {
+                        {   
                             users.map(user =>{
                                 return (
                                     <tr key={user.id} className="text-grey ">

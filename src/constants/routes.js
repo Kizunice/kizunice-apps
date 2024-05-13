@@ -52,28 +52,34 @@ export const ADMIN_ROUTES = [
     key: '6',
   },
   {
+    path: '/data-sensei',
+    icon: <HiUsers size={22} />,
+    name: 'Data Sensei',
+    key: '7',
+  },
+  {
     path: '/finance',
     icon: <FaCoins size={22} />,
     name: 'Finance',
-    key: '7',
+    key: '8',
   },
   {
     path: '/content',
     icon: <BiSolidBookContent size={22} />,
     name: 'Content',
-    key: '8',
+    key: '9',
   },
   {
     path: '/users',
     icon: <HiUsers size={22} />,
     name: 'Users',
-    key: '9',
+    key: '10',
   },
   {
     path: '/settings',
     icon: <IoMdSettings size={22} />,
     name: 'Settings',
-    key: '10',
+    key: '11',
   },
 ];
 
