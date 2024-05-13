@@ -2,12 +2,13 @@ import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 export async function middleware(request) {
-  const token = await getToken({
+  const session = await getToken({
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
   });
+  console.log('session: ', session);
 
-  if (!token) return NextResponse.redirect(new URL('/login', request.url));
+  if (!session) return NextResponse.redirect(new URL('/login', request.url));
 }
 
 export const config = {
