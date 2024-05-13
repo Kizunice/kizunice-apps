@@ -5,7 +5,6 @@ export default function Profile() {
     return (
         <DefaultLayout>
             <ProfilePage/>
-           
         </DefaultLayout>
     );
 }

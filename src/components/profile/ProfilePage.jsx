@@ -12,16 +12,17 @@ export default function ProfilePage(){
     const {name,email} = session?.user
 
     const getProfileData = async () => {
-        try {
-          const res = await fetch("/api/profile", {
-            method: "GET",
-          });
-          const data = await res.json();
-          console.log(data)
-          setLoading(false);
-        } catch (err) {
-          console.log("[collections_GET]", err);
-        }
+      // const users = await getCurrentUser()
+        // try {
+        //   const res = await fetch("/api/profile", {
+        //     method: "GET",
+        //   });
+        //   const data = await res.json();
+        //   console.log(data)
+        //   setLoading(false);
+        // } catch (err) {
+        //   console.log("[collections_GET]", err);
+        // }
       };
 
     useEffect(() => {
