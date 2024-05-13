@@ -10,12 +10,12 @@ export async function middleware(request) {
   });
 
   if (!session && path !== '/login') {
-    return NextResponse.redirect(new URL('/login', req.url));
+    return NextResponse.redirect(new URL('/login', request.url));
   } else if (
     session &&
     (path === '/login' || path === '/register' || path === '/forgot-password')
   ) {
-    return NextResponse.redirect(new URL('/', req.url));
+    return NextResponse.redirect(new URL('/', request.url));
   }
   return NextResponse.next();
 }
