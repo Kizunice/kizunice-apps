@@ -62,7 +62,7 @@ export const authOptions = {
         session.user.role = token.role;
         session.user.image = token.image;
       }
-      return Promise.resolve(session);
+      return session;
     },
     async jwt({ token, user }) {
       if (user) {
@@ -74,7 +74,7 @@ export const authOptions = {
           image: user.image,
         };
       }
-      return Promise.resolve(token);
+      return token;
     },
     // async session({ session, token }) {
     //   session = token;
