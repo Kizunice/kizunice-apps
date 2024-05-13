@@ -39,8 +39,8 @@ export default function ProfilePage(){
       <TitleCard title="Profile" topMargin="mt-2"  >
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <InputText labelTitle="Name" defaultValue={session.user.name} updateFormValue={updateFormValue}/>
-              <InputText labelTitle="Email " defaultValue={session.user.email} updateFormValue={updateFormValue}/>
+              <InputText labelTitle="Name" defaultValue={session?.user.name} updateFormValue={updateFormValue}/>
+              <InputText labelTitle="Email " defaultValue={session?.user.email} updateFormValue={updateFormValue}/>
               <InputText labelTitle="Tempat Lahir" defaultValue="Jakarta" updateFormValue={updateFormValue}/>
               <InputText labelTitle="Tanggal Lahir" type="date" defaultValue="2004-08-17" updateFormValue={updateFormValue}/>
               <InputText labelTitle="Asal Negara" defaultValue="Indonesia" updateFormValue={updateFormValue}/>
