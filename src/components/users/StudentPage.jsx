@@ -1,10 +1,10 @@
-import { fetchUsers } from "@/app/api/queries/users";
+import { fetchUsersByRole } from "@/app/api/queries/users";
 // import { useEffect, useState } from "react";
 import TitleCard from "../ui/Cards/TitleCards";
 import moment from "moment";
 
 export default async function StudentPage() {
-    const users = await fetchUsers()
+    const users = await fetchUsersByRole("STUDENT")
 
     // const [loading, setLoading] = useState(true)
     // const [data, setData] = useState([users])
