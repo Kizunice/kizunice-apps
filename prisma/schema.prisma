@@ -11,6 +11,7 @@ datasource db {
 model Profile {
   id                  String               @id @default(cuid())
   bio                 String?
+  phone               String
   userId              String               @unique
   User                User                 @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   dateOfBirth         DateTime?

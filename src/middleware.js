@@ -2,24 +2,22 @@ import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 export async function middleware(request) {
-  // const session = await getToken({
-  //   req: request,
-  //   secret: process.env.NEXTAUTH_SECRET,
-  // });
+  const path = request.nextUrl.pathname;
 
-  // if (session) return NextResponse.redirect(new URL('/', request.url));
+  const session = await getToken({
+    req: request,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
 
-  // if (!session) return NextResponse.redirect(new URL('/login', request.url));
-
-  // Assume a "Cookie:nextjs=fast" header to be present on the incoming request
-  // Getting cookies from the request using the `RequestCookies` API
-  const currentUser = request.cookies.get('next-auth.session-token')?.value;
-  console.log(currentUser); // => { name: 'nextjs', value: 'fast', Path: '/' }
-
-  if (!currentUser) {
-    const response = NextResponse.redirect(new URL('/login', request.url));
-    return response;
+  if (!session && path !== '/login') {
+    return NextResponse.redirect(new URL('/login', req.url));
+  } else if (
+    session &&
+    (path === '/login' || path === '/register' || path === '/forgot-password')
+  ) {
+    return NextResponse.redirect(new URL('/', req.url));
   }
+  return NextResponse.next();
 }
 
 export const config = {
