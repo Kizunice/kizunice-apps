@@ -9,6 +9,8 @@ export async function middleware(request) {
   console.log('session: ', session);
 
   if (!session) return NextResponse.redirect(new URL('/login', request.url));
+
+  return NextResponse.next();
 }
 
 export const config = {

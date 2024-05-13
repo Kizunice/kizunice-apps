@@ -4,27 +4,27 @@ import TitleCard from "../ui/Cards/TitleCards";
 import moment from "moment";
 
 export default async function StudentPage() {
-    const users = await fetchUsersByRole("STUDENT")
+    // const users = await fetchUsersByRole("STUDENT")
 
     // const [loading, setLoading] = useState(true)
-    // const [data, setData] = useState([users])
+    const [data, setData] = useState([users])
 
-    // const getData = async () => {
-    //     const users = await fetchUsers()
-    //     console.log(users)
-    //     // try {
-    //     //     const users = await fetchUsers()
-    //     //     console.log(users, "woow")
-    //     //     setData(users)
-    //     //     setLoading(false);
-    //     // } catch (err) {
-    //     //   console.log("[collections_GET]", err);
-    //     // }
-    //   };
+    const getData = async () => {
+        const users = await fetchUsersByRole("STUDENT")
+        console.log(users)
+        // try {
+        //     const users = await fetchUsers()
+        //     console.log(users, "woow")
+        //     setData(users)
+        //     setLoading(false);
+        // } catch (err) {
+        //   console.log("[collections_GET]", err);
+        // }
+      };
 
-    // useEffect(() => {
-    // getData();
-    // }, []);
+    useEffect(() => {
+    getData();
+    }, []);
     
 
     return (
