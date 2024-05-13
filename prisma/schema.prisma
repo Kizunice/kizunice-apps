@@ -17,10 +17,13 @@ model Profile {
   placeOfBirth        String?
   originCountry       String?
   attendances         Attendance[]
-  learningMaterial    LearningMaterial[]
   jobOppotunity       JobOpportunity[]
   jobApplications     JobApplication[]
   financeTransactions FinanceTransaction[]
+
+  Learning   Learning? @relation(fields: [learningId], references: [id])
+  learningId String?
+  Scores     Scores[]
 }
 
 model Attendance {
@@ -35,14 +38,32 @@ model Attendance {
   @@unique([studentId, date])
 }
 
-model LearningMaterial {
-  id          String   @id @default(cuid())
-  title       String
-  description String?
-  fileUrl     String
-  uploadedBy  String
-  uploadDate  DateTime
-  uploader    Profile  @relation(fields: [uploadedBy], references: [id])
+model Learning {
+  id           String    @id @default(cuid())
+  title        String
+  description  String?
+  part         String
+  fileUrl      String
+  participants Profile[]
+  scores       Scores[]
+
+  uploadedBy String
+  uploader   User   @relation(fields: [uploadedBy], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Scores {
+  id         String   @id @default(cuid())
+  studentId  String
+  student    Profile  @relation(fields: [studentId], references: [id])
+  learningId String
+  learning   Learning @relation(fields: [learningId], references: [id])
+  score      Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // model LearningScore {
@@ -88,17 +109,18 @@ model FinanceTransaction {
 }
 
 model User {
-  id              String    @id @default(cuid())
-  name            String?   @db.VarChar(255)
-  email           String    @unique @db.VarChar(255)
+  id              String     @id @default(cuid())
+  name            String?    @db.VarChar(255)
+  email           String     @unique @db.VarChar(255)
   password        String
   emailVerified   DateTime?
-  emailVerifToken String?   @db.VarChar(255)
+  emailVerifToken String?    @db.VarChar(255)
   image           String?
-  role            Role      @default(STUDENT)
-  createdAt       DateTime? @default(now())
-  updatedAt       DateTime? @updatedAt
+  role            Role       @default(STUDENT)
+  createdAt       DateTime?  @default(now())
+  updatedAt       DateTime?  @updatedAt
   Profile         Profile?
+  Learning        Learning[]
 }
 
 model Account {
