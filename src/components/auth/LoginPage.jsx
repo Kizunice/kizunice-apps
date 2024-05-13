@@ -33,7 +33,7 @@ export default function LoginForm() {
         if(callback?.ok && !callback?.error) {
           setLoading(false)
           toast.success('Logged in successfully!')
-          router.push("/")
+          router.push("/dashboard")
         }
     } )
 }

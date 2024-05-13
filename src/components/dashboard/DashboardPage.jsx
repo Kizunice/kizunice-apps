@@ -14,7 +14,7 @@ const statsData = [
     {title : "Total Student", value : "745", icon: <HiUsers size={30}/>, color:"bg-white"},
 ]
 
-function dashboard() {
+function DashboardPage() {
     return (
         <>
          <div className="grid lg:grid-cols-4 mt-2 md:grid-cols-2 grid-cols-1 gap-6 ">
@@ -38,4 +38,4 @@ function dashboard() {
     );
 }
 
-export default dashboard;
+export default DashboardPage;
