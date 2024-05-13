@@ -1,11 +1,11 @@
 import DefaultLayout from "@/components/layout/DefaultLayout";
+import ProfilePage from "@/components/profile/ProfilePage";
 
 export default function Profile() {
     return (
         <DefaultLayout>
-            <div className="text-black">
-                INI PAGE PROFILE
-            </div>
+            <ProfilePage/>
+           
         </DefaultLayout>
     );
 }

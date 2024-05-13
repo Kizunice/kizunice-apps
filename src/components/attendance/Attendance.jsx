@@ -22,7 +22,41 @@ const TopSideButtons = () => {
     if (session?.user.role == 'STUDENT') {
         return(
             <div className="inline-block float-right">
-                <button className="btn px-4 btn-sm normal-case bg-primary text-white" >Add New</button>
+                <button className="btn px-4 btn-sm normal-case bg-primary text-white" onClick={()=>document.getElementById('attend_modal').showModal()} >Add New</button>
+                <dialog id="attend_modal" className="modal modal-bottom sm:modal-middle">
+                <div className="modal-box bg-white">
+                    <h3 className="text-md text-center mb-4">Add New Attendance</h3>
+                    <form>
+                        <div>
+                            <label
+                            htmlFor="date"
+                            className="block mb-2 text-sm font-medium text-whitegray"
+                            >
+                            Your Registration Email
+                            </label>
+                        
+                            <input
+                            type="date"
+                            name="date"
+                            id="date"
+                            className="bg-white border border-black text-black sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
+                            placeholder="name@company.com"
+                            // value={formValues.email}
+                            // onChange={handleChange}
+                            />
+                            
+                        </div>
+                    </form>
+                    <div className="modal-action">                    
+                    <form method="dialog">
+                        <button className="btn btn-ghost">Close</button>
+                    </form>
+                    <button className="btn bg-secondary text-white" type='submit'>Submit</button>
+
+                    
+                    </div>
+                </div>
+                </dialog>
             </div>
         )
     }

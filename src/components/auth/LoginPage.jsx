@@ -3,11 +3,8 @@
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect} from "react";
-// import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
-// import { useEffect } from "react";
-// import { getData } from "@/lib/getData";
 
 export default function LoginForm() {
   const [formValues, setFormValues] = useState({
@@ -47,85 +44,6 @@ export default function LoginForm() {
     const value = e.target.value;
     setFormValues({ ...formValues, [name]: value});
   }
-
-
-  // const searchParams = useSearchParams();
-  // const [isVerifying, setIsVerifying] = useState(false);
-  // const token = searchParams.get('token')
-
-  // useEffect(() => {
-  //   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  //   const token = searchParams.get("token");
-  //   const id = searchParams.get("id");
-  //   if (token && id) {
-  //     setIsVerifying(true);
-  //     const verifyData = {
-  //       token,
-  //       id,
-  //     };
-  //     async function verify() {
-  //       const data = await getData(`users/${id}`);
-  //       if (data) {
-  //         try {
-  //           const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  //           const response = await fetch(`${baseUrl}/api/users/verify`, {
-  //             method: "PUT",
-  //             headers: {
-  //               "Content-Type": "application/json",
-  //             },
-  //             body: JSON.stringify(verifyData),
-  //           });
-  //           if (response.ok) {
-  //             setIsVerifying(false);
-  //             toast.success("Account Verified Successfully");
-  //           } else {
-  //             setIsVerifying(false);
-  //             toast.error("Something Went wrong");
-  //           }
-  //         } catch (error) {
-  //           setIsVerifying(false);
-  //           console.log(error);
-  //         }
-  //       }
-  //     }
-  //     verify();
-  //   }
-  //   console.log(token);
-  // }, []);
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   reset,
-  //   formState: { errors },
-  // } = useForm();
-  
-  // const [loading, setLoading] = useState(false);
-
-  // async function onSubmit(data) {
-  //   console.log(data);
-  //   try {
-  //     setLoading(true);
-  //     console.log("Attempting to sign in with credentials:", data);
-  //     const loginData = await signIn("credentials", {
-  //       ...data,
-  //       redirect: false,
-  //     });
-  //     console.log("SignIn response:", loginData);
-  //     if (loginData?.error) {
-  //       setLoading(false);
-  //       toast.error("Sign-in error: Check your credentials");
-  //     } else {
-  //       // Sign-in was successful
-  //       toast.success("Login Successful");
-  //       router.push("/profile");
-  //     }
-  //   } catch (error) {
-  //     setLoading(false);
-  //     console.error("Network Error:", error);
-  //     toast.error("Its seems something is wrong with your Network");
-  //   }
-  // }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -222,3 +140,83 @@ export default function LoginForm() {
     </form>
   );
 }
+
+
+
+  // const searchParams = useSearchParams();
+  // const [isVerifying, setIsVerifying] = useState(false);
+  // const token = searchParams.get('token')
+
+  // useEffect(() => {
+  //   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  //   const token = searchParams.get("token");
+  //   const id = searchParams.get("id");
+  //   if (token && id) {
+  //     setIsVerifying(true);
+  //     const verifyData = {
+  //       token,
+  //       id,
+  //     };
+  //     async function verify() {
+  //       const data = await getData(`users/${id}`);
+  //       if (data) {
+  //         try {
+  //           const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  //           const response = await fetch(`${baseUrl}/api/users/verify`, {
+  //             method: "PUT",
+  //             headers: {
+  //               "Content-Type": "application/json",
+  //             },
+  //             body: JSON.stringify(verifyData),
+  //           });
+  //           if (response.ok) {
+  //             setIsVerifying(false);
+  //             toast.success("Account Verified Successfully");
+  //           } else {
+  //             setIsVerifying(false);
+  //             toast.error("Something Went wrong");
+  //           }
+  //         } catch (error) {
+  //           setIsVerifying(false);
+  //           console.log(error);
+  //         }
+  //       }
+  //     }
+  //     verify();
+  //   }
+  //   console.log(token);
+  // }, []);
+
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   reset,
+  //   formState: { errors },
+  // } = useForm();
+  
+  // const [loading, setLoading] = useState(false);
+
+  // async function onSubmit(data) {
+  //   console.log(data);
+  //   try {
+  //     setLoading(true);
+  //     console.log("Attempting to sign in with credentials:", data);
+  //     const loginData = await signIn("credentials", {
+  //       ...data,
+  //       redirect: false,
+  //     });
+  //     console.log("SignIn response:", loginData);
+  //     if (loginData?.error) {
+  //       setLoading(false);
+  //       toast.error("Sign-in error: Check your credentials");
+  //     } else {
+  //       // Sign-in was successful
+  //       toast.success("Login Successful");
+  //       router.push("/profile");
+  //     }
+  //   } catch (error) {
+  //     setLoading(false);
+  //     console.error("Network Error:", error);
+  //     toast.error("Its seems something is wrong with your Network");
+  //   }
+  // }

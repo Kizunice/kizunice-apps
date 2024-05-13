@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
-import { FaGoogle } from "react-icons/fa";
 
 export default function RegisterForm() {
   const router = useRouter()
