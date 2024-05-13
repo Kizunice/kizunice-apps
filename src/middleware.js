@@ -9,7 +9,7 @@ export async function middleware(request) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
-  if (!session && path !== '/login') {
+  if (!session && path === '/') {
     return NextResponse.redirect(new URL('/login', request.url));
   } else if (
     session &&
@@ -26,3 +26,9 @@ export const config = {
     '/((?!api|_next/static|_next/image|favicon.ico|login|register|forgot-password).*)',
   ],
 };
+
+// export const config = {
+//   // Skip all paths that should not be internationalized. This example skips the
+//   // folders "api", "_next" and all files with an extension (e.g. favicon.ico)
+//   matcher: ['/((?!api|_next|favicon.ico|.*\\..*).*)'],
+// };
