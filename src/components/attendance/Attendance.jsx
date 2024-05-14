@@ -12,8 +12,8 @@ import { DUMMY_ATTENDANCE } from "@/lib/dummyData";
 
 const statsData = [
     {title : "Today", value : "150", icon: <IoCalendar size={30}/>, color:"bg-white"},
-    {title : "OnTime", value : "145" , icon: <ImBook size={30}/>, color:"bg-success text-white"},
-    {title : "Late", value : "5", icon: <HiUsers size={30}/>, color:"bg-error text-white"},
+    {title : "OnTime", value : "145" , icon: <ImBook size={30}/>, color:"bg-green text-primary"},
+    {title : "Late", value : "5", icon: <HiUsers size={30}/>, color:"bg-red text-primary"},
 ]
 
 const TopSideButtons = () => {

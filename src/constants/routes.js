@@ -10,7 +10,7 @@ import { IoMdSettings } from 'react-icons/io';
 
 export const ADMIN_ROUTES = [
   {
-    path: '/',
+    path: '/dashboard',
     icon: <MdDashboard size={22} />,
     name: 'Dashboard',
     key: '0',
@@ -85,7 +85,7 @@ export const ADMIN_ROUTES = [
 
 export const ROUTES = [
   {
-    path: '/',
+    path: '/dashboard',
     icon: <MdDashboard size={22} />,
     name: 'Dashboard',
     key: '0',
