@@ -1,27 +1,26 @@
-import { fetchUsers } from "@/app/api/queries/users";
 import TitleCard from "@/components/ui/TitleCards";
 export default async function UsersPage() {
-    // const users = await fetchUsers()
-    const [loading, setLoading] = useState(true);
-    const [users, setUsers] = useState([])
+    // // const users = await fetchUsers()
+    // const [loading, setLoading] = useState(true);
+    // const [users, setUsers] = useState([])
     
-    const getUsers = async () => {
-        try {  
-          const res = await axios.get('/api/users');
-          setUsers(res.data)
-          setLoading(false);
-        } catch (err) {
-          console.log("[collections_GET]", err);
-        }
-      };
+    // const getUsers = async () => {
+    //     try {  
+    //       const res = await axios.get('/api/users');
+    //       setUsers(res.data)
+    //       setLoading(false);
+    //     } catch (err) {
+    //       console.log("[collections_GET]", err);
+    //     }
+    //   };
 
-    useEffect(() => {
-    getUsers();
-    }, []);
+    // useEffect(() => {
+    // getUsers();
+    // }, []);
   
     return (
         <TitleCard title={"Users"} topMargin="mt-2" >
-            <div className="overflow-x-auto w-full">
+            {/* <div className="overflow-x-auto w-full">
                 <table className="table w-full">
                     <thead >
                     <tr className="font-bold text-primary text-[14px]">
@@ -50,7 +49,7 @@ export default async function UsersPage() {
                         }
                     </tbody>
                 </table>
-            </div>
+            </div> */}
         </TitleCard>
     );
 }
