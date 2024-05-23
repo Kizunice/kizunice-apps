@@ -39,8 +39,7 @@ export default function LoginForm() {
 }
   
   const handleChange = (e) =>{
-    const name = e.target.name;
-    const value = e.target.value;
+    const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value});
   }
 

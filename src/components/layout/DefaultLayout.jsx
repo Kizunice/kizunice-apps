@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useRef } from "react";
-import Sidebar from "@/components/sidebar/Sidebar";
-import Header from "@/components/header/Header";
+import React, { useRef } from "react";
+import Sidebar from "@/components/layout/Sidebar";
+import Header from "@/components/layout/Header";
 
 export default function DefaultLayout({children}) {
   const mainContentRef = useRef(null);

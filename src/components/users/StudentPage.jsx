@@ -1,9 +1,28 @@
-import { fetchUsers, fetchUsersByRole } from "@/app/api/queries/users";
-import TitleCard from "../ui/Cards/TitleCards";
+'use client'
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import { useEffect,useState } from "react";
+import TitleCard from "../ui/TitleCards";
 import moment from "moment";
+import Link from "next/link";
 
 export default async function StudentPage() {
-    const users = await fetchUsersByRole("STUDENT")
+    const [loading, setLoading] = useState(true);
+    const [users, setUsers] = useState([])
+    
+    const getUsers = async () => {
+        try {  
+          const res = await axios.get('/api/users/student');
+          setUsers(res.data)
+          setLoading(false);
+        } catch (err) {
+          console.log("[collections_GET]", err);
+        }
+      };
+
+    useEffect(() => {
+    getUsers();
+    }, []);
 
     return (
         <TitleCard title={"Data Student"} topMargin="mt-2" >
@@ -14,7 +33,7 @@ export default async function StudentPage() {
                         <th>Name</th>
                         <th>Email</th>
                         <th>Join Date</th>
-                        <th></th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -26,7 +45,7 @@ export default async function StudentPage() {
                                     <td>{user.email}</td>
                                     <td>{moment(user.createdAt).format('DD-MMM-YYYY')}</td>
                                     <td className="flex items-center">
-                                        <span className="badge badge-success px-4 text-white font-normal"></span>
+                                        <Link href={`/profile/${user.id}`} className="badge badge-success px-4 text-white font-normal">Detail</Link>
                                     </td>
                                     </tr>
                                 )

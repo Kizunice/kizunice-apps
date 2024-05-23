@@ -12,7 +12,7 @@ import {
     Legend,
   } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import TitleCard from '@/components/ui/Cards/TitleCards';
+import TitleCard from '@/components/ui/TitleCards';
 
   
 ChartJS.register(

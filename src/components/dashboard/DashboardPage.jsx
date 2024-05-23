@@ -5,7 +5,7 @@ import { FaSuitcase } from 'react-icons/fa6';
 import { HiUsers } from 'react-icons/hi2';
 import LineChart from "./components/LineChart";
 import DoughnutChart from "./components/DoughnutChart";
-import Stats from "../ui/Stats/StatsCard";
+import Stats from "@/components/ui/StatsCard";
 
 const statsData = [
     {title : "Total Attendance", value : "9723", icon: <IoCalendar size={30}/>, color:"bg-white"},

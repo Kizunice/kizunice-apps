@@ -7,8 +7,8 @@ import {
     Legend,
   } from 'chart.js';
   import { Doughnut } from 'react-chartjs-2';
-  import TitleCard from '@/components/ui/Cards/TitleCards';
-  import Subtitle from '@/components/ui/Typography/Subtitle';
+  import TitleCard from '@/components/ui/TitleCards';
+  import Subtitle from '@/components/ui/Subtitle';
 
   ChartJS.register(ArcElement, Tooltip, Legend,
       Tooltip,

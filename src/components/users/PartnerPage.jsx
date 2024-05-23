@@ -1,7 +1,8 @@
 import { fetchUsersByRole } from "@/app/api/queries/users";
 // import { useEffect, useState } from "react";
-import TitleCard from "../ui/Cards/TitleCards";
+import TitleCard from "@/components/ui/TitleCards";
 import moment from "moment";
+import Link from "next/link";
 
 export default async function PartnerPage() {
     const users = await fetchUsersByRole("PARTNER")
@@ -27,7 +28,8 @@ export default async function PartnerPage() {
                                     <td>{user.email}</td>
                                     <td>{moment(user.createdAt).format('DD-MMM-YYYY')}</td>
                                     <td className="flex items-center">
-                                        <span className="badge badge-success px-4 text-white font-normal"></span>
+                                        <Link href={`/profile/${user.id}`} className="badge badge-success px-4 text-white font-normal">Detail</Link>
+
                                     </td>
                                     </tr>
                                 )

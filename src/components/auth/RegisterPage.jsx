@@ -131,7 +131,7 @@ export default function RegisterForm() {
         <button
           disabled
           type="button"
-          className="w-full text-white text-center bg-primary pt-4 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 inline-flex items-center"
+          className="w-full text-white text-center bg-primary hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 inline-flex items-center"
         >
           <svg
             aria-hidden="true"

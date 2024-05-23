@@ -8,75 +8,80 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
-model Profile {
+model StudentProfile {
   id                  String               @id @default(cuid())
-  bio                 String?
+  userId              String
+  user                User?                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  name                String
+  email               String?
+  address             String
   phone               String
-  userId              String               @unique
-  User                User                 @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  gender              String
+  age                 Int
   dateOfBirth         DateTime?
   placeOfBirth        String?
   originCountry       String?
+  bodyHeight          String
+  bodyWeight          String
   attendances         Attendance[]
+  scores              Scores[]
   jobOppotunity       JobOpportunity[]
   jobApplications     JobApplication[]
   financeTransactions FinanceTransaction[]
-
-  Learning   Learning? @relation(fields: [learningId], references: [id])
-  learningId String?
-  Scores     Scores[]
-}
-
-model Attendance {
-  id        String   @id @default(cuid())
-  studentId String
-  date      DateTime
-  clockIn   DateTime
-  clockOut  DateTime
-  status    String
-  student   Profile  @relation(fields: [studentId], references: [id])
-
-  @@unique([studentId, date])
-}
-
-model Learning {
-  id           String    @id @default(cuid())
-  title        String
-  description  String?
-  part         String
-  fileUrl      String
-  participants Profile[]
-  scores       Scores[]
-
-  uploadedBy String
-  uploader   User   @relation(fields: [uploadedBy], references: [id])
+  Learning            Learning[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([userId])
+}
+
+model Attendance {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  user        User?    @relation(fields: [userId], references: [id])
+  date        DateTime
+  signIn      Boolean  @default(true)
+  signOut     Boolean
+  signInTime  DateTime @default(now())
+  signOutTime DateTime
+  status      String
+
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  StudentProfile   StudentProfile? @relation(fields: [studentProfileId], references: [id])
+  studentProfileId String?
+}
+
+model Learning {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  part        String
+  fileUrl     String
+  date        DateTime?
+  senseiId    String
+  senseiName  String?
+  sensei      User?     @relation(fields: [senseiId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  students  StudentProfile[]
+  scores    Scores[]
 }
 
 model Scores {
-  id         String   @id @default(cuid())
+  id         String         @id @default(cuid())
   studentId  String
-  student    Profile  @relation(fields: [studentId], references: [id])
+  student    StudentProfile @relation(fields: [studentId], references: [id])
   learningId String
-  learning   Learning @relation(fields: [learningId], references: [id])
+  learning   Learning       @relation(fields: [learningId], references: [id])
   score      Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
-// model LearningScore {
-//   id          Int      @id @default(cuid())
-//   studentId   Int
-//   senseiId    Int
-//   score       Float
-//   comments    String?
-//   date        DateTime
-//   student     Profile     @relation("studentScores", fields: [studentId], references: [id])
-//   sensei      Profile     @relation("senseiScores", fields: [senseiId], references: [id])
-// }
 
 model JobOpportunity {
   id                  String           @id @default(cuid())
@@ -85,8 +90,11 @@ model JobOpportunity {
   postedBy            String
   postDate            DateTime
   applicationDeadline DateTime
-  poster              Profile          @relation(fields: [postedBy], references: [id])
+  poster              StudentProfile   @relation(fields: [postedBy], references: [id])
   applications        JobApplication[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model JobApplication {
@@ -96,32 +104,42 @@ model JobApplication {
   applicationDate DateTime
   status          String
   job             JobOpportunity @relation(fields: [jobId], references: [id])
-  student         Profile        @relation(fields: [studentId], references: [id])
+  student         StudentProfile @relation(fields: [studentId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model FinanceTransaction {
-  id              String   @id @default(cuid())
-  userId          String
-  transactionType String // Consider using an enum for specific transaction types
-  amount          Float
-  description     String?
-  transactionDate DateTime
-  user            Profile  @relation(fields: [userId], references: [id])
+  id               String          @id @default(cuid())
+  userId           String
+  transactionType  String // Consider using an enum for specific transaction types
+  amount           Float
+  description      String?
+  transactionDate  DateTime
+  user             User            @relation(fields: [userId], references: [id])
+  studentProfile   StudentProfile? @relation(fields: [studentProfileId], references: [id])
+  studentProfileId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model User {
-  id              String     @id @default(cuid())
-  name            String?    @db.VarChar(255)
-  email           String     @unique @db.VarChar(255)
-  password        String
-  emailVerified   DateTime?
-  emailVerifToken String?    @db.VarChar(255)
-  image           String?
-  role            Role       @default(STUDENT)
-  createdAt       DateTime?  @default(now())
-  updatedAt       DateTime?  @updatedAt
-  Profile         Profile?
-  Learning        Learning[]
+  id                 String               @id @default(cuid())
+  name               String?              @db.VarChar(255)
+  email              String               @unique @db.VarChar(255)
+  password           String
+  emailVerified      DateTime?
+  emailVerifToken    String?              @db.VarChar(255)
+  image              String?
+  role               Role                 @default(STUDENT)
+  createdAt          DateTime?            @default(now())
+  updatedAt          DateTime?            @updatedAt
+  profile            StudentProfile?
+  FinanceTransaction FinanceTransaction[]
+  Learning           Learning[]
+  Attendance         Attendance[]
 }
 
 model Account {

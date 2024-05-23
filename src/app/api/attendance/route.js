@@ -1,32 +1,31 @@
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
+import { NextResponse } from 'next/server';
 
-export async function POST(request) {
-  const session = await getServerSession(authOptions);
+export async function GET(req) {
+  const attendance = await prisma.attendance.findMany();
 
-  if (!session) {
-    return new Response('Unauthorized', { status: 403 });
-  }
+  //return response JSON
+  return NextResponse.json(attendance);
+}
 
-  const body = await request.json();
+export async function POST(req) {
+  const body = await req.json();
+  const { userId, name, signIn, signInTime, date, signOut, status } = body;
+
+  const newDate = new Date(date);
 
   const newAttendance = await prisma.attendance.create({
     data: {
-      studentId: session.user.id,
-      date: body.date,
-      clockIn: body.clockIn,
-      clockOut: body.clockOut,
-      status: body.status,
+      userId: userId,
+      name: name,
+      date: newDate.toISOString(),
+      signIn: signIn,
+      signOut: signOut,
+      signInTime: signInTime,
+      signOutTime: new Date(),
+      status: status,
     },
   });
-  return new Response(JSON.stringify(newAttendance));
-}
 
-export async function GET(request) {
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    return new Response('Unauthorized', { status: 403 });
-  }
+  return NextResponse.json(newAttendance);
 }

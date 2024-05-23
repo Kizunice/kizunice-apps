@@ -1,11 +1,26 @@
-import { fetchUsersByRole } from "@/app/api/queries/users";
-// import { useEffect, useState } from "react";
-import TitleCard from "../ui/Cards/TitleCards";
+'use client'
+import axios from "axios";
+import { useEffect,useState } from "react";
+import TitleCard from "@/components/ui/TitleCards";
 import moment from "moment";
+import Link from "next/link";
+export default async function SenseiPage() {
+    const [loading, setLoading] = useState(true);
+    const [users, setUsers] = useState([])
+    const getUsers = async () => {
+        try {  
+          const res = await axios.get('/api/users/sensei');
+          setUsers(res.data)
+          setLoading(false);
+        } catch (err) {
+          console.log("[collections_GET]", err);
+        }
+      };
 
-export default async function PartnerPage() {
-    const users = await fetchUsersByRole("SENSEI")
-
+    useEffect(() => {
+    getUsers();
+    }, []);
+    
     return (
         <TitleCard title={"Data Sensei"} topMargin="mt-2" >
             <div className="overflow-x-auto w-full">
@@ -15,7 +30,7 @@ export default async function PartnerPage() {
                         <th>Name</th>
                         <th>Email</th>
                         <th>Join Date</th>
-                        <th></th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -27,7 +42,7 @@ export default async function PartnerPage() {
                                     <td>{user.email}</td>
                                     <td>{moment(user.createdAt).format('DD-MMM-YYYY')}</td>
                                     <td className="flex items-center">
-                                        <span className="badge badge-success px-4 text-white font-normal"></span>
+                                        <Link href={`/profile/${user.id}`} className="badge badge-success px-4 text-white font-normal">Detail</Link>
                                     </td>
                                     </tr>
                                 )

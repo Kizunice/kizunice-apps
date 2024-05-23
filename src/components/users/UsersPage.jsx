@@ -1,7 +1,23 @@
 import { fetchUsers } from "@/app/api/queries/users";
-import TitleCard from "../ui/Cards/TitleCards";
+import TitleCard from "@/components/ui/TitleCards";
 export default async function UsersPage() {
-    const users = await fetchUsers()
+    // const users = await fetchUsers()
+    const [loading, setLoading] = useState(true);
+    const [users, setUsers] = useState([])
+    
+    const getUsers = async () => {
+        try {  
+          const res = await axios.get('/api/users');
+          setUsers(res.data)
+          setLoading(false);
+        } catch (err) {
+          console.log("[collections_GET]", err);
+        }
+      };
+
+    useEffect(() => {
+    getUsers();
+    }, []);
   
     return (
         <TitleCard title={"Users"} topMargin="mt-2" >
