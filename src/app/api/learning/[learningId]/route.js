@@ -9,6 +9,10 @@ export async function GET(req, { params }) {
     where: {
       id: params.learningId,
     },
+    include: {
+      students: true,
+      scores: true,
+    },
   });
 
   return NextResponse.json(learning);

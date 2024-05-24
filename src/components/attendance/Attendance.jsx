@@ -1,5 +1,5 @@
 'use client'
-import { useState , useEffect} from 'react';
+import { useState , useEffect, useCallback} from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
@@ -21,7 +21,6 @@ const statsData = [
 const TopSideButtons = () => {
     const {data:session} =  useSession()
     const router = useRouter()
-    const now = new Date()
     const [formValues, setFormValues]  = useState({
         userId : session?.user.id,
         name: session?.user.name,
@@ -39,8 +38,6 @@ const TopSideButtons = () => {
     };
 
     async function handleSubmit() {
-        console.log(formValues)
-        console.log(session?.user.id)
         try {
           const response = await fetch("/api/attendance", {
             method: "POST",
@@ -64,10 +61,10 @@ const TopSideButtons = () => {
     if (session?.user.role == 'STUDENT') {
         return(
             <div className="inline-block float-right">
-                <button className="btn px-4 btn-sm normal-case bg-primary hover:bg-secondary text-white" onClick={()=>document.getElementById('attend_modal').showModal()} >Add New</button>
+                <button className="btn px-4 btn-sm normal-case bg-primary hover:bg-secondary text-white" onClick={()=>document.getElementById('attend_modal').showModal()} >Tambah Kehadiran</button>
                 <dialog id="attend_modal" className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box bg-white">
-                    <h3 className="text-md text-center mb-4">Add New Learning</h3>
+                    <h3 className="text-md text-center mb-4">Kehadiran Siswa</h3>
                     <form>
                         <InputField
                             type="date"
@@ -104,6 +101,7 @@ const TopSideButtons = () => {
 export default async function Attendance() {
     const [values, setValues] = useState([])
     const [loading, setLoading] = useState(false)
+    const {data:session} =  useSession()
 
     const getAttendance = async () => {
         setLoading(true)
@@ -122,6 +120,26 @@ export default async function Attendance() {
     getAttendance();
     }, []);
 
+    const sign = async (value) => {
+        try {
+            const response = await fetch("/api/attendance/sign", {
+                method: "POST",
+                body: JSON.stringify(value),
+                headers: {
+                "Content-Type": "application/json",
+                },
+            })
+            console.log(response)
+            if (response.ok) {
+                // setLoading(false);
+                toast.success("Berhasil memperbarui absensi");
+                router.refresh()
+            } 
+        } catch (error) {
+            console.error("Network Error:", error);
+        }
+    }
+
     return (
         <>
          <div className="grid lg:grid-cols-3 mt-2 md:grid-cols-3 grid-cols-1 gap-6 mb-6">
@@ -134,7 +152,7 @@ export default async function Attendance() {
             }
         </div>
         <Toaster/>
-        <TitleCard title={"Attendance"} topMargin="mt-2" TopSideButtons={<TopSideButtons/>}>
+        <TitleCard title={"Daftar Kehadiran Siswa"} topMargin="mt-2" TopSideButtons={<TopSideButtons/>}>
             <div className="overflow-x-auto w-full">
                 <table className="table w-full">
                     <thead >
@@ -156,7 +174,10 @@ export default async function Attendance() {
                                     <td>{moment(value.date).format("DD-MM-yyyy")}</td>
                                     <td>{value.name}</td>
                                     <td>{moment(value.signInTime).format("hh:mm")}</td>
-                                    <td>{value.signOut}</td>
+                                    <td>{session?.user.role=== 'STUDENT' ? 
+                                            value.signOut ? moment(value.signOutTime).format("hh:mm") : <button className='badge badge-error rounded-md ' onClick={() => sign(value.id)}> Sign Out </button> : 
+                                            value.signOut ? moment(value.signOutTime).format("hh:mm") : <div>Siswa tidak absen pulang</div> }
+                                    </td>
                                     <td>{value.status}</td>
                                     
                                     </tr>

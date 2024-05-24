@@ -1,7 +1,7 @@
-import EditLearning from "@/components/learning/EditLearning"
+import EditLearningPage from '@/components/learning/EditLearningPage'
 
 export default function EditPage({ params }) {
     return (
-      <EditLearning params={params} />
+      <EditLearningPage params={params} />
     )
   }

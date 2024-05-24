@@ -178,7 +178,7 @@ export default function ProfilePage(){
                     <button
                     disabled
                     type="button"
-                    className="w-full text-white text-center bg-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 inline-flex items-center"
+                    className="w-full text-white text-center items-center bg-primary font-medium rounded-lg text-sm px-5 py-2.5 mr-2 inline-flex items-center"
                     >
                     <svg
                         aria-hidden="true"

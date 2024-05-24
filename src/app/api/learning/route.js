@@ -2,7 +2,12 @@ import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
 export async function GET(req) {
-  const learning = await prisma.learning.findMany();
+  const learning = await prisma.learning.findMany({
+    include: {
+      students: true,
+      scores: true,
+    },
+  });
 
   //return response JSON
   return NextResponse.json(learning);

@@ -8,7 +8,7 @@ import InputField from "@/components/ui/InputField"
 import toast, { Toaster } from "react-hot-toast";
 import moment from "moment"
 
-export default function EditLearning(){
+function EditLearningPage(){
     const params = useParams()
 
     // console.log(params.editId)
@@ -25,40 +25,13 @@ export default function EditLearning(){
     const{title, description,part,date,sensei} = formValues
 
     // const dateFormat = "YYYY-MM-DD"
- 
-    // const getProfileData = async () => {
-    //     try {  
-    //         const user = session?.user
-    //         setFormValues({userId: user.id, name: user.name, email: user.email  })
-    //         const res = await axios.get(`/api/profile/${user.id}`);
-    //         const profile = res.data
-    //         console.log(profile)
-    //         setFormValues({
-    //             userId: user.id, name: user.name, email: user.email,
-    //             phone: profile.phone, 
-    //             address: profile.address,
-    //             gender :profile.gender, 
-    //             age: profile.age, 
-    //             dateOfBirth: moment(profile.dateOfBirth).format(dateFormat), 
-    //             placeOfBirth: profile.placeOfBirth,
-    //             bodyHeight: profile.bodyHeight,
-    //             bodyWeight: profile.bodyWeight
-    //         })
-    //         setLoading(false);
-    //     } catch (err) {
-    //       console.log("[collections_GET]", err);
-    //     }
-    //   };
-
-    // useEffect(() => {
-    // getProfileData();
-    // }, []);
 
     const getLearningData = async () => {
         setLoading(true)
         try {  
             const res = await axios.get(`/api/learning/${params.editId}`);
-            setValues(res.data)
+            console.log(res.data)
+            setFormValues(res.data)
             setLoading(false)
         } catch (err) {
           console.log("[collections_GET]", err);
@@ -105,7 +78,7 @@ export default function EditLearning(){
             <Toaster />
             <TitleCard title="Profile" topMargin="mt-2"  >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
+                {formValues.title}
                 {/* <InputField
                     type="text"
                     value={name}
@@ -233,3 +206,4 @@ export default function EditLearning(){
     )
 }
 
+export default EditLearningPage

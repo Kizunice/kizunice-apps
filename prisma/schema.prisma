@@ -14,21 +14,21 @@ model StudentProfile {
   user                User?                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   name                String
   email               String?
-  address             String
-  phone               String
-  gender              String
-  age                 Int
+  address             String?
+  phone               String?
+  gender              String?
+  age                 Int?
   dateOfBirth         DateTime?
   placeOfBirth        String?
   originCountry       String?
-  bodyHeight          String
-  bodyWeight          String
+  bodyHeight          String?
+  bodyWeight          String?
   attendances         Attendance[]
   scores              Scores[]
   jobOppotunity       JobOpportunity[]
   jobApplications     JobApplication[]
   financeTransactions FinanceTransaction[]
-  Learning            Learning[]
+  learning            Learning[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -37,15 +37,15 @@ model StudentProfile {
 }
 
 model Attendance {
-  id          String   @id @default(cuid())
-  userId      String
+  id          String    @id @default(cuid())
+  userId      String?
   name        String
-  user        User?    @relation(fields: [userId], references: [id])
+  user        User?     @relation(fields: [userId], references: [id])
   date        DateTime
-  signIn      Boolean  @default(true)
+  signIn      Boolean   @default(true)
   signOut     Boolean
-  signInTime  DateTime @default(now())
-  signOutTime DateTime
+  signInTime  DateTime  @default(now())
+  signOutTime DateTime?
   status      String
 
   createdAt        DateTime        @default(now())
@@ -77,6 +77,9 @@ model Scores {
   student    StudentProfile @relation(fields: [studentId], references: [id])
   learningId String
   learning   Learning       @relation(fields: [learningId], references: [id])
+  senseiId   String
+  senseiName String
+  sensei     User           @relation(fields: [senseiId], references: [id])
   score      Int
 
   createdAt DateTime @default(now())
@@ -140,6 +143,7 @@ model User {
   FinanceTransaction FinanceTransaction[]
   Learning           Learning[]
   Attendance         Attendance[]
+  Scores             Scores[]
 }
 
 model Account {
