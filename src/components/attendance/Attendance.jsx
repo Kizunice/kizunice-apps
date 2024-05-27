@@ -10,7 +10,8 @@ import { HiUsers } from 'react-icons/hi2';
 import Stats from "@/components/ui/StatsCard";
 import TitleCard from '@/components/ui/TitleCards';
 import InputField from "../ui/InputField";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
+import Loading from '@/app/(dashboard)/loading';
 
 const statsData = [
     {title : "Today", value : "150", icon: <IoCalendar size={30}/>, color:"bg-white"},
@@ -100,11 +101,10 @@ const TopSideButtons = () => {
 
 export default async function Attendance() {
     const [values, setValues] = useState([])
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const {data:session} =  useSession()
 
     const getAttendance = async () => {
-        setLoading(true)
         try {  
             const res = await axios.get('/api/attendance');
             console.log(res.data)
@@ -151,43 +151,44 @@ export default async function Attendance() {
                 })
             }
         </div>
-        <Toaster/>
-        <TitleCard title={"Daftar Kehadiran Siswa"} topMargin="mt-2" TopSideButtons={<TopSideButtons/>}>
-            <div className="overflow-x-auto w-full">
-                <table className="table w-full">
-                    <thead >
-                    <tr className="font-bold text-primary text-[14px]">
-                        <th>Hari</th>
-                        <th>Tanggal</th>
-                        <th>Nama</th>
-                        <th>Masuk</th>
-                        <th>Pulang</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            values.map((value) =>{
-                                return (
-                                    <tr key={value.id} className="text-grey ">
-                                    <td>{moment(value.date).format("dddd")}</td>
-                                    <td>{moment(value.date).format("DD-MM-yyyy")}</td>
-                                    <td>{value.name}</td>
-                                    <td>{moment(value.signInTime).format("hh:mm")}</td>
-                                    <td>{session?.user.role=== 'STUDENT' ? 
-                                            value.signOut ? moment(value.signOutTime).format("hh:mm") : <button className='badge badge-error rounded-md ' onClick={() => sign(value.id)}> Sign Out </button> : 
-                                            value.signOut ? moment(value.signOutTime).format("hh:mm") : <div>Siswa tidak absen pulang</div> }
-                                    </td>
-                                    <td>{value.status}</td>
-                                    
-                                    </tr>
-                                )
-                            })
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </TitleCard>
+        {loading ? <Loading/> : (
+            <TitleCard title={"Daftar Kehadiran Siswa"} topMargin="mt-2" TopSideButtons={<TopSideButtons/>}>
+                <div className="overflow-x-auto w-full">
+                    <table className="table w-full">
+                        <thead >
+                        <tr className="font-bold text-primary text-[14px]">
+                            <th>Hari</th>
+                            <th>Tanggal</th>
+                            <th>Nama</th>
+                            <th>Masuk</th>
+                            <th>Pulang</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                values.map((value) =>{
+                                    return (
+                                        <tr key={value.id} className="text-grey ">
+                                        <td>{moment(value.date).format("dddd")}</td>
+                                        <td>{moment(value.date).format("DD-MM-yyyy")}</td>
+                                        <td>{value.name}</td>
+                                        <td>{moment(value.signInTime).format("hh:mm")}</td>
+                                        <td>{session?.user.role=== 'STUDENT' ? 
+                                                value.signOut ? moment(value.signOutTime).format("hh:mm") : <button className='badge badge-error rounded-md ' onClick={() => sign(value.id)}> Sign Out </button> : 
+                                                value.signOut ? moment(value.signOutTime).format("hh:mm") : <div>Siswa tidak absen pulang</div> }
+                                        </td>
+                                        <td>{value.status}</td>
+                                        
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </TitleCard>
+        )}
         </>
         
     );
