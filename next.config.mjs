@@ -2,10 +2,10 @@
 const nextConfig = {
   images: {
     remotePatterns: [
-      // {
-      //   protocol: 'https',
-      //   hostname: 'https://encrypted-tbn0.gstatic.com',
-      // },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
     ],
   },
   // webpack: (config) => {

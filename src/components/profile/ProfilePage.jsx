@@ -6,12 +6,15 @@ import TitleCard from "@/components/ui/TitleCards"
 import InputField from "@/components/ui/InputField"
 import toast, { Toaster } from "react-hot-toast";
 import moment from "moment"
-
+import ImageUpload from "../ui/ImageUpload"
+import Loading from "@/app/(dashboard)/loading"
 export default function ProfilePage(){
     const {data:session} =  useSession()
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
+    const [avatar, setAvatar] = useState(null)
     const [formValues, setFormValues]  = useState({
         userId:"",
+        image: "",
         name:"", 
         email:"", 
         phone:"", 
@@ -23,18 +26,19 @@ export default function ProfilePage(){
         bodyHeight:"",
         bodyWeight:""
     })
-    const { name, email, phone, address, gender, age, dateOfBirth, placeOfBirth, bodyHeight, bodyWeight } = formValues;
+    const { name, email, image, phone, address, gender, age, dateOfBirth, placeOfBirth, bodyHeight, bodyWeight } = formValues;
     const dateFormat = "YYYY-MM-DD"
  
     const getProfileData = async () => {
         try {  
-            const user = session?.user
-            setFormValues({userId: user.id, name: user.name, email: user.email  })
-            const res = await axios.get(`/api/profile/${user.id}`);
+            const res = await axios.get('/api/profile/detail');
             const profile = res.data
             console.log(profile)
             setFormValues({
-                userId: user.id, name: user.name, email: user.email,
+                userId: profile.userId, 
+                image: profile.image ,
+                name: profile.name, 
+                email: profile.email,
                 phone: profile.phone, 
                 address: profile.address,
                 gender :profile.gender, 
@@ -47,6 +51,7 @@ export default function ProfilePage(){
             setLoading(false);
         } catch (err) {
           console.log("[collections_GET]", err);
+          setLoading(false);
         }
       };
 
@@ -63,14 +68,22 @@ export default function ProfilePage(){
         console.log(formValues);
     };
 
-    async function handleSubmit(event) {
+    const saveAvatar = (url) => {
+        setFormValues(formValues => ({
+            ...formValues,
+            image : url
+        }))
+    }
+
+    async function handleSubmit() {
         setLoading(true);
         try {
-          const response = await fetch("/api/profile", {
-            method: "POST",
-            body: JSON.stringify(formValues),
-            headers: {
-              "Content-Type": "application/json",
+            console.log(formValues)
+            const response = await fetch("/api/profile", {
+                method: "POST",
+                body: JSON.stringify(formValues),
+                headers: {
+                "Content-Type": "application/json",
             },
           })
           
@@ -86,8 +99,8 @@ export default function ProfilePage(){
 
     return(
         <>
-            <Toaster />
             <TitleCard title="Profile" topMargin="mt-2"  >
+                <ImageUpload onUploadSuccess={saveAvatar} url={image} />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <InputField
                     type="text"

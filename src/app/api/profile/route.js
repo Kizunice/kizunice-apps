@@ -3,14 +3,6 @@ import { NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/session';
 
 export async function GET(req) {
-  // const user = getCurrentUser();
-  // const { id } = req.query;
-  // const id = clvaypyfv0001118c1ojfnlgk;
-  // const profile = await prisma.studentProfile.findUnique({
-  //   where: {
-  //     userId: id,
-  //   },
-  // });
   const profile = await prisma.studentProfile.findMany();
 
   //return response JSON
@@ -21,6 +13,7 @@ export async function POST(req) {
   const body = await req.json();
   const {
     userId,
+    image,
     name,
     email,
     phone,
@@ -37,11 +30,12 @@ export async function POST(req) {
 
   const newProfile = await prisma.studentProfile.upsert({
     where: {
-      userId: userId || '',
+      userId: userId ,
     },
     update: {
       name: name,
       email: email,
+      image: image,
       phone: phone,
       address: address,
       gender: gender,
@@ -54,6 +48,7 @@ export async function POST(req) {
     create: {
       userId: userId,
       name: name,
+      image: image,
       email: email,
       phone: phone,
       address: address,
@@ -65,6 +60,15 @@ export async function POST(req) {
       bodyWeight: bodyWeight,
     },
   });
+  
+  const avatar = await prisma.user.update({
+    where:{
+      id: userId,
+    },
+    data:{
+      image: image
+    }
+  })
+  return NextResponse.json(newProfile, avatar);
 
-  return NextResponse.json(newProfile);
 }

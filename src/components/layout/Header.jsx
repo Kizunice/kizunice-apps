@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 export default function Header()  {
   const {data:session} = useSession()
   const router = useRouter()
-  const avatar = session?.user.image
 
   return (
     <header className="navbar sticky top-0 z-10 h-20 bg-white justify-end lg:px-8">
@@ -27,15 +26,15 @@ export default function Header()  {
               <span className="block text-xs text-black">{session?.user.role}</span>
             </span>
             <div className="w-10 rounded-full">
-              <Image src={avatar ? avatar : "/avatar.png"} width={20} height={20} alt="Avatar Kizunice"/> 
+              <Image src={session?.user.image ? session?.user.image : "/avatar.png"} width={20} height={20} alt="Avatar Kizunice"/> 
             </div>
           </div>
           <ul tabIndex={0} className="mt-3 z-[9] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"> 
             <li><Link href={"/profile"}>Profile</Link></li>
             <li><Link href={"/settings"}>Settings</Link></li>
             <li><button onClick={() => signOut({ redirect: false }).then(() => {
-        router.push("/login"); // Redirect to the dashboard page after signing out
-    })}>Logout</button></li>
+                  router.push("/login"); // Redirect to the dashboard page after signing out
+              })}>Logout</button></li>
           </ul>
         </div>
       </div>

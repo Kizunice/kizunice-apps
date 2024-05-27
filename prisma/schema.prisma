@@ -12,7 +12,8 @@ model StudentProfile {
   id                  String               @id @default(cuid())
   userId              String
   user                User?                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  name                String
+  image               String?              
+  name                String?
   email               String?
   address             String?
   phone               String?

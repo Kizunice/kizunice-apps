@@ -4,7 +4,8 @@ import Link from "next/link"
 
 export default function Hero() {
     return (
-        <section className="warpper bg-[url('/hero-banner.png')] bg-cover bg-opacity-50" id="beranda" >
+        // <section className="warpper bg-[url('/hero-banner.png')] bg-cover bg-opacity-50" id="beranda" >
+        <section className="warpper" id="beranda" >
             <div className="flex flex-col bg-white/75 h-[90vh] justify-center items-center">
                 <div className="px-4 text-center mt-[-4em] md:mt-[-2em]">
                     <h1 className="text-kinPrimary font-semibold my-6 w-full leading-snug !text-4xl lg:max-w-4xl lg:!text-7xl">
