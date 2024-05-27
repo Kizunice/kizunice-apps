@@ -8,17 +8,17 @@ export async function middleware(request) {
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
   });
-
+  
   if (!session && 
-    (path === '/dashboard' || 
+    path === '/dashboard' || 
     path === '/attendance' || 
     path === '/learning' || 
-    path === '/jobs'|| 
+    path === '/jobs' || 
     path === '/data-student' || 
     path === '/data-sensei'|| 
     path === '/data-partner' || 
     path === '/document' || 
-    path === '/finance')
+    path === '/finance'
   ) {
     return NextResponse.redirect(new URL('/login', request.url));
   } else if (
@@ -28,6 +28,7 @@ export async function middleware(request) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
   return NextResponse.next();
+
 }
 
 export const config = {
@@ -36,3 +37,25 @@ export const config = {
     '/((?!api|_next/static|_next/image|favicon.ico|login|register|forgot-password).*)',
   ],
 };
+
+
+
+  // if (!session || 
+  //   (path === '/dashboard' || 
+  //   path === '/attendance' || 
+  //   path === '/learning' || 
+  //   path === '/jobs'|| 
+  //   path === '/data-student' || 
+  //   path === '/data-sensei'|| 
+  //   path === '/data-partner' || 
+  //   path === '/document' || 
+  //   path === '/finance')
+  // ) {
+  //   return NextResponse.redirect(new URL('/login', request.url));
+  // } else if (
+  //   session ||
+  //   (path === '/login' || path === '/register' || path === '/forgot-password')
+  // ) {
+  //   return NextResponse.redirect(new URL('/dashboard', request.url));
+  // }
+  // return NextResponse.next();
