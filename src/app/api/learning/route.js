@@ -1,7 +1,20 @@
 import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
+import { getCurrentUser } from '@/lib/session';
 
-export async function GET(req) {
+
+export async function GET(req, res) {
+  const session = await getCurrentUser(req, res);
+
+  if(session.role === "SENSEI") {
+    const learning = await prisma.learning.findMany({
+      where: {
+        senseiId: session.id,
+      },
+    }); 
+    return NextResponse.json(learning);
+  }
+
   const learning = await prisma.learning.findMany({
     include: {
       students: true,
@@ -9,7 +22,6 @@ export async function GET(req) {
     },
   });
 
-  //return response JSON
   return NextResponse.json(learning);
 }
 

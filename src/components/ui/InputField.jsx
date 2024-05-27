@@ -5,7 +5,7 @@ const InputField = ({ value, label, name, placeholder, type, onChange, readOnly 
     {label && <label htmlFor="input-field label">{label}</label>}
     <input
       type={type}
-      value={value}
+            value={value}
       name={name}
       className=" input input-bordered w-full"
       placeholder={placeholder}

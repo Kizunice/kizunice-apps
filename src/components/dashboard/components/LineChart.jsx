@@ -55,11 +55,11 @@ ChartJS.register(
   };
     
   
-      return(
-        <TitleCard title={"Monthly Attendance"}>
-            <Line data={data} options={options}/>
-        </TitleCard>
-      )
+    return(
+      <TitleCard title={"Monthly Attendance"}>
+          <Line data={data} options={options}/>
+      </TitleCard>
+    )
   }
   
   

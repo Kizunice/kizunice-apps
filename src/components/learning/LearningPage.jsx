@@ -8,103 +8,14 @@ import InputField from "../ui/InputField";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+
 const TopSideButtons = () => {
     const {data:session} =  useSession()
-    const router = useRouter()
-    const [modal, setModal] = useState(false)
-    const [formValues, setFormValues]  = useState({
-        title:"",
-        description:"", 
-        part:"", 
-        date: "",
-        senseiId: session?.user.id,
-        senseiName: session?.user.name,
-    })
-    const{title, description,part,date,sensei} = formValues
-    const handleChange = (e) => {
-        e.preventDefault()
-        const { name, value } = e.target;
 
-        setFormValues({ ...formValues, [name]: value});
-    };
-
-    async function handleSubmit() {
-        try {
-          const response = await fetch("/api/learning", {
-            method: "POST",
-            body: JSON.stringify(formValues),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-          
-          if (response.ok) {
-            // setLoading(false);
-            toast.success("Create Learning Success");
-            router.refresh()
-            setModal(false)
-          } 
-        } catch (error) {
-        //   setLoading(false);
-          console.error("Network Error:", error);
-        }
-      }
-
-   const handleModal = (e) => {
-        document.getElementById('attend_modal').showModal()
-        setModal(true)
-    }
-
-    if (session?.user.role == 'SENSEI') {
+    if (session?.user.role !== 'STUDENT') {
         return(
             <div className="inline-block float-right">
-                <button className="btn px-4 btn-sm normal-case bg-primary hover:bg-secondary text-white" onClick={() => handleModal()} >Add New</button>
-                <dialog id="attend_modal" className="modal modal-bottom sm:modal-middle">
-                    <div className="modal-box bg-white">
-                        <h3 className="text-md text-center mb-4">Add New Learning</h3>
-                        <form>
-                            <InputField
-                                type="text"
-                                value={title}
-                                placeholder="Judul Materi"
-                                label="Judul"
-                                name="title"
-                                onChange={handleChange}
-                            />
-                            <InputField
-                                type="text"
-                                value={part}
-                                placeholder="Bab 25"
-                                label="Bab Materi"
-                                name="part"
-                                onChange={handleChange}
-                            />
-                            <InputField
-                                type="text"
-                                value={description}
-                                placeholder="Detail Materi"
-                                label="Deskripsi Materi"
-                                name="description"
-                                onChange={handleChange}
-                            />
-                            <InputField
-                                type="date"
-                                value={date}
-                                placeholder="Tanggal"
-                                label="Tanggal"
-                                name="date"
-                                onChange={handleChange}
-                            />
-                            
-                        </form>
-                        <div className="modal-action">                    
-                        <form method="dialog">
-                            <button className="btn btn-ghost">Close</button>
-                        </form>
-                        <button className="btn bg-secondary hover:bg-black text-white" type='submit' onClick={() => handleSubmit()}>Submit</button>
-                        </div>
-                    </div>
-                </dialog>
+                <Link href="/learning/create" className="btn px-4 btn-sm normal-case bg-primary hover:bg-secondary text-white" >Tambah Baru</Link>
             </div>
         )
     }

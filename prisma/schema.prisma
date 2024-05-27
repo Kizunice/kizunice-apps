@@ -25,7 +25,6 @@ model StudentProfile {
   bodyWeight          String?
   attendances         Attendance[]
   scores              Scores[]
-  jobOppotunity       JobOpportunity[]
   jobApplications     JobApplication[]
   financeTransactions FinanceTransaction[]
   learning            Learning[]
@@ -89,11 +88,19 @@ model Scores {
 model JobOpportunity {
   id                  String           @id @default(cuid())
   title               String
+  fieldJob            String
+  typeJob             String?
   description         String
+  needs               String?
+  gender              String?
+  location            String
+  requirement         String
+  detail              String
+  benefit             String
+  salary              String
+  deadline            DateTime?
   postedBy            String
-  postDate            DateTime
-  applicationDeadline DateTime
-  poster              StudentProfile   @relation(fields: [postedBy], references: [id])
+  poster              User?            @relation(fields: [postedBy], references: [id])
   applications        JobApplication[]
 
   createdAt DateTime @default(now())
@@ -144,6 +151,7 @@ model User {
   Learning           Learning[]
   Attendance         Attendance[]
   Scores             Scores[]
+  JobOpportunity     JobOpportunity[]
 }
 
 model Account {
