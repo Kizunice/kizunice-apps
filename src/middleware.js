@@ -9,6 +9,7 @@ export async function middleware(request) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
+
   if (!session && 
     path === '/dashboard' || 
     path === '/attendance' || 
@@ -25,10 +26,9 @@ export async function middleware(request) {
     session &&
     (path === '/login' || path === '/register' || path === '/forgot-password')
   ) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+    return NextResponse.redirect(new URL('/', request.url));
   }
   return NextResponse.next();
-
 }
 
 export const config = {
