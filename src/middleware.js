@@ -13,11 +13,9 @@ export async function middleware(request) {
 
 
   if (!session && protectedRoutes.includes(path)) {
-    const absoluteURL = new URL("/login", request.url);
-    return NextResponse.redirect(absoluteURL.toString());
+    return NextResponse.redirect(new URL("/login", request.url));
   } else if (!protectedRoutes.includes(path) && session) {
-    const relativeURL = new URL("/dashboard", request.url);
-    return NextResponse.redirect(relativeURL.toString());
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
   return NextResponse.next();
 
@@ -43,5 +41,6 @@ export const config = {
   matcher: [
     // Match all routes except the ones that start with /login and api and the static folder
     '/((?!api|_next/static|_next/image|favicon.ico|login|register|forgot-password).*)',
+    '/dashboard'
   ],
 }
