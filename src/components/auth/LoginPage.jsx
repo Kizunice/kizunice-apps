@@ -24,20 +24,24 @@ export default function LoginForm() {
       password : formValues.password, 
       redirect: false
     })
-    .then((callback) => {
-        if (callback?.error) {
-          toast.error(callback.error)
-          setLoading(false)
-        }
+      .then((callback) => {
+          if (callback?.error) {
+            toast.error(callback.error)
+            setLoading(false)
+          }
 
-        if(callback?.ok && !callback?.error) {
-          setLoading(false)
-          toast.success('Logged in successfully!')
-          router.refresh(); // dirty fix, but it works
-          router.push("/dashboard");
-        }
-    } )
-}
+          if(callback?.ok && !callback?.error) {
+            setLoading(false)
+            toast.success('Logged in successfully!')
+            // router.refresh(); // dirty fix, but it works
+            router.push("/dashboard");
+          }
+      } )
+  }
+
+  useEffect(() => {
+    router.prefetch('/dashboard')
+  }, [router])
   
   const handleChange = (e) =>{
     const { name, value } = e.target;
