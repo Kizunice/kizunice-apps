@@ -22,6 +22,7 @@ const statsData = [
 const TopSideButtons = () => {
     const {data:session} =  useSession()
     const router = useRouter()
+    const [open, setOpen] = useState(false);
     const [formValues, setFormValues]  = useState({
         userId : session?.user.id,
         name: session?.user.name,
@@ -103,6 +104,7 @@ export default async function Attendance() {
     const [values, setValues] = useState([])
     const [loading, setLoading] = useState(true)
     const {data:session} =  useSession()
+    const router = useRouter()
 
     const getAttendance = async () => {
         try {  
@@ -132,7 +134,7 @@ export default async function Attendance() {
             console.log(response)
             if (response.ok) {
                 // setLoading(false);
-                toast.success("Berhasil memperbarui absensi");
+                toast.success("Berhasil Sign Out!");
                 router.refresh()
             } 
         } catch (error) {

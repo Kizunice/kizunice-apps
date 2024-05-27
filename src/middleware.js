@@ -14,15 +14,14 @@ export async function middleware(request) {
 
   if (!session && protectedRoutes.includes(path)) {
     return NextResponse.redirect(new URL("/login", request.url));
-  } else if (session && path === '/dashboard') {
+  } else if (session && path === '/login') {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
-  
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|images|favicon.ico).*)'
+    '/((?!api|_next/static|_next/image|images|favicon.ico|login).*)'
   ],
 }

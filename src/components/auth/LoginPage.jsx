@@ -33,14 +33,17 @@ export default function LoginForm() {
           if(callback?.ok && !callback?.error) {
             setLoading(false)
             toast.success('Logged in successfully!')
+            console.log("before refresh")
+            router.refresh()
+            console.log("after refresh")
             router.push("/dashboard");
           }
       } )
   }
 
-  useEffect(() => {
-    router.prefetch('/dashboard')
-  }, [router])
+  // useEffect(() => {
+  //   router.prefetch('/dashboard')
+  // }, [router])
   
   const handleChange = (e) =>{
     const { name, value } = e.target;
