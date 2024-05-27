@@ -47,7 +47,7 @@ export default async function LearningPage() {
     return (
         <>
         {loading ? <Loading /> : (
-            <TitleCard title={"Data Belajar"} topMargin="mt-2" TopSideButtons={<TopSideButtons/>} >
+            <TitleCard title={"Data Pembelajaran"} topMargin="mt-2" TopSideButtons={<TopSideButtons/>} >
                 <div className="overflow-x-auto w-full">
                     <table className="table w-full">
                         <thead >

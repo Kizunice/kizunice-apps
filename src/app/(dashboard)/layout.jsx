@@ -6,7 +6,7 @@ import DefaultLayout from '@/components/layout/DefaultLayout';
 import { Toaster } from 'react-hot-toast';
 const inter = Inter({ subsets: ['latin'] });
 
-export default function RootLayout({ children }) {
+export default function DashboardLayout({ children }) {
   return (
     <html lang="en">
       <Head />

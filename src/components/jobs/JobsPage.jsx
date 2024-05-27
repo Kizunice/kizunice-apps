@@ -44,17 +44,15 @@ export default function JobsPage() {
 
     return (
         <>
-        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {DUMMY_JOBS.map((data)=>{
+        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+            {values.map((value)=>{
                 return (
-                    <Link key={data.id} className="hover:border hover:border-primary hover:rounded-xl" href="/jobs/detail/">
-                        <TitleCard title={data.title} topMargin="0" TopSideButtons={<div className="text-primary">{formatter.format(data.salary)}</div>} >
-                            <div>{data.fieldWork}</div>
-                            <div>{data.typeWork}</div>
+                    <Link key={value.id} className="hover:border hover:border-primary hover:rounded-xl" href="/jobs/detail/">
+                        <TitleCard title={value.title} topMargin="0" TopSideButtons={<div className="text-primary">{formatter.format(value.salary)}</div>} >
+                            <div>{value.fieldJob}</div>
+                            <div>{value.typeJob}</div>
                             <div className="divider"></div>
-                            <div>{data.postedBy.name}</div>
-                            <div>{data.postedBy.country}</div>
-                            <div>{data.location}</div>
+                            <div>{value.location}</div>
                         </TitleCard>
                     </Link>
                     )   

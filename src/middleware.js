@@ -9,13 +9,23 @@ export async function middleware(request) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
-  if (!session && path === '/') {
+  if (!session && 
+    (path === '/dashboard' || 
+    path === '/attendance' || 
+    path === '/learning' || 
+    path === '/attendance'|| 
+    path === '/data-student' || 
+    path === '/data-sensei'|| 
+    path === '/data-partner' || 
+    path === '/document' || 
+    path === '/finance')
+  ) {
     return NextResponse.redirect(new URL('/login', request.url));
   } else if (
     session &&
     (path === '/login' || path === '/register' || path === '/forgot-password')
   ) {
-    return NextResponse.redirect(new URL('/', request.url));
+    return NextResponse.redirect(new URL('/dashboard', request.url));
   }
   return NextResponse.next();
 }

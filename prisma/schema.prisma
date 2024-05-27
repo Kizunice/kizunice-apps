@@ -79,8 +79,9 @@ model Scores {
   senseiId   String
   senseiName String
   sensei     User           @relation(fields: [senseiId], references: [id])
-  score      Int
-
+  readingScore      Int
+  listeningScore    Int
+  knowledgeScore    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

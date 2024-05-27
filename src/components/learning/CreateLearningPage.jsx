@@ -53,7 +53,7 @@ export default function CreateLearningPage() {
     return (
         <>
             <Toaster />
-            <TitleCard title="Tambah Lowongan Kerja" topMargin="mt-2"  >
+            <TitleCard title="Tambah Data Pembelajaran" topMargin="mt-2"  >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <InputField
                         type="text"

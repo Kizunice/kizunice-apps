@@ -22,6 +22,6 @@ export async function GET(req, res) {
             },
         })
       
-        return NextResponse.json(students);
+        return res.json(students);
     }
   }
