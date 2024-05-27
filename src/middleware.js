@@ -9,13 +9,13 @@ export async function middleware(request) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
-  const protectedRoutes = ["/dashboard", "/attendance", "/learning","/jobs","/document","/finance","/data-student","/data-partner","/data-sensei", ]
+  const protectedRoutes = ["/dashboard", "/attendance", "/learning", "/jobs", "/document", "/finance", "/data-student", "/data-partner","/data-sensei", ]
 
 
   if (!session && protectedRoutes.includes(path)) {
     const absoluteURL = new URL("/login", request.url);
     return NextResponse.redirect(absoluteURL.toString());
-  } else if (session && path === "/login") {
+  } else if (session && !protectedRoutes.includes(path)) {
     const relativeURL = new URL("/dashboard", request.url);
     return NextResponse.redirect(relativeURL.toString());
   }
