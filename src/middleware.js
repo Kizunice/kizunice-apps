@@ -13,7 +13,7 @@ export async function middleware(request) {
     (path === '/dashboard' || 
     path === '/attendance' || 
     path === '/learning' || 
-    path === '/attendance'|| 
+    path === '/jobs'|| 
     path === '/data-student' || 
     path === '/data-sensei'|| 
     path === '/data-partner' || 
