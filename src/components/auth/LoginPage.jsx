@@ -39,9 +39,9 @@ export default function LoginForm() {
       } )
   }
 
-  useEffect(() => {
-    router.prefetch('/dashboard')
-  }, [router])
+  // useEffect(() => {
+  //   router.prefetch('/dashboard')
+  // }, [router])
   
   const handleChange = (e) =>{
     const { name, value } = e.target;

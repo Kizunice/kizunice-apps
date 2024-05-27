@@ -13,9 +13,12 @@ export async function middleware(request) {
 
 
   if (!session && protectedRoutes.includes(path)) {
-    const absoluteURL = new URL("/login", request.nextUrl.origin);
+    const absoluteURL = new URL("/login", request.url);
     return NextResponse.redirect(absoluteURL.toString());
-  } 
+  } else if (session && path === "/login") {
+    const relativeURL = new URL("/dashboard", request.url);
+    return NextResponse.redirect(relativeURL.toString());
+  }
   return NextResponse.next();
 
   // if (!session && 
