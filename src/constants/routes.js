@@ -69,17 +69,17 @@ export const ADMIN_ROUTES = [
     name: 'Content',
     key: '9',
   },
-  // {
-  //   path: '/users',
-  //   icon: <HiUsers size={22} />,
-  //   name: 'Users',
-  //   key: '10',
-  // },
+  {
+    path: '/users',
+    icon: <HiUsers size={22} />,
+    name: 'Users',
+    key: '10',
+  },
   {
     path: '/settings',
     icon: <IoMdSettings size={22} />,
     name: 'Settings',
-    key: '10',
+    key: '11',
   },
 ];
 

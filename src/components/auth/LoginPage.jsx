@@ -94,7 +94,7 @@ export default function LoginForm() {
       <div className="flex gap-4 items-center">
         <Link
           href="/forgot-password"
-          className="shrink-0 font-small text-sm text-white hover:underline dark:text-blue-500"
+          className="shrink-0 font-small text-sm hover:underline dark:text-white"
         >
           Forgot Password
         </Link>
@@ -102,7 +102,7 @@ export default function LoginForm() {
           <button
             disabled
             type="button"
-            className="w-full text-white text-xs bg-primary hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2"
+            className="w-full text-white text-xs bg-primary hover:bg-tersier focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2"
           >
             <svg
               aria-hidden="true"
@@ -126,7 +126,7 @@ export default function LoginForm() {
         ) : (
           <button
             type="submit"
-            className="w-full text-white bg-primary hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            className="w-full text-white bg-primary hover:bg-tersier focus:ring-4 focus:outline-none focus:ring-tersier font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           >
             Login
           </button>
@@ -137,7 +137,7 @@ export default function LoginForm() {
         Already have an account?{" "}
         <Link
           href="/register"
-          className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+          className="font-medium  hover:underline dark:text-white"
         >
           Sign Up
         </Link>

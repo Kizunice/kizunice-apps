@@ -1,7 +1,7 @@
 import RegisterForm from '@/components/auth/RegisterPage';
 import Image from 'next/image';
 import Link from 'next/link';
-import KizuniceLogo from "../../../../public/logo.png"
+import KizuniceLogo from "../../../../public/logo-kizunice-white.png"
 
 export default function Register() {
   return (
@@ -11,7 +11,7 @@ export default function Register() {
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <div className="flex mb-6 justify-center items-center w-30 h-auto">
                 <Link href={"/"} className='mx-auto'>
-                    <Image src={KizuniceLogo} width={140} height={40} priority={false} alt="Kizunice App Logo"/>
+                    <Image src={KizuniceLogo} width={180} height={40} priority={false} alt="Kizunice App Logo"/>
                 
                 </Link>
             </div>

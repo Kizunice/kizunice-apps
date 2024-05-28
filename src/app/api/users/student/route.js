@@ -6,6 +6,9 @@ export async function GET() {
     where: {
       role: 'STUDENT',
     },
+    orderBy : {
+      name: "asc"
+    }
   });
 
   return NextResponse.json(data);

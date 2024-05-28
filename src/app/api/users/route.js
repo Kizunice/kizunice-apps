@@ -3,7 +3,11 @@ import { NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/session';
 
 export async function GET() {
-  const data = await prisma.user.findMany();
+  const data = await prisma.user.findMany({
+    orderBy : {
+      name : "asc"
+    }
+  });
 
   return NextResponse.json(data);
 }

@@ -1,13 +1,11 @@
 'use clent'
 import Link from "next/link"
 
-
 export default function Hero() {
     return (
-        // <section className="warpper bg-[url('/hero-banner.png')] bg-cover bg-opacity-50" id="beranda" >
-        <section className="warpper" id="beranda" >
-            <div className="flex flex-col bg-white/75 h-[90vh] justify-center items-center">
-                <div className="px-4 text-center mt-[-4em] md:mt-[-2em]">
+        <section className="warpper bg-[url('/bg-pattern.jpg')] bg-cover bg-opacity-15" id="beranda" >
+            <div className="flex flex-col bg-white/95 h-[90vh] justify-center items-center">
+                <div className="px-8 text-center mt-[-4em] md:mt-[-2em]">
                     <h1 className="text-kinPrimary font-semibold my-6 w-full leading-snug !text-4xl lg:max-w-4xl lg:!text-7xl">
                         Mulai karir barumu di Jepang bersama Kizuna
                     </h1>
@@ -16,6 +14,9 @@ export default function Hero() {
                         tetapi membuka jalan bagi karier yang gemilang. Temukan pelatihan terbaik, 
                         koneksi yang luas, dan dukungan penuh untuk mewujudkan impian karier Anda di negeri Matahari Terbit."
                     </p>
+                    <button className="relative rounded-xl px-6 py-2 overflow-hidden border border-kinPrimary text-kinPrimary transition-all duration-200 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-kinPrimary before:duration-300 before:ease-out hover:text-white hover:shadow-kinPrimary hover:before:h-40 hover:before:w-40 hover:before:opacity-80"> 
+                        <Link href="/#tentang" class="relative z-10">selengkapnya</Link>
+                    </button>
                 </div>
             </div>
         </section>

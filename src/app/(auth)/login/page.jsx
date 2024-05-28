@@ -2,7 +2,7 @@ import React from 'react';
 import LoginForm from '@/components/auth/LoginPage';
 import Link from 'next/link';
 import Image from 'next/image';
-import KizuniceLogo from "../../../../public/logo.png"
+import KizuniceLogo from "../../../../public/logo-kizunice-white.png"
 
 export default function Login() {
     return (
@@ -12,7 +12,7 @@ export default function Login() {
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <div className="flex mb-6 justify-center items-center w-30 h-auto">
                   <Link href={"/"} className='mx-auto'>
-                      <Image src={KizuniceLogo} width={140} height={40} priority={true} alt="Kizunice App Logo"/>
+                      <Image src={KizuniceLogo} width={180} height={40} priority={true} alt="Kizunice App Logo"/>
                   
                   </Link>
               </div>

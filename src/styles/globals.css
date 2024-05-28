@@ -4,14 +4,15 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: #fafafa
+  background: #fafafa;
+  scroll-behavior: smooth;
 }
 
 
 .loader {
   width: 50px;
   aspect-ratio: 1;
-  --_g: no-repeat radial-gradient(farthest-side,#243B50 94%,#ffffff);
+  --_g: no-repeat radial-gradient(farthest-side,#AF282F 94%,#ffffff);
   background:
     var(--_g) 0    0,
     var(--_g) 100% 0,

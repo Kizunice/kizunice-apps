@@ -155,17 +155,17 @@ export default function RegisterForm() {
       ) : (
         <button
           type="submit"
-          className="w-full text-white bg-primary hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+          className="w-full text-white bg-primary hover:bg-tersier focus:ring-4 focus:outline-none focus:ring-tersier font-medium rounded-lg text-sm px-5 py-2.5 text-center "
         >
           Sign Up
         </button>
       )}
     
-      <p className="text-sm font-light text-gray-500 text-gray-400">
+      <p className="text-sm font-light text-gray-400">
         Already have an account?{" "}
         <Link
           href="/login"
-          className="font-medium text-primary hover:underline text-primary"
+          className="font-medium hover:underline text-white"
         >
           Login
         </Link>
