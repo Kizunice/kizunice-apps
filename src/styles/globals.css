@@ -2,12 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: #fafafa;
+html{
   scroll-behavior: smooth;
 }
 
+body {
+  color: rgb(var(--foreground-rgb));
+  background: #fafafa;
+}
 
 .loader {
   width: 50px;

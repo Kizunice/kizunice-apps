@@ -29,10 +29,10 @@ export default function Header() {
               <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-kinPrimary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M4 6h16M4 12h8m-8 6h16" /></svg>
             </div>
             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-4 gap-4 shadow bg-white rounded-box w-[350px] z-[30]">
-              <li><Link href="/">Beranda</Link></li>
-              <li><Link href="/#tentang">Tentang Kizuna</Link></li>
-              <li><Link href="/#program">Program</Link></li>
-              <li><Link href="/#kontak">Kontak Kami</Link></li>
+              <li><Link href="/" scroll={true}>Beranda</Link></li>
+              <li><Link href="/#tentang" scroll={true}>Tentang Kizuna</Link></li>
+              <li><Link href="/#program"scroll={true}>Program</Link></li>
+              <li><Link href="/#kontak"scroll={true}>Kontak Kami</Link></li>
               <li><Link href="/login" passHref={true} className="btn px-4 py-0.5">Masuk</Link></li>
               <li><Link href="/register" passHref={true} className="btn bg-secondary text-white px-4 py-0.5">Daftar</Link></li>
             </ul>
@@ -41,7 +41,7 @@ export default function Header() {
             <Link href="/login" passHref={true} className="px-4 py-0.5">
               Masuk
             </Link>
-            <Link href="/register" passHref={true} className="bg-secondary rounded-3xl text-white px-4 py-1">
+            <Link href="/register" passHref={true} className="bg-secondary rounded-xl text-white px-6 py-1">
               Daftar
             </Link>
           </div>

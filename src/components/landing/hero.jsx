@@ -1,4 +1,4 @@
-'use clent'
+'use client'
 import Link from "next/link"
 
 export default function Hero() {
@@ -15,7 +15,20 @@ export default function Hero() {
                         koneksi yang luas, dan dukungan penuh untuk mewujudkan impian karier Anda di negeri Matahari Terbit."
                     </p>
                     <button className="relative rounded-xl px-6 py-2 overflow-hidden border border-kinPrimary text-kinPrimary transition-all duration-200 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-kinPrimary before:duration-300 before:ease-out hover:text-white hover:shadow-kinPrimary hover:before:h-40 hover:before:w-40 hover:before:opacity-80"> 
-                        <Link href="/#tentang" class="relative z-10">selengkapnya</Link>
+                        <Link 
+                            href="/" 
+                            class="relative z-10"
+                            onClick={(e) => {
+                                setTimeout(() => {
+                                document.getElementById("tentang") &&
+                                    document
+                                    .getElementById("tentang")
+                                    .scrollIntoView({ behavior: "smooth"});
+                                }, 500)
+                                }} 
+                        >
+                            selengkapnya
+                        </Link>
                     </button>
                 </div>
             </div>

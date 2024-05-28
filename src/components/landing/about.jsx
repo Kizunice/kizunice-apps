@@ -1,5 +1,4 @@
-'use clent'
-import Link from "next/link"
+'use client'
 import Image from "next/image"
 export default function About() {
     return (
