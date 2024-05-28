@@ -12,10 +12,10 @@ export async function middleware(request) {
   const protectedRoutes = ["/dashboard", "/attendance", "/learning", "/jobs", "/document", "/finance", "/data-student", "/data-partner","/data-sensei", ]
 
 
-  if (!session && protectedRoutes.includes(path)) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  } 
-  return NextResponse.redirect(new URL('/dashboard', request.url));
+  // if (!session && protectedRoutes.includes(path)) {
+  //   return NextResponse.redirect(new URL("/login", request.url));
+  // } 
+  // return NextResponse.redirect(new URL('/dashboard', request.url));
   
   // if (!session && protectedRoutes.includes(path)) {
   //   return NextResponse.redirect(new URL("/login", request.url));
