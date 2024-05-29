@@ -5,6 +5,8 @@ import '@/styles/globals.css';
 import Head from './head';
 import { Providers } from '@/lib/providers';
 import RootLoading from './loading';
+import Header from '@/components/landing/header';
+import Footer from '@/components/landing/footer';
 const livvic = Livvic({ 
   weight: ['100','200','300','400','500','600', '700', '900'],
   style: ['normal', 'italic'],
@@ -25,7 +27,11 @@ export default function RootLayout({ children }) {
       <Head/>
       <body className={livvic.className}>
         {loading ? <RootLoading/> : (
-          <Providers>{children}</Providers>
+          <Providers>
+            <Header/>
+            {children}
+            <Footer/>
+          </Providers>
         )}
       </body>
     </html>

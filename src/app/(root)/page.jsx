@@ -6,7 +6,6 @@ import Program from "@/components/landing/program"
 export default function Home() {
   return (
     <div className="container">
-      <Header/>
       <Hero/>
       <About/>
       <Program/>
