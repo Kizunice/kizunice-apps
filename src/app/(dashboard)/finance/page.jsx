@@ -1,9 +1,7 @@
-
+import FinancePage from "@/components/finance/FinancePage";
 
 export default function Finance() {
     return (
-            <div className="text-black">
-                INI PAGE FINANCE
-            </div>
+        <FinancePage />
     );
 }

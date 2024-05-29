@@ -1,4 +1,4 @@
-function Stats({title, icon, value, description, color}){
+function Stats({title, icon, value, description, color, size}){
 
     const COLOR = ["primary", "primary"]
 
@@ -13,7 +13,7 @@ function Stats({title, icon, value, description, color}){
             <div className="stat gap-2">
                 <div className="stat-figure text-secondary">{icon}</div>
                 <div className="stat-title text-grey">{title}</div>
-                <div className="stat-value text-secondary font-[600]">{value}</div>
+                <div className={`stat-value text-secondary font-[600] ${size}`}>{value}</div>
                 {/* <div className={"stat-desc  " + getDescStyle()}>{description}</div> */}
             </div>
         </div>

@@ -125,7 +125,7 @@ model JobApplication {
 model FinanceTransaction {
   id               String          @id @default(cuid())
   userId           String
-  transactionType  String // Consider using an enum for specific transaction types
+  transactionType  Type            @default(EXPENSE)
   amount           Float
   description      String?
   transactionDate  DateTime
@@ -193,4 +193,9 @@ enum Role {
   STUDENT
   SENSEI
   PARTNER
+}
+
+enum Type {
+  EXPENSE
+  INCOME
 }

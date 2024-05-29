@@ -52,8 +52,9 @@ const TopSideButtons = () => {
           if (response.ok) {
             // setLoading(false);
             toast.success("Berhasil Input Presensi");
-            router.refresh()
-          } 
+            document.getElementById('attend_modal').close()
+            location.reload();
+        } 
         } catch (error) {
         //   setLoading(false);
           console.error("Network Error:", error);
@@ -135,7 +136,7 @@ export default async function Attendance() {
             if (response.ok) {
                 // setLoading(false);
                 toast.success("Berhasil Sign Out!");
-                router.refresh()
+                location.reload();
             } 
         } catch (error) {
             console.error("Network Error:", error);
@@ -177,7 +178,7 @@ export default async function Attendance() {
                                         <td>{value.name}</td>
                                         <td>{moment(value.signInTime).format("hh:mm")}</td>
                                         <td>{session?.user.role=== 'STUDENT' ? 
-                                                value.signOut ? moment(value.signOutTime).format("hh:mm") : <button className='badge badge-error rounded-md ' onClick={() => sign(value.id)}> Sign Out </button> : 
+                                                value.signOut ? moment(value.signOutTime).format("hh:mm") : <button className='bg-error px-4 py-1 rounded-md text-white' onClick={() => sign(value.id)}> Sign Out </button> : 
                                                 value.signOut ? moment(value.signOutTime).format("hh:mm") : <div>Siswa tidak absen pulang</div> }
                                         </td>
                                         <td>{value.status}</td>
