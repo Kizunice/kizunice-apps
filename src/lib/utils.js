@@ -1,9 +1,9 @@
 
 // Format Currency
-export const formatterJPY = new Intl.NumberFormat('ja-JP', {
+export const formatterJPY = (number) => new Intl.NumberFormat('ja-JP', {
   style: 'currency',
   currency: 'JPY',
-});
+}).format(number);
 
 export const formatterIDR = (number) => new Intl.NumberFormat('id-ID', {
   style: 'currency',

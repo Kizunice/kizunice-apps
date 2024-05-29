@@ -1,4 +1,3 @@
-
 'use client'
 import { useEffect, useState } from 'react';
 import { IoCalendar } from 'react-icons/io5';
@@ -9,41 +8,65 @@ import LineChart from "./components/LineChart";
 import DoughnutChart from "./components/DoughnutChart";
 import Stats from "@/components/ui/StatsCard";
 import axios from 'axios';
-
+import Loading from '@/app/(dashboard)/loading';
 
 export default function DashboardPage() {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [totalStudent, setTotalStudent] = useState()
+    const [totalLearning, setTotalLearning] = useState()
     const [totalAttendance, setTotalAttendance] = useState()
     const [totalJobs, setTotalJobs] = useState()
 
 
-    // const getTotalStudent = async () => {
-    //     setLoading(true)
-    //     const res = axios.get("/api/dashboard")
-    //     console.log(res.data)
-    //   };
+    const getTotalData = async () => {
+        try {  
+            const students = await axios.get("/api/users/student")
+            const attendance = await axios.get("/api/attendance")
+            const learning = await axios.get("/api/learning")
+            const jobs = await axios.get("/api/jobs")
+            setTotalStudent(students.data.length)
+            setTotalAttendance(attendance.data.length)
+            setTotalLearning(learning.data.length)
+            setTotalJobs(jobs.data.length)
+            setLoading(false)
+        } catch (err) {
+            console.log("[collections_GET]", err);
+            setLoading(false)
+        }
+    };
 
-    // useEffect(() => {
-    // getTotalStudent();
-    // }, []);
+    useEffect(() => {
+    getTotalData();
+    }, []);
     
-    const statsData = [
-        {title : "Total Attendance", value : "9723", icon: <IoCalendar size={30}/>, color:"bg-white"},
-        {title : "Learning Content", value : "23" , icon: <ImBook size={30}/>, color:"bg-white"},
-        {title : "Total Jobs", value : "45", icon: <FaSuitcase size={30}/>, color:"bg-white"},
-        {title : "Total Student", value : "745", icon: <HiUsers size={30}/>, color:"bg-white"},
-    ]
+    if (loading) return <Loading />
     return (
         <>
          <div className="grid lg:grid-cols-4 mt-2 md:grid-cols-2 grid-cols-1 gap-6 ">
-            {
-                statsData.map((d, k) => {
-                    return (
-                        <Stats key={k} {...d} />
-                    )
-                })
-            }
+            <Stats
+                title="Total Kehadiran"
+                icon={<IoCalendar size={30} />}
+                color="bg-white"
+                value={totalAttendance}
+            />
+            <Stats
+                title="Total Materi "
+                icon={<ImBook size={30} />}
+                color="bg-white"
+                value={totalLearning}
+            />
+            <Stats
+                title="Total Lowongan"
+                icon={<FaSuitcase size={30} />}
+                color="bg-white"
+                value={totalJobs}
+            />
+            <Stats
+                title="Total Siswa"
+                icon={<HiUsers size={30} />}
+                color="bg-white"
+                value={totalStudent}
+            />
         </div>
 
         <div className="grid lg:grid-cols-3  grid-cols-1 gap-6">

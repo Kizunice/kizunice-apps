@@ -4,11 +4,11 @@ import { useSession } from "next-auth/react"
 import axios from "axios"
 import moment from "moment"
 import TitleCard from "../ui/TitleCards"
-import { formatter } from "@/lib/utils"
+import { formatterJPY } from "@/lib/utils"
 import Link from "next/link"
 import Loading from "@/app/(dashboard)/loading"
 
-const TopSideButtons=() =>{
+const TopSideButtons= () =>{
     const {data:session} =  useSession()
 
     if (session?.user.role !== 'STUDENT') {
@@ -42,6 +42,7 @@ export default function JobsPage() {
     getJobs();
     }, []);
 
+    if (loading) return <Loading />
     return (
         <>
         {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
@@ -58,7 +59,6 @@ export default function JobsPage() {
                     )   
             })}
         </div> */}
-        { loading ? <Loading/> : (
             <TitleCard title={"Data Lowongan Kerja"} topMargin="mt-2" TopSideButtons={<TopSideButtons/>} >
                 <div className="overflow-x-auto w-full">
                     <table className="table w-full">
@@ -83,7 +83,7 @@ export default function JobsPage() {
                                         <td>{value.title}</td>
                                         <td>{value.fieldJob}</td>
                                         <td>{value.gender}</td>
-                                        <td>{formatter.format(value.salary)}</td>
+                                        <td>{formatterJPY(value.salary)}</td>
                                         <td className="flex flex-col gap-2 items-start">
                                             <Link href={`/jobs/detail/${value.id}`} className="badge badge-success w-16 text-white font-normal">Detail</Link>
                                         </td>
@@ -95,11 +95,7 @@ export default function JobsPage() {
                     </table>
                 </div>
             </TitleCard>
-        )}
-        
         </>
-        
-            
     )
 }
 

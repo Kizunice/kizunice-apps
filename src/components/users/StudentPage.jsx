@@ -18,7 +18,7 @@ export default async function StudentPage() {
         } catch (err) {
           console.log("[collections_GET]", err);
         }
-      };
+    };
 
     useEffect(() => {
     getUsers();

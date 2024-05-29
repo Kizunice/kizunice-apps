@@ -50,20 +50,18 @@ const TopSideButtons = () => {
           })
           
           if (response.ok) {
-            // setLoading(false);
             toast.success("Berhasil Input Presensi");
             document.getElementById('attend_modal').close()
             location.reload();
         } 
         } catch (error) {
-        //   setLoading(false);
           console.error("Network Error:", error);
         }
       }
 
     if (session?.user.role == 'STUDENT') {
         return(
-            <div className="inline-block float-right">
+            <div className="inline-block lg:float-right">
                 <button className="btn px-4 btn-sm normal-case bg-primary hover:bg-secondary text-white" onClick={()=>document.getElementById('attend_modal').showModal()} >Tambah Kehadiran</button>
                 <dialog id="attend_modal" className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box bg-white">
@@ -101,7 +99,7 @@ const TopSideButtons = () => {
    return
 }
 
-export default async function Attendance() {
+export default async function AttendancePage() {
     const [values, setValues] = useState([])
     const [loading, setLoading] = useState(true)
     const {data:session} =  useSession()
@@ -143,18 +141,19 @@ export default async function Attendance() {
         }
     }
 
+    if (loading) return <Loading />
+
     return (
         <>
-         <div className="grid lg:grid-cols-3 mt-2 md:grid-cols-3 grid-cols-1 gap-6 mb-6">
-            {
-                statsData.map((d, k) => {
-                    return (
-                        <Stats key={k} {...d} />
-                    )
-                })
-            }
-        </div>
-        {loading ? <Loading/> : (
+            <div className="grid lg:grid-cols-3 mt-2 md:grid-cols-3 grid-cols-1 gap-6 mb-6">
+                {
+                    statsData.map((d, k) => {
+                        return (
+                            <Stats key={k} {...d} />
+                        )
+                    })
+                }
+            </div>
             <TitleCard title={"Daftar Kehadiran Siswa"} topMargin="mt-2" TopSideButtons={<TopSideButtons/>}>
                 <div className="overflow-x-auto w-full">
                     <table className="table w-full">
@@ -191,8 +190,6 @@ export default async function Attendance() {
                     </table>
                 </div>
             </TitleCard>
-        )}
         </>
-        
     );
 }

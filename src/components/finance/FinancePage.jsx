@@ -1,10 +1,8 @@
 'use client'
-import { useState , useEffect, useCallback} from 'react';
+import { useState , useEffect} from 'react';
 import axios from 'axios';
 import moment from 'moment';
-import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react'
-import Link from 'next/link';
 import Stats from "@/components/ui/StatsCard";
 import TitleCard from '@/components/ui/TitleCards';
 import InputField from "../ui/InputField";
@@ -26,7 +24,8 @@ const TopSideButtons = () => {
           label: "Pemasukan",
           value: "INCOME",
         }
-      ])
+    ])
+
     const [formValues, setFormValues]  = useState({
         userId : session?.user.id,
         transactionType: 'EXPENSE',      
@@ -34,6 +33,7 @@ const TopSideButtons = () => {
         amount: '', 
         description:''
     })
+
     const{transactionDate, transactionType,amount, description} = formValues  
 
     const handleChange = (e) => {
@@ -179,7 +179,7 @@ export default async function FinancePage() {
                             {
                             values.map((value) =>{
                                 return (
-                                    <tr key={value.id} className="text-grey">
+                                    <tr key={value.id} className="text-grey items-center">
                                         <td>{moment(value.transactionDate).format("DD/MM/yyyy")}</td>
                                         <td className="flex items-center">
                                             <span 

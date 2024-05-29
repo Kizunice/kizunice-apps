@@ -1,6 +1,6 @@
-import Attendance from "@/components/attendance/Attendance";
-export default function AttendancePage() {
+import AttendancePage from "@/components/attendance/AttendancePage";
+export default function Attendance() {
   return (
-      <Attendance/>
+    <AttendancePage />
   );
 }

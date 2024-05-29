@@ -44,10 +44,10 @@ export default async function LearningPage() {
     getLearningData();
     }, []);
 
+    if (loading) return <Loading />
     return (
         <>
-        {loading ? <Loading /> : (
-            <TitleCard title={"Data Pembelajaran"} topMargin="mt-2" TopSideButtons={<TopSideButtons/>} >
+            <TitleCard title={"Data Pembelajaran Siswa"} topMargin="mt-2" TopSideButtons={<TopSideButtons/>} >
                 <div className="overflow-x-auto w-full">
                     <table className="table w-full">
                         <thead >
@@ -85,7 +85,6 @@ export default async function LearningPage() {
                     </table>
                 </div>
             </TitleCard> 
-        )}
         </>    
     );
 }
