@@ -18,14 +18,14 @@ export async function GET(req) {
 export async function POST(req,res) {
     const session = await getCurrentUser(req, res);
     const body = await req.json();
-    const { userId, name, title, fieldJob, typeJob, description, needs, gender, location, requirement, detail, benefit, salary, deadline } = body;
+    const { companyId, supervisorId, title, fieldJob, typeJob, description, needs, gender, location, requirement, detail, benefit, salary, departure, interview, deadline } = body;
 
-  
     const newDate = new Date(deadline);
   
     const newJobs = await prisma.jobOpportunity.create({
       data: {
-        postedBy : session.id,
+        companyId ,
+        supervisorId,
         title,  
         fieldJob,           
         typeJob,              
@@ -37,7 +37,9 @@ export async function POST(req,res) {
         detail  ,         
         benefit ,            
         salary ,            
-        deadline: newDate.toISOString()
+        deadline: newDate.toISOString(),
+        departure: newDate.toISOString(),
+        interview: newDate.toISOString()
       },
     });
   

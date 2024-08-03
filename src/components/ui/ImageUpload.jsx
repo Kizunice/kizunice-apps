@@ -3,11 +3,11 @@ import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import { FaPlus,FaRegTrashCan  } from "react-icons/fa6";
 
-const ImageUpload = ({ onUploadSuccess, url, saveImage }) => {
+const ImageUpload = ({ onUploadSuccess, url, saveImage, sizes, button }) => {
   return (
     <div className="flex flex-col mb-8">
       <div className="flex justify-center items-center">
-          <div className="relative w-[200px] h-[200px]">
+          <div className={`relative ${sizes}`}>
             {/* <div className="absolute top-0 right-0 z-10">
               <btn type="button" onClick={() => onRemove(url)} size="sm" className="bg-red-1 text-white">
                 <FaRegTrashCan className="h-4 w-4" />
@@ -23,7 +23,7 @@ const ImageUpload = ({ onUploadSuccess, url, saveImage }) => {
             />
           </div>
       </div>
-      <div className="w-[200px] mx-auto">
+      <div className={`${button} w-[200px] mx-auto `}>
         <CldUploadWidget
           uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
           signatureEndpoint="/api/sign-cloudinary-params"

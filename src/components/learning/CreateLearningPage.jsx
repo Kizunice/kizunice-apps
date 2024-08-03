@@ -5,6 +5,8 @@ import axios from "axios";
 import TitleCard from "@/components/ui/TitleCards";
 import { useSession } from "next-auth/react";
 import InputField from "../ui/InputField";
+import SelectField from "../ui/SelectField";
+import MultiSelectDropdown from "../ui/MultiSelectField";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -18,16 +20,65 @@ export default function CreateLearningPage() {
         description:"", 
         part:"", 
         date: "",
+        students: [],
         senseiId: session?.user.id,
         senseiName: session?.user.name,
     })
-    const{title, description,part,date,sensei} = formValues
+    const{title, description,part,date, students} = formValues
+    const [options,setOptions] = useState([])
+
+    const getUsers = async () => {
+      setLoading(true)
+      try {  
+          const res = await axios.get('/api/profile/sensei');
+          const users = res.data
+          console.log(users)
+          setFormValues({...formValues, senseiId : users.id, senseiName: users.name})
+          console.log(res.data)
+          setLoading(false)
+      } catch (err) {
+        console.log("[collections_GET]", err);
+        setLoading(false)
+      }
+    };
+
+    useEffect(() => {
+        async function fetchData() {
+          // Fetch data
+          const { data } = await axios.get("/api/profile");
+          const results = []
+          console.log("my category :", data)
+          data.forEach((value) => {
+            results.push({
+              label: value.name,
+              value: value.id,
+            });
+          });
+  
+          setOptions([
+            {key: 'Select a company', value: ''}, 
+            ...results
+          ])
+        }
+
+        
+        getUsers()
+        // Trigger the fetch
+        fetchData();
+      }, []);
+
     const handleChange = (e) => {
         e.preventDefault()
         const { name, value } = e.target;
-
+        
         setFormValues({ ...formValues, [name]: value});
+        console.log(formValues);
     };
+
+    const handleMulti = (selectedStudents) => {
+        setFormValues({ ...formValues, students: selectedStudents});
+        console.log(formValues)
+    }
 
     async function handleSubmit() {
         try {
@@ -89,7 +140,33 @@ export default function CreateLearningPage() {
                     />   
                 </div>
                 <div className="divider" ></div>
-                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* <SelectField
+                        value={studentId}
+                        placeholder="Siswa yang mengikuti"
+                        label="Nama Siswa"
+                        name="studentId"
+                        options={options}
+                        onChange={handleChange}
+                    /> */}
+                    <MultiSelectDropdown
+                        formFieldName={students}
+                        label="Pilih Siswa"
+                        options={options}
+                        onChange={handleMulti}
+                    />
+                    {/* <InputField
+                        type="text"
+                        value={part}
+                        placeholder="100"
+                        label="Nilai"
+                        name="part"
+                        onChange={handleChange}
+                    />
+                      */}
+                </div>
+                <div className="divider" ></div>
+
                 {loading ? (
                     <button
                     disabled
@@ -124,8 +201,6 @@ export default function CreateLearningPage() {
                     Submit Data Belajar
                     </button>
                 )}
-
-                
             </TitleCard>
         </>
     )

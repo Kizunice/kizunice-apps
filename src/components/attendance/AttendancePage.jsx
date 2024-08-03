@@ -159,6 +159,7 @@ export default async function AttendancePage() {
                     <table className="table w-full">
                         <thead >
                         <tr className="font-bold text-primary text-[14px]">
+                            <th>No</th>
                             <th>Hari</th>
                             <th>Tanggal</th>
                             <th>Nama</th>
@@ -169,16 +170,17 @@ export default async function AttendancePage() {
                         </thead>
                         <tbody>
                             {
-                                values.map((value) =>{
+                                values.map((value,index) =>{
                                     return (
                                         <tr key={value.id} className="text-grey ">
+                                        <td>{index+1}</td>
                                         <td>{moment(value.date).format("dddd")}</td>
                                         <td>{moment(value.date).format("DD-MM-yyyy")}</td>
                                         <td>{value.name}</td>
                                         <td>{moment(value.signInTime).format("hh:mm")}</td>
                                         <td>{session?.user.role=== 'STUDENT' ? 
                                                 value.signOut ? moment(value.signOutTime).format("hh:mm") : <button className='bg-error px-4 py-1 rounded-md text-white' onClick={() => sign(value.id)}> Sign Out </button> : 
-                                                value.signOut ? moment(value.signOutTime).format("hh:mm") : <div>Siswa tidak absen pulang</div> }
+                                                value.signOut ? moment(value.signOutTime).format("hh:mm") : <div className='text-error'>Tidak absen</div> }
                                         </td>
                                         <td>{value.status}</td>
                                         

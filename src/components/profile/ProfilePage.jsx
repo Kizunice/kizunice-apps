@@ -4,54 +4,86 @@ import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 import TitleCard from "@/components/ui/TitleCards"
 import InputField from "@/components/ui/InputField"
+import SelectField from "../ui/SelectField"
 import toast, { Toaster } from "react-hot-toast";
 import moment from "moment"
 import ImageUpload from "../ui/ImageUpload"
+import Button from "../ui/Button"
 import Loading from "@/app/(dashboard)/loading"
 export default function ProfilePage(){
     const {data:session} =  useSession()
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
+    const [pageLoading, setPageLoading] = useState(true)
     const [avatar, setAvatar] = useState(null)
-    const [formValues, setFormValues]  = useState({
-        userId:"",
-        image: "",
-        name:"", 
-        email:"", 
-        phone:"", 
-        address:"",
-        gender:"", 
-        age:"", 
-        dateOfBirth:"", 
-        placeOfBirth:"",
-        bodyHeight:"",
-        bodyWeight:""
-    })
-    const { name, email, image, phone, address, gender, age, dateOfBirth, placeOfBirth, bodyHeight, bodyWeight } = formValues;
+    const [formValues, setFormValues]  = useState({})
+    const { 
+        name, 
+        email, 
+        image, 
+        phone, 
+        address, 
+        gender, 
+        age, 
+        dateOfBirth, 
+        placeOfBirth, 
+        bodyHeight, 
+        bodyWeight,
+        religion,
+        status,
+        blood,
+        asalLPK, 
+        smoking,
+        drinking,
+        paspor,
+        jobCompany,
+        jobDesc,
+        jobYearIn,
+        jobYearOut,
+        esName,
+        esYearIn,
+        esYearOut,
+        msName,
+        msYearIn,
+        msYearOut,
+        hsName,
+        hsYearIn,
+        hsYearOut,
+        motherName,
+        motherAge,
+        motherJob,
+        fatherName,
+        fatherAge,
+        fatherJob,
+        brotherName,
+        brotherAge,
+        brotherJob,
+    } = formValues;
+
+    const [options, setOptions] = useState([
+        {
+            label: "Laki-Laki",
+            value: "Laki-Laki",
+        },
+        {
+            label: "Perempuan",
+            value: "Perempuan",
+        },
+    ])
+
     const dateFormat = "YYYY-MM-DD"
- 
+
     const getProfileData = async () => {
         try {  
             const res = await axios.get('/api/profile/detail');
-            const profile = res.data
-            console.log(profile)
-            setFormValues({
-                userId: profile.userId, 
-                image: profile.image ,
-                name: profile.name, 
-                email: profile.email,
-                phone: profile.phone, 
-                address: profile.address,
-                gender :profile.gender, 
-                age: profile.age, 
-                dateOfBirth: moment(profile.dateOfBirth).format(dateFormat), 
-                placeOfBirth: profile.placeOfBirth,
-                bodyHeight: profile.bodyHeight,
-                bodyWeight: profile.bodyWeight
-            })
-            setLoading(false);
+            const profile  = res.data
+            console.log("profile data :", profile)
+            if(profile.length !== 0) {
+                setFormValues(profile)
+            }
+            setPageLoading(false);
         } catch (err) {
           console.log("[collections_GET]", err);
-          setLoading(false);
+          setPageLoading(false);
         }
       };
 
@@ -95,134 +127,376 @@ export default function ProfilePage(){
           setLoading(false);
           console.error("Network Error:", error);
         }
-      }
-
+    }
+    
+    if(pageLoading) return <Loading />
     return(
         <>
-            <TitleCard title="Profile" topMargin="mt-2"  >
+            <TitleCard title="Biodata Siswa" topMargin="mt-2"  >
                 <ImageUpload onUploadSuccess={saveAvatar} url={image} />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <InputField
-                    type="text"
-                    value={name}
-                    placeholder="Nama Lengkap"
-                    label="Nama Lengkap"
-                    name="name"
-                    onChange={handleChange}
-                />
-                <InputField
-                    type="text"
-                    value={email}
-                    placeholder="Alamat Email"
-                    label="Email"
-                    name="email"
-                    onChange={handleChange}
-                />
-                <InputField
-                    type="text"
-                    value={phone}
-                    placeholder="0812xxxxxxx"
-                    label="Nomor Handphone"
-                    name="phone"
-                    onChange={handleChange}
-                />
-                <InputField
-                    type="text"
-                    value={address}
-                    placeholder="Jalan Mangga Besar"
-                    label="Alamat Rumah"
-                    name="address"
-                    onChange={handleChange}
-                />
-                <InputField
-                    type="text"
-                    value={gender}
-                    placeholder="Laki-laki atau Perempuan"
-                    label="Jenis Kelamin"
-                    name="gender"
-                    onChange={handleChange}
-                />
-                <InputField
-                    type="number"
-                    value={age}
-                    placeholder="20"
-                    label="Umur"
-                    name="age"
-                    onChange={handleChange}
-                />
-                <InputField
-                    type="date"
-                    value={dateOfBirth}
-                    placeholder="Tanggal Lahir"
-                    label="Tanggal Lahir"
-                    name="dateOfBirth"
-                    onChange={handleChange}
-                />
-                <InputField
-                    type="text"
-                    value={placeOfBirth}
-                    placeholder="Jakarta"
-                    label="Tempat Lahir"
-                    name="placeOfBirth"
-                    onChange={handleChange}
-                />
-                <InputField
-                    type="text"
-                    value={bodyHeight}
-                    placeholder="150"
-                    label="Tinggi Badan"
-                    name="bodyHeight"
-                    onChange={handleChange}
-                />
-                <InputField
-                    type="text"
-                    value={bodyWeight}
-                    placeholder="50"
-                    label="Berat Badan"
-                    name="bodyWeight"
-                    onChange={handleChange}
-                />
-                
-                    
+                    <InputField
+                        type="text"
+                        value={asalLPK}
+                        placeholder="LPK Kizuna Indonesia Nippon"
+                        label="Asal LPK"
+                        name="asalLPK"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={paspor}
+                        label="Nomor Paspor"
+                        placeholder="XXXXXX"
+                        name="paspor"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={name}
+                        placeholder="Nama Lengkap"
+                        label="Nama Lengkap"
+                        name="name"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={email}
+                        placeholder="Alamat Email"
+                        label="Email"
+                        name="email"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={phone}
+                        placeholder="0812xxxxxxx"
+                        label="Nomor Handphone"
+                        name="phone"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={address}
+                        placeholder="Jalan Mangga Besar"
+                        label="Alamat Rumah"
+                        name="address"
+                        onChange={handleChange}
+                    />
+                     <SelectField
+                        value={gender}
+                        defaultValue={gender}
+                        label="Jenis Kelamin"
+                        name="gender"
+                        options={options}
+                        onChange={handleChange}
+                    />
+                    {/* <InputField
+                        type="text"
+                        value={gender}
+                        placeholder="Laki-laki atau Perempuan"
+                        label="Jenis Kelamin"
+                        name="gender"
+                        onChange={handleChange}
+                    /> */}
+                    <InputField
+                        type="number"
+                        value={age}
+                        placeholder="20"
+                        label="Umur"
+                        name="age"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="date"
+                        value={moment(dateOfBirth).format("YYYY-MM-DD")}
+                        placeholder="Tanggal Lahir"
+                        label="Tanggal Lahir"
+                        name="dateOfBirth"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={placeOfBirth}
+                        placeholder="Jakarta"
+                        label="Tempat Lahir"
+                        name="placeOfBirth"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={religion}
+                        placeholder="Agama"
+                        label="Agama"
+                        name="religion"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={status}
+                        placeholder="Lajang"
+                        label="Status"
+                        name="status"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={bodyHeight}
+                        placeholder="160cm"
+                        label="Tinggi Badan"
+                        name="bodyHeight"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={bodyWeight}
+                        placeholder="50kg"
+                        label="Berat Badan"
+                        name="bodyWeight"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={blood}
+                        placeholder="AB"
+                        label="Golongan Darah"
+                        name="blood"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={blood}
+                        placeholder="M"
+                        label="Ukuran Baju"
+                        name="blood"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={smoking}
+                        placeholder="Merokok atau Tidak Merokok"
+                        label="Merokok"
+                        name="smoking"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={drinking}
+                        placeholder="Minum Alkohol atau Tidak Minum Alkohol"
+                        label="Minum Alkohol"
+                        name="drinking"
+                        onChange={handleChange}
+                    />
                 </div>
-                <div className="divider" ></div>
-                
-                {loading ? (
-                    <button
-                    disabled
-                    type="button"
-                    className="w-full text-white text-center items-center bg-primary font-medium rounded-lg text-sm px-5 py-2.5 mr-2 inline-flex items-center"
-                    >
-                    <svg
-                        aria-hidden="true"
-                        role="status"
-                        className="inline w-4 h-4 mr-3 text-white animate-spin"
-                        viewBox="0 0 100 101"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                        fill="#E5E7EB"
-                        />
-                        <path
-                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                        fill="currentColor"
-                        />
-                    </svg>
-                    Updating please wait...
-                    </button>
-                ) : (
-                    <button
-                    type="submit"
-                    className="w-full text-white bg-primary hover:bg-secondary font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-                    onClick={() => handleSubmit()}
-                    >
-                    Update Profile
-                    </button>
-                )}
 
-                
+                <h1 className="font-semibold text-lg mt-6">Riwayat Pendidikan</h1>
+                <div className="divider" ></div>
+
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                    <div className="col-span-2 md:col-span-1">
+                        <InputField
+                            type="text"
+                            value={esName}
+                            label="Nama SD"
+                            placeholder="SD..."
+                            name="esName"
+                            onChange={handleChange}
+                        />
+                    </div>
+                    
+                    <InputField
+                        type="text"
+                        value={esYearIn}
+                        label="Tahun Masuk"
+                        placeholder="2010"
+                        name="esYearIn"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={esYearOut}
+                        label="Tahun Lulus"
+                        placeholder="2013"
+                        name="esYearOut"
+                        onChange={handleChange}
+                    />
+
+                    <div className="col-span-2 md:col-span-1">
+                        <InputField
+                            type="text"
+                            value={msName}
+                            label="Nama SMP"
+                            placeholder="SMP..."
+                            name="msName"
+                            onChange={handleChange}
+                        />
+                    </div>
+                     <InputField
+                        type="text"
+                        value={msYearIn}
+                        label="Tahun Masuk"
+                        placeholder="2013"
+                        name="msYearIn"
+                        onChange={handleChange}
+                    />
+                     <InputField
+                        type="text"
+                        value={msYearOut}
+                        label="Tahun Lulus "
+                        placeholder="2017"
+                        name="msYearOut"
+                        onChange={handleChange}
+                    />
+                    <div className="col-span-2 md:col-span-1">
+                        <InputField
+                            type="text"
+                            value={hsName}
+                            label="Nama SMA / SMK"
+                            placeholder="SMA/SMK..."
+                            name="hsName"
+                            onChange={handleChange}
+                        />
+                    </div>
+                    
+                     <InputField
+                        type="text"
+                        value={hsYearIn}
+                        label="Tahun Masuk "
+                        placeholder="2017"
+                        name="hsYearIn"
+                        onChange={handleChange}
+                    />
+                     <InputField
+                        type="text"
+                        value={hsYearOut}
+                        label="Tahun Lulus "
+                        placeholder="2020"
+                        name="hsYearOut"
+                        onChange={handleChange}
+                    />
+                </div>
+
+                <h1 className="font-semibold text-lg mt-6">Riwayat Pekerjaan</h1>
+                <div className="divider" ></div>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <InputField
+                        type="text"
+                        value={jobCompany}
+                        label="Nama Perusahaan"
+                        placeholder="PT.."
+                        name="jobCompany"
+                        onChange={handleChange}
+                    />
+                     <InputField
+                        type="text"
+                        value={jobDesc}
+                        label="Detail Pekerjaan"
+                        placeholder="Saya sebagai.."
+                        name="jobDesc"
+                        onChange={handleChange}
+                    />
+                    {/* <div className="flex col col-span-1">
+                        
+                    </div> */}
+                    <InputField
+                        type="date"
+                        value={moment(jobYearIn).format("YYYY-MM-DD")}
+                        label="Tahun Masuk"
+                        name="jobYearIn"
+                        style={"pr-[-10px]"}
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="date"
+                        value={moment(jobYearOut).format("YYYY-MM-DD")}
+                        label="Tahun Keluar"
+                        name="jobYearOut"
+                        onChange={handleChange}
+                    />
+                </div>
+                <h1 className="font-semibold text-lg mt-6">Biodata Keluarga</h1>
+                <div className="divider" ></div>
+
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                    <InputField
+                        type="text"
+                        value={motherName}
+                        label="Nama Ibu"
+                        placeholder="Nama Ibu"
+                        name="motherName"
+                        onChange={handleChange}
+                    />
+                     <InputField
+                        type="text"
+                        value={motherAge}
+                        label="Umur"
+                        placeholder="Umur"
+                        name="motherAge"
+                        onChange={handleChange}
+                    />
+                     <InputField
+                        type="text"
+                        value={motherJob}
+                        label="Pekerjaan"
+                        placeholder="Pekerjaan"
+                        name="motherJob"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={fatherName}
+                        label="Nama Bapak"
+                        placeholder="Nama Bapak"
+                        name="fatherName"
+                        onChange={handleChange}
+                    />
+                     <InputField
+                        type="text"
+                        value={fatherAge}
+                        label="Umur"
+                        placeholder="Umur"
+                        name="fatherAge"
+                        onChange={handleChange}
+                    />
+                     <InputField
+                        type="text"
+                        value={fatherJob}
+                        label="Pekerjaan"
+                        placeholder="Pekerjaan"
+                        name="fatherJob"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={brotherName}
+                        label="Nama Saudara"
+                        placeholder="Nama Saudara"
+                        name="brotherName"
+                        onChange={handleChange}
+                    />
+                     <InputField
+                        type="text"
+                        value={brotherAge}
+                        label="Umur"
+                        placeholder="Umur"
+                        name="brotherAge"
+                        onChange={handleChange}
+                    />
+                     <InputField
+                        type="text"
+                        value={brotherJob}
+                        label="Pekerjaan"
+                        placeholder="Pekerjaan"
+                        name="brotherJob"
+                        onChange={handleChange}
+                    />
+                </div>
+
+
+                <div className="divider" ></div>
+
+                <Button handleSubmit={handleSubmit} loading={loading} text={'Update Profile'} />
             </TitleCard>
         </>
       

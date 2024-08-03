@@ -64,7 +64,7 @@ export default function RegisterForm() {
           htmlFor="name"
           className="block mb-2 text-sm font-medium text-whitegray"
         >
-          Your name
+          Nama Lengkap
         </label>
         <input
           type="text"
@@ -86,7 +86,7 @@ export default function RegisterForm() {
           htmlFor="email"
           className="block mb-2 text-sm font-medium text-whitegray"
         >
-          Your email
+          Email
         </label>
         <input
           type="email"
@@ -150,24 +150,24 @@ export default function RegisterForm() {
               fill="currentColor"
             />
           </svg>
-          Creating please wait...
+          Mohon tunggu . . .
         </button>
       ) : (
         <button
           type="submit"
           className="w-full text-white bg-primary hover:bg-tersier focus:ring-4 focus:outline-none focus:ring-tersier font-medium rounded-lg text-sm px-5 py-2.5 text-center "
         >
-          Sign Up
+          Daftar
         </button>
       )}
     
       <p className="text-sm font-light text-gray-400">
-        Already have an account?{" "}
+        Sudah punya akun?{" "}
         <Link
           href="/login"
           className="font-medium hover:underline text-white"
         >
-          Login
+          Masuk
         </Link>
       </p>
     </form>

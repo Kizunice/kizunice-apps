@@ -59,7 +59,7 @@ export default function LoginForm() {
           htmlFor="email"
           className="block mb-2 text-sm font-medium text-whitegray"
         >
-          Your email
+          Email
         </label>
       
         <input
@@ -96,7 +96,7 @@ export default function LoginForm() {
           href="/forgot-password"
           className="shrink-0 font-small text-sm hover:underline dark:text-white"
         >
-          Forgot Password
+          Lupa Password
         </Link>
         {loading ? (
           <button
@@ -121,25 +121,25 @@ export default function LoginForm() {
                 fill="currentColor"
               />
             </svg>
-            Signing you in please wait...
+            Mohon tunggu...
           </button>
         ) : (
           <button
             type="submit"
             className="w-full text-white bg-primary hover:bg-tersier focus:ring-4 focus:outline-none focus:ring-tersier font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           >
-            Login
+            Masuk
           </button>
         )}
       </div>
 
       <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-        Already have an account?{" "}
+        Belum punya akun?{" "}
         <Link
           href="/register"
           className="font-medium  hover:underline dark:text-white"
         >
-          Sign Up
+          Daftar
         </Link>
       </p>
     </form>

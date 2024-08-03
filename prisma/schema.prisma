@@ -10,9 +10,9 @@ datasource db {
 
 model StudentProfile {
   id                  String               @id @default(cuid())
-  userId              String
+  userId              String?
   user                User?                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  image               String?              
+  image               String?
   name                String?
   email               String?
   address             String?
@@ -24,16 +24,97 @@ model StudentProfile {
   originCountry       String?
   bodyHeight          String?
   bodyWeight          String?
+  asalLPK             String?
+  religion            String?
+  status              String?
+  blood               String?
+  smoking             String?
+  drinking            String?
+  esName              String?       @default("")
+  esYearIn            String?    
+  esYearOut           String?     
+  msName              String?       @default("")
+  msYearIn            String?    
+  msYearOut           String?     
+  hsName              String?       @default("")
+  hsYearIn            String?    
+  hsYearOut           String?    
+  jobCompany          String?       @default("")
+  jobDesc             String?       @default("")
+  jobYearIn           DateTime?     
+  jobYearOut          DateTime?     
+  motherName          String?       @default("")
+  motherAge           String?       @default("")
+  motherJob           String?       @default("")
+  fatherName          String?       @default("")
+  fatherAge           String?       @default("")
+  fatherJob           String?       @default("")
+  brotherName         String?       @default("")
+  brotherAge          String?       @default("")
+  brotherJob          String?       @default("")
+  paspor              String?
   attendances         Attendance[]
   scores              Scores[]
   jobApplications     JobApplication[]
   financeTransactions FinanceTransaction[]
   learning            Learning[]
 
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  @@unique([userId])
+}
+
+model SenseiProfile {
+  id           String       @id @default(cuid())
+  userId       String
+  user         User?        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  image        String?
+  name         String?
+  email        String?
+  address      String?
+  phone        String?
+  gender       String?
+  dateOfBirth  DateTime?
+  placeOfBirth String?
+  attendances  Attendance[]
+  scores       Scores[]
+  learning     Learning[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@unique([userId])
+}
+
+model PartnerProfile {
+  id              String           @id @default(cuid())
+  userId          String
+  user            User?            @relation(fields: [userId], references: [id])
+  image           String?
+  name            String?
+  email           String?
+  address         String?
+  phone           String?
+  company         Companies[]
+  supervisor      String?
+  country         String?
+  jobApplications JobApplication[]
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  JobOpportunity JobOpportunity[]
+
+  @@unique([userId])
+}
+
+model Companies {
+  id             String           @id @default(cuid())
+  name           String           @unique
+  address        String
+  supervisorId   String
+  supervisor     PartnerProfile   @relation(fields: [supervisorId], references: [id])
+  JobOpportunity JobOpportunity[]
 }
 
 model Attendance {
@@ -52,71 +133,84 @@ model Attendance {
   updatedAt        DateTime        @updatedAt
   StudentProfile   StudentProfile? @relation(fields: [studentProfileId], references: [id])
   studentProfileId String?
+  SenseiProfile    SenseiProfile?  @relation(fields: [senseiProfileId], references: [id])
+  senseiProfileId  String?
 }
 
 model Learning {
-  id          String    @id @default(cuid())
+  id          String           @id @default(cuid())
+  sensei      SenseiProfile?   @relation(fields: [senseiId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  senseiId    String?
   title       String
   description String?
   part        String
   fileUrl     String
   date        DateTime?
-  senseiId    String
-  senseiName  String?
-  sensei      User?     @relation(fields: [senseiId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
-  students  StudentProfile[]
-  scores    Scores[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  students    StudentProfile[]
+  scores      Scores[]
 }
 
 model Scores {
-  id         String         @id @default(cuid())
-  studentId  String
-  student    StudentProfile @relation(fields: [studentId], references: [id])
-  learningId String
-  learning   Learning       @relation(fields: [learningId], references: [id])
-  senseiId   String
-  senseiName String
-  sensei     User           @relation(fields: [senseiId], references: [id])
-  readingScore      Int
-  listeningScore    Int
-  knowledgeScore    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String         @id @default(cuid())
+  sensei      SenseiProfile? @relation(fields: [senseiId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  senseiId    String?
+  senseiName  String?
+  studentId   String
+  studentName String         @default("")
+  student     StudentProfile @relation(fields: [studentId], references: [id])
+  learningId  String
+  learning    Learning       @relation(fields: [learningId], references: [id])
+  bunpou      Int
+  choukai     Int
+  kanji       Int
+  kaiwa       Int
+  bunka       Int
+  aisatsu     Int
+  pushUp      Int
+  sitUp       Int
+  barbel      Int
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
 }
 
 model JobOpportunity {
-  id                  String           @id @default(cuid())
-  title               String
-  fieldJob            String
-  typeJob             String?
-  description         String
-  needs               String?
-  gender              String?
-  location            String
-  requirement         String
-  detail              String
-  benefit             String
-  salary              String
-  deadline            DateTime?
-  postedBy            String
-  poster              User?            @relation(fields: [postedBy], references: [id])
-  applications        JobApplication[]
+  id           String           @id @default(cuid())
+  title        String
+  fieldJob     String
+  typeJob      String?
+  description  String
+  needs        String?
+  gender       String?
+  location     String
+  requirement  String
+  detail       String
+  benefit      String
+  salary       String
+  departure    DateTime?
+  interview    DateTime?
+  deadline     DateTime?
+  companyId    String?
+  company      Companies?       @relation(fields: [companyId], references: [id])
+  supervisorId String?
+  supervisor   PartnerProfile?  @relation(fields: [supervisorId], references: [id])
+  applications JobApplication[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model JobApplication {
-  id              String         @id @default(cuid())
-  jobId           String
-  studentId       String
-  applicationDate DateTime
-  status          String
-  job             JobOpportunity @relation(fields: [jobId], references: [id])
-  student         StudentProfile @relation(fields: [studentId], references: [id])
+  id        String          @id @default(cuid())
+  jobId     String
+  studentId String
+  partnerId String?
+  status    String
+  note      String
+  job       JobOpportunity  @relation(fields: [jobId], references: [id])
+  student   StudentProfile  @relation(fields: [studentId], references: [id])
+  partner   PartnerProfile? @relation(fields: [partnerId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -150,10 +244,9 @@ model User {
   updatedAt          DateTime?            @updatedAt
   profile            StudentProfile?
   FinanceTransaction FinanceTransaction[]
-  Learning           Learning[]
   Attendance         Attendance[]
-  Scores             Scores[]
-  JobOpportunity     JobOpportunity[]
+  PartnerProfile     PartnerProfile?
+  SenseiProfile      SenseiProfile?
 }
 
 model Account {

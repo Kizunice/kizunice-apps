@@ -30,28 +30,28 @@ export async function POST(request) {
     },
   });
 
-  const profile = await prisma.studentProfile.upsert({
-    where: {
-      userId: user.id || '',
-    },
-    update: {
-      name: user.name,
-      email: user.email,
-    },
-    create: {
-      userId: user.id,
-      name: user.name,
-      email: user.email,
-      phone: '',
-      address: '',
-      gender: '',
-      age: null,
-      dateOfBirth: null,
-      placeOfBirth: '',
-      bodyHeight: '',
-      bodyWeight: '',
-    },
-  });
+  // const profile = await prisma.studentProfile.upsert({
+  //   where: {
+  //     userId: user.id || '',
+  //   },
+  //   update: {
+  //     name: user.name,
+  //     email: user.email,
+  //   },
+  //   create: {
+  //     userId: user.id,
+  //     name: user.name,
+  //     email: user.email,
+  //     phone: '',
+  //     address: '',
+  //     gender: '',
+  //     age: null,
+  //     dateOfBirth: null,
+  //     placeOfBirth: '',
+  //     bodyHeight: '',
+  //     bodyWeight: '',
+  //   },
+  // });
 
-  return NextResponse.json(user, profile);
+  return NextResponse.json(user);
 }

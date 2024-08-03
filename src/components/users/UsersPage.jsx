@@ -30,7 +30,7 @@ export default async function UsersPage() {
                 <table className="table w-full">
                     <thead >
                     <tr className="font-bold text-primary text-[14px]">
-                        <th>Id</th>
+                        <th>No</th>
                         <th>Nama</th>
                         <th>Email</th>
                         <th>Role</th>
@@ -40,17 +40,17 @@ export default async function UsersPage() {
                     </thead>
                     <tbody>
                         {
-                            users.map(user =>{
+                            users.map((user, index) =>{
                                 return (
                                     <tr key={user.id} className="text-grey ">
-                                    <td>{user.id}</td>
+                                    <td>{index+1}</td>
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>
                                     <td>{user.role}</td>
                                     <td>{moment(user.createdAt).format("DD-MM-yyyy")}</td>
                                     <td className="flex items-center">
                                         <Link 
-                                            href={`/profile/${user.id}`} 
+                                            href={`/users/${user.id}`} 
                                             className="badge badge-success px-4 text-white font-normal"
                                         >
                                             Detail

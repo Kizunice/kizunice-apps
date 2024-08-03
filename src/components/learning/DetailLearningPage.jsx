@@ -1,20 +1,18 @@
 'use client'
 import { useState, useEffect } from "react";
 import { useParams } from 'next/navigation'
-import { useSession } from "next-auth/react";
 import moment from "moment";
 import axios from "axios";
 import TitleCard from "@/components/ui/TitleCards";
 import InputField from "../ui/InputField";
 import toast, { Toaster } from "react-hot-toast";
-
+import Loading from "@/app/(dashboard)/loading";
 function DetailLearningPage() {
     const params = useParams()
     const [values, setValues] = useState([])
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     const getLearningDetail = async () => {
-        setLoading(true)
         try {  
             const res = await axios.get(`/api/learning/${params.learningId}`);
             console.log(res.data)
@@ -37,21 +35,38 @@ function DetailLearningPage() {
     }
 
     const TableScores =  () =>{
-        if (values.students)
+        if (values.scores)
         return (
             <table className="table w-full">
                 <thead >
                 <tr className="font-bold text-primary text-[14px]">
                     <th>Nama</th>
-                    <th>Nilai</th>
+                    <th>Bunpou</th>
+                    <th>Choukai</th>
+                    <th>Kanji</th>
+                    <th>Kaiwa</th>
+                    <th>Bunka</th>
+                    <th>Aisatsu</th>
+                    <th>Push Up</th>
+                    <th>Sit Up</th>
+                    <th>Barbel</th>
                 </tr>
                 </thead>
                 <tbody>
                     {
-                        values.students.map(value =>{
+                        values.scores.map(value =>{
                             return (
                                 <tr key={value.id} className="text-grey ">
-                                    <td>{value.name}</td>
+                                    <td>{value.student.name}</td>
+                                    <td>{value.bunpou}</td>
+                                    <td>{value.choukai}</td>
+                                    <td>{value.kanji}</td>
+                                    <td>{value.kaiwa}</td>
+                                    <td>{value.bunka}</td>
+                                    <td>{value.aisatsu}</td>
+                                    <td>{value.pushUp}</td>
+                                    <td>{value.sitUp}</td>
+                                    <td>{value.barbel}</td>
                                 </tr>
                             )
                         })    
@@ -61,15 +76,13 @@ function DetailLearningPage() {
         ) 
     }
 
-
+    if (loading) return <Loading />
     return (
-        <>
-        <Toaster/>
         <TitleCard title={"Detil Materi Belajar"} topMargin="mt-2" TopSideButtons={<TopSide/>} >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <InputField
                     type="text"
-                    value={values.senseiName}
+                    value={values.sensei.name}
                     label="Nama Sensei"
                     name="senseiName"
                     readOnly="readOnly"
@@ -102,11 +115,9 @@ function DetailLearningPage() {
             </div>
             <div className="divider my-8" ></div>
             <div className="overflow-x-auto w-full">
-                <TableScores data={values.students} />
+                <TableScores data={values.scores} />
             </div>
         </TitleCard>
-        </>
-        
     );
 }
 

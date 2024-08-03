@@ -169,6 +169,7 @@ export default async function FinancePage() {
                     <table className="table w-full">
                         <thead >
                         <tr className="font-bold text-primary text-[14px]">
+                            <th>No</th>
                             <th>Tanggal</th>
                             <th>Tipe</th>
                             <th>Jumlah</th>
@@ -177,9 +178,10 @@ export default async function FinancePage() {
                         </thead>
                         <tbody>
                             {
-                            values.map((value) =>{
+                            values.map((value, index) =>{
                                 return (
                                     <tr key={value.id} className="text-grey items-center">
+                                        <td>{index+1}</td>
                                         <td>{moment(value.transactionDate).format("DD/MM/yyyy")}</td>
                                         <td className="flex items-center">
                                             <span 

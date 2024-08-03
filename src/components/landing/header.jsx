@@ -41,7 +41,7 @@ export default function Header() {
             <Link href="/login" passHref={true} className="px-4 py-0.5">
               Masuk
             </Link>
-            <Link href="/register" passHref={true} className="bg-secondary rounded-xl text-white px-6 py-1">
+            <Link href="/register" passHref={true} className="bg-secondary rounded-lg text-white px-6 py-1">
               Daftar
             </Link>
           </div>

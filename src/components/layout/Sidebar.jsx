@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link";
 import Image from "next/image";
-import {ROUTES, ADMIN_ROUTES} from "@/constants/routes"
+import {ROUTES, ADMIN_ROUTES, SENSEI_ROUTES} from "@/constants/routes"
 import { useSession } from "next-auth/react";
 import LogoKizunice from "../../../public/logo-kizunice-white.png"
 
@@ -41,7 +41,16 @@ const SidebarLink =({userRole}) =>{
       </li>
      
     )) 
-  }
+  } else if(userRole === 'SENSEI'){
+    return SENSEI_ROUTES.map((link, i) => (
+      <li key={i}>
+        <Link href={link.path} key={i} className="flex text-whitegray text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">
+          {link.icon}{link.name}
+        </Link>
+      </li>
+     
+    )) 
+  } 
   return ROUTES.map((link, i) => (
     <li key={i}>
       <Link href={link.path} key={i} className="flex text-whitegray text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">

@@ -11,10 +11,10 @@ import Loading from "@/app/(dashboard)/loading"
 const TopSideButtons= () =>{
     const {data:session} =  useSession()
 
-    if (session?.user.role !== 'STUDENT') {
+    if (session?.user.role !== 'STUDENT' && session?.user.role !== 'SENSEI') {
         return(
             <div className="inline-block float-right">
-                <Link href="/jobs/create" className="btn px-4 btn-sm normal-case bg-primary hover:bg-secondary text-white" >Tambah Lowongan</Link>
+                <Link href="/jobs/create" className="btn px-4 btn-sm normal-case bg-primary hover:bg-secondary text-white" >Tambah Pekerjaan</Link>
             </div>
         )
     }
@@ -64,6 +64,7 @@ export default function JobsPage() {
                     <table className="table w-full">
                         <thead >
                         <tr className="font-bold text-primary text-[14px]">
+                            <th>No</th>
                             <th>Tanggal</th>
                             <th>Lokasi</th>
                             <th>Title</th>
@@ -75,18 +76,19 @@ export default function JobsPage() {
                         </thead>
                         <tbody>
                             {
-                                values.map((value) =>{
+                                values.map((value,index) =>{
                                     return (
                                         <tr key={value.id} className="text-grey ">
-                                        <td>{moment(value.createdAt).format("DD/MM/yyyy")}</td>
-                                        <td>{value.location}</td>
-                                        <td>{value.title}</td>
-                                        <td>{value.fieldJob}</td>
-                                        <td>{value.gender}</td>
-                                        <td>{formatterJPY(value.salary)}</td>
-                                        <td className="flex flex-col gap-2 items-start">
-                                            <Link href={`/jobs/detail/${value.id}`} className="badge badge-success w-16 text-white font-normal">Detail</Link>
-                                        </td>
+                                            <td>{index+1}</td>
+                                            <td>{moment(value.createdAt).format("DD/MM/yyyy")}</td>
+                                            <td>{value.location}</td>
+                                            <td>{value.title}</td>
+                                            <td>{value.fieldJob}</td>
+                                            <td>{value.gender}</td>
+                                            <td>{formatterJPY(value.salary)}</td>
+                                            <td className="flex flex-col gap-2 items-start">
+                                                <Link href={`/jobs/detail/${value.id}`} className="badge badge-success w-16 text-white font-normal">Detail</Link>
+                                            </td>
                                         </tr>
                                     )
                                 })
