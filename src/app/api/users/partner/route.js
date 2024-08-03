@@ -6,9 +6,6 @@ export async function GET() {
     where: {
       role: 'PARTNER',
     },
-    include: {
-      company : true
-    }
   });
 
   return NextResponse.json(data);
