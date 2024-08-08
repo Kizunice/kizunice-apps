@@ -17,6 +17,8 @@
     "bcrypt": "^5.1.1",
     "chart.js": "^4.4.2",
     "cloudinary": "^2.2.0",
+    "exceljs": "^4.4.0",
+    "file-server": "^2.2.1",
     "framer-motion": "^11.2.9",
     "micromodal": "^0.4.10",
     "moment": "^2.30.1",

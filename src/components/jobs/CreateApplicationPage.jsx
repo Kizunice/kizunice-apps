@@ -1,72 +1,58 @@
 'use client'
 import { useState, useEffect } from "react";
-import moment from "moment";
 import axios from "axios";
 import TitleCard from "@/components/ui/TitleCards";
 import { useSession } from "next-auth/react";
 import InputField from "../ui/InputField";
 import SelectField from "../ui/SelectField";
-import MultiSelectDropdown from "../ui/MultiSelectField";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import Button from "../ui/Button";
+import Loading from "@/app/(dashboard)/loading";
 
 export default function CreateApplicationPage() {
     const {data:session} =  useSession()
     const router = useRouter()
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [formValues, setFormValues]  = useState({
         studentId: "",
         jobId: "",
-        senseiId: "",
-        senseiName: "",
+        partnerId: "",
+        note: "",
        
     })
-    const{learningId, studentId,senseiName, } = formValues
-    const [optionsL,setOptionsL] = useState([])
+    const{jobId, studentId,partnerId, status, note } = formValues
+    const [optionsJ,setOptionsJ] = useState([])
     const [optionsS,setOptionsS] = useState([])
+    const [optionsP,setOptionsP] = useState([])
 
-    const getUsers = async () => {
-        setLoading(true)
-        try {  
-            const res = await axios.get('/api/profile/sensei');
-            const users = res.data
-            console.log(users)
-            setFormValues({...formValues, senseiId : users.id, senseiName: users.name})
-            console.log(res.data)
-            setLoading(false)
-        } catch (err) {
-          console.log("[collections_GET]", err);
-          setLoading(false)
-        }
-      };
-
-    async function fetchDataJobs() {
+    async function getDataJob() {
         // Fetch data
         const { data } = await axios.get("/api/jobs");
         const results = []
         console.log("Jobs :", data)
         data.forEach((value) => {
           results.push({
-            label: value.title,
+            label: value.title + " " + value.fieldJob,
             value: value.id,
           });
         });
 
-        setOptionsL([
+        setOptionsJ([
           {key: 'Select a company', value: ''}, 
           ...results
         ])
+        setLoading(false)
     }
 
-    async function fetchDataStudents() {
+    async function getDataStudent() {
         // Fetch data
         const { data } = await axios.get("/api/profile");
         const results = []
         console.log("students :", data)
         data.forEach((value) => {
         results.push({
-            label: value.name,
+            label: value.name + " " + value.asalLPK,
             value: value.id,
         });
         });
@@ -75,13 +61,32 @@ export default function CreateApplicationPage() {
         {key: 'Select a company', value: ''}, 
         ...results
         ])
+        setLoading(false)
     }
 
+    async function getDataPartner() {
+      // Fetch data
+      const { data } = await axios.get("/api/profile/partner");
+      const results = []
+      console.log("students :", data)
+      data.forEach((value) => {
+      results.push({
+          label: value.name,
+          value: value.id,
+      });
+      });
+
+      setOptionsP([
+      {key: 'Select a company', value: ''}, 
+      ...results
+      ])
+      setLoading(false)
+  }
+
     useEffect(() => {
-        // Trigger the fetch
-        getUsers()
-        fetchDataJobs();
-        fetchDataStudents();
+        getDataJob()
+        getDataStudent();
+        getDataPartner();
       }, []);
 
     const handleChange = (e) => {
@@ -92,14 +97,10 @@ export default function CreateApplicationPage() {
         console.log(formValues);
     };
 
-    // const handleMulti = (selectedStudents) => {
-    //     setFormValues({ ...formValues, students: selectedStudents});
-    //     console.log(formValues)
-    // }
-
+   
     async function handleSubmit() {
         try {
-          const response = await fetch("/api/score", {
+          const response = await fetch("/api/jobs-application", {
             method: "POST",
             body: JSON.stringify(formValues),
             headers: {
@@ -108,53 +109,58 @@ export default function CreateApplicationPage() {
           })
           
           if (response.ok) {
-            // setLoading(false);
             toast.success("Berhasil menambahkan data belajar");
-            router.push('/learning')
+            router.push('/jobs-application')
+            setLoading(false);
           } 
         } catch (error) {
-        //   setLoading(false);
+          setLoading(false);
           console.error("Network Error:", error);
         }
       }
 
+    if (loading) return <Loading />
     return (
         <>
             <Toaster />
-            <TitleCard title="Tambah Nilai Siswa" topMargin="mt-2"  >
+            <TitleCard title="Tambah Data Lamaran" topMargin="mt-2"  >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <InputField
-                        type="text"
-                        value={senseiName}
-                        placeholder="Sensei"
-                        label="Nama Sensei"
-                        name="senseiName"
+                   
+                    <SelectField
+                        value={jobId}
+                        optionName="Pilih program kerja"
+                        label="Program Kerja"
+                        name="jobId"
+                        options={optionsJ}
                         onChange={handleChange}
                     />
                     <SelectField
-                        value={learningId}
-                        placeholder="Materi Belajar"
-                        label="Materi Belajar"
-                        name="learningId"
-                        options={optionsL}
+                        value={partnerId}
+                        optionName="Pilih Lembaga"
+                        label="Nama Lembaga"
+                        name="partnerId"
+                        options={optionsP}
                         onChange={handleChange}
                     />
                     <SelectField
                         value={studentId}
-                        placeholder="Nama Siswa"
+                        optionName="Pilih Siswa"
                         label="Nama Siswa"
                         name="studentId"
                         options={optionsS}
                         onChange={handleChange}
                     />
+                     <InputField
+                        type="text"
+                        value={note}
+                        placeholder="Menungu COE"
+                        label="Keterangan"
+                        name="note"
+                        onChange={handleChange}
+                    />
                 </div>
                 <div className="divider" ></div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    
-                </div>
-                <div className="divider" ></div>
-
-                
+                <Button handleSubmit={handleSubmit} text={"Buat Data Lamaran"} loading={loading} />
             </TitleCard>
         </>
     )

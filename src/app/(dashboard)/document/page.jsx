@@ -1,9 +1,7 @@
-
+import DocumentPage from "@/components/documents/DocumentPage";
 
 export default function Document() {
     return (
-        <div className="text-black">
-            INI PAGE DOCUMENTS
-        </div>
+        <DocumentPage />
     );
 }

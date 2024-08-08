@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link";
 import Image from "next/image";
-import {ROUTES, ADMIN_ROUTES, SENSEI_ROUTES} from "@/constants/routes"
+import {ROUTES, ADMIN_ROUTES, SENSEI_ROUTES, FINANCE_ROUTES} from "@/constants/routes"
 import { useSession } from "next-auth/react";
 import LogoKizunice from "../../../public/logo-kizunice-white.png"
 
@@ -12,7 +12,7 @@ export default function Sidebar()  {
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="drawer-side z-30">
         <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label> 
-        <div className="menu flex justify-between p-4 w-80 min-h-full bg-secondary text-base-content">
+        <div className="menu flex justify-between p-4 w-[250px] min-h-full bg-secondary text-base-content">
           <div className="relative mb-6 mx-auto items-center w-30 h-auto">
             <Image src={LogoKizunice} width={120} height={100} className="w-full h-auto" priority alt="Kizunice App Logo"/>
           </div>
@@ -39,10 +39,18 @@ const SidebarLink =({userRole}) =>{
           {link.icon}{link.name}
         </Link>
       </li>
-     
     )) 
   } else if(userRole === 'SENSEI'){
     return SENSEI_ROUTES.map((link, i) => (
+      <li key={i}>
+        <Link href={link.path} key={i} className="flex text-whitegray text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">
+          {link.icon}{link.name}
+        </Link>
+      </li>
+     
+    )) 
+  } else if(userRole === 'FINANCE'){
+    return FINANCE_ROUTES.map((link, i) => (
       <li key={i}>
         <Link href={link.path} key={i} className="flex text-whitegray text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">
           {link.icon}{link.name}
@@ -60,3 +68,4 @@ const SidebarLink =({userRole}) =>{
     
   ))
 }
+

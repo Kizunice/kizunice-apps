@@ -44,7 +44,7 @@ export const ADMIN_ROUTES = [
   {
     path: '/document',
     icon: <IoDocumentText size={22} />,
-    name: 'Dokumen',
+    name: 'Dokumen CV',
     key: '5',
   },
   {
@@ -114,6 +114,46 @@ export const SENSEI_ROUTES = [
     path: '/jobs',
     icon: <FaSuitcase size={22} />,
     name: 'Pekerjaan',
+    key: '4',
+  },
+  {
+    path: '/settings',
+    icon: <IoMdSettings size={22} />,
+    name: 'Pengaturan',
+    key: '5',
+  },
+];
+
+
+export const FINANCE_ROUTES = [
+  {
+    path: '/dashboard',
+    icon: <MdDashboard size={22} />,
+    name: 'Beranda',
+    key: '0',
+  },
+  {
+    path: '/finance',
+    icon: <FaCoins size={22} />,
+    name: 'Keuangan',
+    key: '1',
+  },
+  {
+    path: '/data-student',
+    icon: <HiUsers size={22} />,
+    name: 'Data Siswa',
+    key: '2',
+  },
+  {
+    path: '/data-partner',
+    icon: <HiUsers size={22} />,
+    name: 'Data Rekanan',
+    key: '3',
+  },
+  {
+    path: '/data-sensei',
+    icon: <HiUsers size={22} />,
+    name: 'Data Sensei',
     key: '4',
   },
   {

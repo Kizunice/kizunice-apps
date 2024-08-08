@@ -12,7 +12,7 @@ import Loading from "@/app/(dashboard)/loading"
 const TopMiddleButtons = ({handleChange, value}) => {
     const {data:session} =  useSession()
    
-    if (session?.user.role === 'ADMIN') {
+    if (session?.user.role === 'ADMIN'|| session?.user.role === 'FINANCE') {
         return(
             <div className="justify-center">
                 <InputField
@@ -28,7 +28,7 @@ const TopMiddleButtons = ({handleChange, value}) => {
    return
 }
 
-export default async function StudentPage() {
+export default function StudentPage() {
     const [loading, setLoading] = useState(true);
     const [query, setQuery] = useState('');
     const [users, setUsers] = useState([])
@@ -36,7 +36,8 @@ export default async function StudentPage() {
 
     const getUsers = async () => {
         try {  
-            const res = await axios.get('/api/users/student');
+            const res = await axios.get('/api/profile');
+            console.log(res.data)
             setUsers(res.data)
             setLoading(false);
         } catch (err) {
@@ -73,45 +74,49 @@ export default async function StudentPage() {
       }, [searchHandler])
 
     if (loading) return <Loading />
-
-    return (
-        <TitleCard 
-            title={"Data Student"} 
-            topMargin="mt-2" 
-            TopSideButtons={
-                <TopMiddleButtons handleChange={handleChange} value={query} />
-                }  
-            >
-            <div className="overflow-x-auto w-full">
-                <table className="table w-full">
-                    <thead >
-                    <tr className="font-bold text-primary text-[14px]">
-                        <th>No</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Join Date</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {   
-                           filteredList.map((user,index) =>{
-                                return (
-                                    <tr key={user.id} className="text-grey ">
-                                        <td>{index+1}</td>
-                                        <td>{user.name}</td>
-                                        <td>{user.email}</td>
-                                        <td>{moment(user.createdAt).format('DD-MMM-YYYY')}</td>
-                                        <td className="flex items-center">
-                                            <Link href={`/profile/${user.id}`} className="badge badge-success px-4 text-white font-normal">Detail</Link>
-                                        </td>
-                                    </tr>
-                                )
-                            })
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </TitleCard>
-    );
+    if (filteredList) {
+        return (
+            <TitleCard 
+                title={"Data Student"} 
+                topMargin="mt-2" 
+                TopSideButtons={
+                    <TopMiddleButtons handleChange={handleChange} value={query} />
+                    }  
+                >
+                <div className="overflow-x-auto w-full">
+                    <table className="table w-full">
+                        <thead >
+                        <tr className="font-bold text-primary text-[14px]">
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Jenis Kelamin</th>
+                            <th>Asal LPK</th>
+                            <th>Nomor HP</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {   
+                               filteredList.map((user,index) =>{
+                                    return (
+                                        <tr key={user.id} className="text-grey ">
+                                            <td>{index+1}</td>
+                                            <td>{user.name}</td>
+                                            <td>{user.gender}</td>
+                                            <td>{user.asalLPK}</td>
+                                            <td>{user.phone}</td>
+                                            <td className="flex items-center">
+                                                <Link href={`/data-student/detail/${user.id}`} className="badge badge-success px-4 text-white font-normal">Detail</Link>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </TitleCard>
+        );
+    }
+    
 }

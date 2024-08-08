@@ -2,18 +2,19 @@
 import axios from "axios"
 import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
+import { useParams } from "next/navigation"
 import TitleCard from "@/components/ui/TitleCards"
 import InputField from "@/components/ui/InputField"
 import SelectField from "../ui/SelectField"
-import toast, { Toaster } from "react-hot-toast";
 import moment from "moment"
 import ImageUpload from "../ui/ImageUpload"
-import Button from "../ui/Button"
 import Loading from "@/app/(dashboard)/loading"
-export default function ProfilePage(){
+import { formatterIDR } from "@/lib/utils"
+
+export default function DetailStudentProfilePage(){
     const {data:session} =  useSession()
-    const [loading, setLoading] = useState(false)
-    const [pageLoading, setPageLoading] = useState(true)
+    const params = useParams()
+    const [loading, setLoading] = useState(true)
     const [avatar, setAvatar] = useState(null)
     const [formValues, setFormValues]  = useState({})
     const { 
@@ -84,70 +85,114 @@ export default function ProfilePage(){
         },
     ])
 
+
     const getProfileData = async () => {
+        console.log("cek params:", params.profileId)
         try {  
-            const res = await axios.get('/api/profile/detail');
+            const res = await axios.get(`/api/data/student/${params.profileId}`);
             const profile  = res.data
-            console.log("profile data :", profile)
+            console.log(profile)
             if(profile.length !== 0) {
                 setFormValues(profile)
             }
-            setPageLoading(false);
+            setLoading(false);
         } catch (err) {
           console.log("[collections_GET]", err);
-          setPageLoading(false);
+          setLoading(false);
         }
       };
 
     useEffect(() => {
-    getProfileData();
+        getProfileData();
     }, []);
 
 
-    const handleChange = (e) => {
-        e.preventDefault()
-        const { name, value } = e.target;
-
-        setFormValues({ ...formValues, [name]: value});
-        console.log(formValues);
-    };
-
-    const saveAvatar = (url) => {
-        setFormValues(formValues => ({
-            ...formValues,
-            image : url
-        }))
+    const TableScores =  () =>{
+        if (formValues.scores)
+        return (
+            <table className="table w-full">
+                <thead >
+                <tr className="font-bold text-primary text-[14px]">
+                    <th>Sensei</th>
+                    <th>Materi</th>
+                    <th>Tanggal</th>
+                    <th>Bunpou</th>
+                    <th>Choukai</th>
+                    <th>Kanji</th>
+                    <th>Kaiwa</th>
+                    <th>Bunka</th>
+                    <th>Aisatsu</th>
+                    <th>Push Up</th>
+                    <th>Sit Up</th>
+                    <th>Barbel</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {
+                        formValues.scores.map(value =>{
+                            return (
+                                <tr key={value.id} className="text-grey ">
+                                    <td>{value.sensei.name}</td>
+                                    <td>{value.learning.part}</td>
+                                    <td>{moment(value.learning.date).format("DD/MM/YY")}</td>
+                                    <td>{value.bunpou}</td>
+                                    <td>{value.choukai}</td>
+                                    <td>{value.kanji}</td>
+                                    <td>{value.kaiwa}</td>
+                                    <td>{value.bunka}</td>
+                                    <td>{value.aisatsu}</td>
+                                    <td>{value.pushUp}</td>
+                                    <td>{value.sitUp}</td>
+                                    <td>{value.barbel}</td>
+                                </tr>
+                            )
+                        })    
+                    }
+                </tbody>
+            </table>
+        ) 
     }
 
-    async function handleSubmit() {
-        setLoading(true);
-        try {
-            console.log(formValues)
-            const response = await fetch("/api/profile", {
-                method: "POST",
-                body: JSON.stringify(formValues),
-                headers: {
-                "Content-Type": "application/json",
-            },
-          })
-          
-          if (response.ok) {
-            toast.success("Profile Update Success");
-            setLoading(false);
-          } 
-        } catch (error) {
-          console.error("Network Error:", error);
-          setLoading(false);
+    const TableFinance =  (values) =>{
+        if (values) {
+            return (
+                <table className="table w-full">
+                    <thead >
+                    <tr className="font-bold text-primary text-[14px]">
+                        <th>No</th>
+                        <th>Tanggal</th>
+                        <th>Jumlah</th>
+                        <th>Deskripsi</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            formValues.financeTransactions.map(finance,idx =>{
+                                return (
+                                    <tr key={idx} className="text-grey ">
+                                        <td>{idx+1}</td>
+                                        <td>{moment(finance.transactionDate).format("DD/MM/YY")}</td>
+                                        <td>{formatterIDR(finance.amount)}</td>
+                                        <td>{finance.description}</td>
+                                    </tr>
+                                )
+                            })    
+                        }
+                    </tbody>
+                </table>
+            ) 
         }
+        
     }
-    
-    if(pageLoading) return <Loading />
+
+   
+    if(loading) return <Loading />
     return(
         <>
             <TitleCard title="Biodata Siswa" topMargin="mt-2"  >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="row-span-3">
-                        <ImageUpload onUploadSuccess={saveAvatar} url={image} sizes="w-[200px] h-[200px]" />
+                        <ImageUpload url={image} sizes="w-[200px] h-[200px]" button="hidden" />
                     </div>
                     <InputField
                         type="text"
@@ -155,7 +200,7 @@ export default function ProfilePage(){
                         placeholder="LPK Kizuna Indonesia Nippon"
                         label="Asal LPK"
                         name="asalLPK"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="text"
@@ -163,7 +208,7 @@ export default function ProfilePage(){
                         placeholder="4 Bulan"
                         label="Lama Belajar"
                         name="studyMonth"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="text"
@@ -171,7 +216,7 @@ export default function ProfilePage(){
                         label="Nomor Paspor"
                         placeholder="XXXXXX"
                         name="paspor"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="text"
@@ -179,7 +224,7 @@ export default function ProfilePage(){
                         placeholder="Nama Lengkap"
                         label="Nama Lengkap"
                         name="name"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="text"
@@ -187,7 +232,7 @@ export default function ProfilePage(){
                         placeholder="Alamat Email"
                         label="Email"
                         name="email"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="text"
@@ -195,7 +240,7 @@ export default function ProfilePage(){
                         placeholder="0812xxxxxxx"
                         label="Nomor Handphone"
                         name="phone"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="text"
@@ -203,7 +248,7 @@ export default function ProfilePage(){
                         placeholder="Jalan Mangga Besar"
                         label="Alamat Rumah"
                         name="address"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                      <SelectField
                         value={gender}
@@ -211,15 +256,16 @@ export default function ProfilePage(){
                         label="Jenis Kelamin"
                         name="gender"
                         options={options}
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
+                
                     <InputField
                         type="number"
                         value={age}
                         placeholder="20"
                         label="Umur"
                         name="age"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="date"
@@ -227,7 +273,7 @@ export default function ProfilePage(){
                         placeholder="Tanggal Lahir"
                         label="Tanggal Lahir"
                         name="dateOfBirth"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="text"
@@ -235,7 +281,7 @@ export default function ProfilePage(){
                         placeholder="Jakarta"
                         label="Tempat Lahir"
                         name="placeOfBirth"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="text"
@@ -243,7 +289,7 @@ export default function ProfilePage(){
                         placeholder="Agama"
                         label="Agama"
                         name="religion"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="text"
@@ -251,7 +297,7 @@ export default function ProfilePage(){
                         placeholder="Lajang"
                         label="Status"
                         name="status"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="text"
@@ -259,7 +305,7 @@ export default function ProfilePage(){
                         placeholder="160cm"
                         label="Tinggi Badan"
                         name="bodyHeight"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="text"
@@ -267,7 +313,7 @@ export default function ProfilePage(){
                         placeholder="50kg"
                         label="Berat Badan"
                         name="bodyWeight"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="text"
@@ -275,7 +321,7 @@ export default function ProfilePage(){
                         placeholder="AB"
                         label="Golongan Darah"
                         name="blood"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="text"
@@ -283,7 +329,7 @@ export default function ProfilePage(){
                         placeholder="50cm"
                         label="Lingkar Pinggang"
                         name="waistLine"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                      <InputField
                         type="text"
@@ -291,7 +337,7 @@ export default function ProfilePage(){
                         placeholder="M"
                         label="Ukuran Baju"
                         name="teesSize"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                      <InputField
                         type="text"
@@ -299,7 +345,7 @@ export default function ProfilePage(){
                         placeholder="42"
                         label="Ukuran Sepatu"
                         name="shoesSize"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="text"
@@ -307,7 +353,7 @@ export default function ProfilePage(){
                         placeholder="Merokok atau Tidak Merokok"
                         label="Merokok"
                         name="smoking"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="text"
@@ -315,7 +361,7 @@ export default function ProfilePage(){
                         placeholder="Minum Alkohol atau Tidak Minum Alkohol"
                         label="Minum Alkohol"
                         name="drinking"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                 </div>
 
@@ -330,7 +376,7 @@ export default function ProfilePage(){
                             label="Nama SD"
                             placeholder="SD..."
                             name="esName"
-                            onChange={handleChange}
+                            readOnly="readOnly"
                         />
                     </div>
                     
@@ -340,7 +386,7 @@ export default function ProfilePage(){
                         label="Tahun Masuk"
                         placeholder="2010"
                         name="esYearIn"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="text"
@@ -348,7 +394,7 @@ export default function ProfilePage(){
                         label="Tahun Lulus"
                         placeholder="2013"
                         name="esYearOut"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
 
                     <div className="col-span-2 md:col-span-1">
@@ -358,7 +404,7 @@ export default function ProfilePage(){
                             label="Nama SMP"
                             placeholder="SMP..."
                             name="msName"
-                            onChange={handleChange}
+                            readOnly="readOnly"
                         />
                     </div>
                      <InputField
@@ -367,7 +413,7 @@ export default function ProfilePage(){
                         label="Tahun Masuk"
                         placeholder="2013"
                         name="msYearIn"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                      <InputField
                         type="text"
@@ -375,7 +421,7 @@ export default function ProfilePage(){
                         label="Tahun Lulus "
                         placeholder="2017"
                         name="msYearOut"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <div className="col-span-2 md:col-span-1">
                         <InputField
@@ -384,17 +430,16 @@ export default function ProfilePage(){
                             label="Nama SMA / SMK"
                             placeholder="SMA/SMK..."
                             name="hsName"
-                            onChange={handleChange}
+                            readOnly="readOnly"
                         />
                     </div>
-                    
                      <InputField
                         type="text"
                         value={hsYearIn}
                         label="Tahun Masuk "
                         placeholder="2017"
                         name="hsYearIn"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                      <InputField
                         type="text"
@@ -402,7 +447,7 @@ export default function ProfilePage(){
                         label="Tahun Lulus "
                         placeholder="2020"
                         name="hsYearOut"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                 </div>
 
@@ -416,7 +461,7 @@ export default function ProfilePage(){
                         label="Nama Perusahaan"
                         placeholder="PT.."
                         name="jobCompany"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                      <InputField
                         type="text"
@@ -424,53 +469,25 @@ export default function ProfilePage(){
                         label="Detail Pekerjaan"
                         placeholder="Saya sebagai.."
                         name="jobDesc"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
+                    {/* <div className="flex col col-span-1">
+                        
+                    </div> */}
                     <InputField
                         type="date"
                         value={moment(jobYearIn).format("YYYY-MM-DD")}
                         label="Tahun Masuk"
                         name="jobYearIn"
                         style={"pr-[-10px]"}
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="date"
                         value={moment(jobYearOut).format("YYYY-MM-DD")}
                         label="Tahun Keluar"
                         name="jobYearOut"
-                        onChange={handleChange}
-                    />
-                    <InputField
-                        type="text"
-                        value={job2Company}
-                        label="Nama Perusahaan"
-                        placeholder="PT.."
-                        name="job2Company"
-                        onChange={handleChange}
-                    />
-                     <InputField
-                        type="text"
-                        value={job2Desc}
-                        label="Detail Pekerjaan"
-                        placeholder="Saya sebagai.."
-                        name="job2Desc"
-                        onChange={handleChange}
-                    />
-                    <InputField
-                        type="date"
-                        value={moment(job2YearIn).format("YYYY-MM-DD")}
-                        label="Tahun Masuk"
-                        name="job2YearIn"
-                        style={"pr-[-10px]"}
-                        onChange={handleChange}
-                    />
-                    <InputField
-                        type="date"
-                        value={moment(job2YearOut).format("YYYY-MM-DD")}
-                        label="Tahun Keluar"
-                        name="job2YearOut"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                 </div>
                 <h1 className="font-semibold text-lg mt-6">Biodata Keluarga</h1>
@@ -483,7 +500,7 @@ export default function ProfilePage(){
                         label="Nama Ibu"
                         placeholder="Nama Ibu"
                         name="motherName"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                      <InputField
                         type="text"
@@ -491,7 +508,7 @@ export default function ProfilePage(){
                         label="Umur"
                         placeholder="Umur"
                         name="motherAge"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                      <InputField
                         type="text"
@@ -499,7 +516,7 @@ export default function ProfilePage(){
                         label="Pekerjaan"
                         placeholder="Pekerjaan"
                         name="motherJob"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="text"
@@ -507,7 +524,7 @@ export default function ProfilePage(){
                         label="Nama Bapak"
                         placeholder="Nama Bapak"
                         name="fatherName"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                      <InputField
                         type="text"
@@ -515,7 +532,7 @@ export default function ProfilePage(){
                         label="Umur"
                         placeholder="Umur"
                         name="fatherAge"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                      <InputField
                         type="text"
@@ -523,7 +540,7 @@ export default function ProfilePage(){
                         label="Pekerjaan"
                         placeholder="Pekerjaan"
                         name="fatherJob"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                     <InputField
                         type="text"
@@ -531,7 +548,7 @@ export default function ProfilePage(){
                         label="Nama Saudara"
                         placeholder="Nama Saudara"
                         name="brotherName"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                      <InputField
                         type="text"
@@ -539,7 +556,7 @@ export default function ProfilePage(){
                         label="Umur"
                         placeholder="Umur"
                         name="brotherAge"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                      <InputField
                         type="text"
@@ -547,41 +564,22 @@ export default function ProfilePage(){
                         label="Pekerjaan"
                         placeholder="Pekerjaan"
                         name="brotherJob"
-                        onChange={handleChange}
-                    />
-                     <InputField
-                        type="text"
-                        value={brother2Name}
-                        label="Nama Saudara"
-                        placeholder="Nama Saudara"
-                        name="brother2Name"
-                        onChange={handleChange}
-                    />
-                     <InputField
-                        type="text"
-                        value={brother2Age}
-                        label="Umur"
-                        placeholder="Umur"
-                        name="brother2Age"
-                        onChange={handleChange}
-                    />
-                     <InputField
-                        type="text"
-                        value={brother2Job}
-                        label="Pekerjaan"
-                        placeholder="Pekerjaan"
-                        name="brother2Job"
-                        onChange={handleChange}
+                        readOnly="readOnly"
                     />
                 </div>
-
-
+                <h1 className="font-semibold text-lg mt-6">Data Nilai</h1>
                 <div className="divider" ></div>
+                <div className="overflow-x-auto w-full">
+                    <TableScores data={formValues.scores} />
+                </div>
 
-                <Button handleSubmit={handleSubmit} loading={loading} text={'Update Profile'} />
+                <h1 className="font-semibold text-lg mt-6">Data Pembayaran</h1>
+                <div className="divider" ></div>
+                <div className="overflow-x-auto w-full">
+                    {/* <TableFinance data={formValues.financeTransactions} /> */}
+                </div>
             </TitleCard>
         </>
-      
     )
 }
 

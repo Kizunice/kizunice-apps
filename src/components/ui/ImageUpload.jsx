@@ -5,7 +5,7 @@ import { FaPlus,FaRegTrashCan  } from "react-icons/fa6";
 
 const ImageUpload = ({ onUploadSuccess, url, saveImage, sizes, button }) => {
   return (
-    <div className="flex flex-col mb-8">
+    <div className="flex flex-col mb-6 justify-center items-center">
       <div className="flex justify-center items-center">
           <div className={`relative ${sizes}`}>
             {/* <div className="absolute top-0 right-0 z-10">
@@ -16,7 +16,7 @@ const ImageUpload = ({ onUploadSuccess, url, saveImage, sizes, button }) => {
             <Image
               src={url ? url : "/avatar.png"}
               alt="Avatar"
-              className="object-cover rounded-t-lg "
+              className="object-cover"
               sizes="100"
               fill
               priority

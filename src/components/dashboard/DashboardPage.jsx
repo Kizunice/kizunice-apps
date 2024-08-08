@@ -20,7 +20,7 @@ export default function DashboardPage() {
 
     const getTotalData = async () => {
         try {  
-            const students = await axios.get("/api/users/student")
+            const students = await axios.get("/api/profile")
             const attendance = await axios.get("/api/attendance")
             const learning = await axios.get("/api/learning")
             const jobs = await axios.get("/api/jobs")

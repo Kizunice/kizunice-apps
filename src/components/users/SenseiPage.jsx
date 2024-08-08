@@ -41,12 +41,11 @@ const TopMiddleButtons = ({handleChange, value}) => {
    return
 }
 
-export default async function SenseiPage() {
+export default function SenseiPage() {
     const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([])
     const [query, setQuery] = useState('');
     const [filteredList, setFilteredList] = useState('');
-
 
     const getUsers = async () => {
         try {  

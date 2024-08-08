@@ -31,9 +31,13 @@ export async function POST(req,res) {
     bodyHeight,
     bodyWeight,
     asalLPK,
+    studyMonth,
     status,
     religion,
     blood,
+    shoesSize,
+    teesSize,
+    waistLine,
     smoking,
     drinking,
     paspor,
@@ -41,6 +45,10 @@ export async function POST(req,res) {
     jobDesc,
     jobYearIn,
     jobYearOut,
+    job2Company,
+    job2Desc,
+    job2YearIn,
+    job2YearOut,
     esName,
     esYearIn,
     esYearOut,
@@ -59,6 +67,12 @@ export async function POST(req,res) {
     brotherName,
     brotherAge,
     brotherJob,
+    brother2Name,
+    brother2Age,
+    brother2Job,
+    brother3Name,
+    brother3Age,
+    brother3Job,
   } = body;
 
   const newDate = new Date(dateOfBirth);
@@ -75,21 +89,29 @@ export async function POST(req,res) {
       address,
       gender,
       age: parseInt(age),
-      dateOfBirth: newDate.toISOString(),
+      dateOfBirth: dateOfBirth ? newDate.toISOString() : null,
       placeOfBirth,
       bodyHeight,
       bodyWeight,
       asalLPK,
+      studyMonth,
       status,
       religion,
       blood,
+      shoesSize,
+      teesSize,
+      waistLine,
       smoking,
       drinking,
       paspor,
       jobCompany,
       jobDesc,
-      jobYearIn : new Date(jobYearIn).toISOString(),
-      jobYearOut:  new Date(jobYearOut).toISOString(),
+      jobYearIn : jobYearIn ? new Date(jobYearIn).toISOString() : null,
+      jobYearOut: jobYearOut ? new Date(jobYearOut).toISOString() : null,
+      job2Company,
+      job2Desc,
+      job2YearIn : job2YearIn ? new Date(job2YearIn).toISOString() : null,
+      job2YearOut : job2YearOut ?new Date(job2YearOut).toISOString() : null,
       esName,
       esYearIn,
       esYearOut,
@@ -108,6 +130,12 @@ export async function POST(req,res) {
       brotherName,
       brotherAge,
       brotherJob,
+      brother2Name,
+      brother2Age,
+      brother2Job,
+      brother3Name,
+      brother3Age,
+      brother3Job,
     },
     create: {
       userId: session.id,
@@ -118,21 +146,29 @@ export async function POST(req,res) {
       address: address,
       gender: gender,
       age: parseInt(age),
-      dateOfBirth: newDate.toISOString(),
+      dateOfBirth: dateOfBirth ? newDate.toISOString() : null,
       placeOfBirth: placeOfBirth,
       bodyHeight: bodyHeight,
       bodyWeight: bodyWeight,
       asalLPK,
+      studyMonth,
       status,
       religion,
       blood,
+      shoesSize,
+      teesSize,
+      waistLine,
       smoking,
       drinking,
       paspor,
       jobCompany,
       jobDesc,
-      jobYearIn:  new Date(jobYearIn).toISOString(),
-      jobYearOut :  new Date(jobYearOut).toISOString(),
+      jobYearIn : jobYearIn ? new Date(jobYearIn).toISOString() : null,
+      jobYearOut: jobYearOut ? new Date(jobYearOut).toISOString() : null,
+      job2Company,
+      job2Desc,
+      job2YearIn : job2YearIn ? new Date(job2YearIn).toISOString() : null,
+      job2YearOut : job2YearOut ?new Date(job2YearOut).toISOString() : null,
       esName,
       esYearIn,
       esYearOut,
@@ -151,17 +187,26 @@ export async function POST(req,res) {
       brotherName,
       brotherAge,
       brotherJob,
+      brother2Name,
+      brother2Age,
+      brother2Job,
+      brother3Name,
+      brother3Age,
+      brother3Job,
     },
   });
+
+  if (image) {
+    await prisma.user.update({
+      where:{
+        id: userId,
+      },
+      data:{
+        image: image
+      }
+    })
+  }
   
-  const avatar = await prisma.user.update({
-    where:{
-      id: userId,
-    },
-    data:{
-      image: image
-    }
-  })
-  return NextResponse.json(newProfile, avatar);
+  return NextResponse.json(newProfile);
 
 }

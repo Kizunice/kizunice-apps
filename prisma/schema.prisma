@@ -28,30 +28,44 @@ model StudentProfile {
   religion            String?
   status              String?
   blood               String?
+  shoesSize           String?              @default("")
+  teesSize            String?              @default("")
+  waistLine           String?              @default("")
+  studyMonth          String?              @default("")
   smoking             String?
   drinking            String?
-  esName              String?       @default("")
-  esYearIn            String?    
-  esYearOut           String?     
-  msName              String?       @default("")
-  msYearIn            String?    
-  msYearOut           String?     
-  hsName              String?       @default("")
-  hsYearIn            String?    
-  hsYearOut           String?    
-  jobCompany          String?       @default("")
-  jobDesc             String?       @default("")
-  jobYearIn           DateTime?     
-  jobYearOut          DateTime?     
-  motherName          String?       @default("")
-  motherAge           String?       @default("")
-  motherJob           String?       @default("")
-  fatherName          String?       @default("")
-  fatherAge           String?       @default("")
-  fatherJob           String?       @default("")
-  brotherName         String?       @default("")
-  brotherAge          String?       @default("")
-  brotherJob          String?       @default("")
+  esName              String?              @default("")
+  esYearIn            String?
+  esYearOut           String?
+  msName              String?              @default("")
+  msYearIn            String?
+  msYearOut           String?
+  hsName              String?              @default("")
+  hsYearIn            String?
+  hsYearOut           String?
+  jobCompany          String?              @default("")
+  jobDesc             String?              @default("")
+  jobYearIn           DateTime?
+  jobYearOut          DateTime?
+  job2Company         String?              @default("")
+  job2Desc            String?              @default("")
+  job2YearIn          DateTime?
+  job2YearOut         DateTime?
+  motherName          String?              @default("")
+  motherAge           String?              @default("")
+  motherJob           String?              @default("")
+  fatherName          String?              @default("")
+  fatherAge           String?              @default("")
+  fatherJob           String?              @default("")
+  brotherName         String?              @default("")
+  brotherAge          String?              @default("")
+  brotherJob          String?              @default("")
+  brother2Name        String?              @default("")
+  brother2Age         String?              @default("")
+  brother2Job         String?              @default("")
+  brother3Name        String?              @default("")
+  brother3Age         String?              @default("")
+  brother3Job         String?              @default("")
   paspor              String?
   attendances         Attendance[]
   scores              Scores[]
@@ -59,8 +73,8 @@ model StudentProfile {
   financeTransactions FinanceTransaction[]
   learning            Learning[]
 
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([userId])
 }
@@ -112,6 +126,7 @@ model Companies {
   id             String           @id @default(cuid())
   name           String           @unique
   address        String
+  phone          String           @default("")
   supervisorId   String
   supervisor     PartnerProfile   @relation(fields: [supervisorId], references: [id])
   JobOpportunity JobOpportunity[]
@@ -206,7 +221,7 @@ model JobApplication {
   jobId     String
   studentId String
   partnerId String?
-  status    String
+  status    Boolean         @default(false)
   note      String
   job       JobOpportunity  @relation(fields: [jobId], references: [id])
   student   StudentProfile  @relation(fields: [studentId], references: [id])
@@ -217,15 +232,15 @@ model JobApplication {
 }
 
 model FinanceTransaction {
-  id               String          @id @default(cuid())
-  userId           String
-  transactionType  Type            @default(EXPENSE)
-  amount           Float
-  description      String?
-  transactionDate  DateTime
-  user             User            @relation(fields: [userId], references: [id])
-  studentProfile   StudentProfile? @relation(fields: [studentProfileId], references: [id])
-  studentProfileId String?
+  id              String          @id @default(cuid())
+  userId          String
+  transactionType Type            @default(EXPENSE)
+  amount          Float
+  description     String?
+  transactionDate DateTime
+  user            User            @relation(fields: [userId], references: [id])
+  studentId       String?
+  student         StudentProfile? @relation(fields: [studentId], references: [id], onDelete: SetNull, onUpdate: SetNull)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -286,6 +301,7 @@ enum Role {
   STUDENT
   SENSEI
   PARTNER
+  FINANCE
 }
 
 enum Type {
