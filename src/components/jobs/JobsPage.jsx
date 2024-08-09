@@ -7,6 +7,7 @@ import TitleCard from "../ui/TitleCards"
 import { formatterJPY } from "@/lib/utils"
 import Link from "next/link"
 import Loading from "@/app/(dashboard)/loading"
+import { RiDeleteBin5Fill, RiEdit2Fill, RiFileEditFill  } from "react-icons/ri";
 
 const TopSideButtons= () =>{
     const {data:session} =  useSession()
@@ -42,62 +43,68 @@ export default function JobsPage() {
     getJobs();
     }, []);
 
+    const handleDelete = async (value) => {
+        const approval = confirm("Apakah kamu yakin ingin menghapus?")
+
+        if (approval) {
+            await fetch(`/api/data/partner/${value}`, { method: "DELETE" });
+            location.reload()
+        }
+    }
+
     if (loading) return <Loading />
     return (
-        <>
-        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
-            {values.map((value)=>{
-                return (
-                    <Link key={value.id} className="hover:border hover:border-primary hover:rounded-xl" href="/jobs/detail/">
-                        <TitleCard title={value.title} topMargin="0" TopSideButtons={<div className="text-primary">{formatter.format(value.salary)}</div>} >
-                            <div>{value.fieldJob}</div>
-                            <div>{value.typeJob}</div>
-                            <div className="divider"></div>
-                            <div>{value.location}</div>
-                        </TitleCard>
-                    </Link>
-                    )   
-            })}
-        </div> */}
-            <TitleCard title={"Data Lowongan Kerja"} topMargin="mt-2" TopSideButtons={<TopSideButtons/>} >
-                <div className="overflow-x-auto w-full">
-                    <table className="table w-full">
-                        <thead >
-                        <tr className="font-bold text-primary text-[14px]">
-                            <th>No</th>
-                            <th>Tanggal</th>
-                            <th>Lokasi</th>
-                            <th>Title</th>
-                            <th>Bidang</th>
-                            <th>Jenis Kelamin</th>
-                            <th>Gaji</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                values.map((value,index) =>{
-                                    return (
-                                        <tr key={value.id} className="text-grey ">
-                                            <td>{index+1}</td>
-                                            <td>{moment(value.createdAt).format("DD/MM/yyyy")}</td>
-                                            <td>{value.location}</td>
-                                            <td>{value.title}</td>
-                                            <td>{value.fieldJob}</td>
-                                            <td>{value.gender}</td>
-                                            <td>{formatterJPY(value.salary)}</td>
-                                            <td className="flex flex-col gap-2 items-start">
-                                                <Link href={`/jobs/detail/${value.id}`} className="badge badge-success w-16 text-white font-normal">Detail</Link>
-                                            </td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </TitleCard>
-        </>
+        <TitleCard title={"Data Lowongan Kerja"} topMargin="mt-2" TopSideButtons={<TopSideButtons/>} >
+            <div className="overflow-x-auto w-full">
+                <table className="table w-full">
+                    <thead >
+                    <tr className="font-bold text-primary text-[14px]">
+                        <th>No</th>
+                        <th>Program</th>
+                        <th>Kumiai</th>
+                        <th>Lokasi</th>
+                        <th>Bidang</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Pekerja</th>
+                        <th>Gaji</th>
+                        <th>Keberangkatan</th>
+                        <th>Aksi</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            values.map((value,index) =>{
+                                return (
+                                    <tr key={value.id} className="text-grey ">
+                                        <td>{index+1}</td>
+                                        <td>{value.title}</td>
+                                        <td>{value.supervisor.name}</td>
+                                        <td>{value.location}</td>
+                                        <td>{value.fieldJob}</td>
+                                        <td>{value.gender}</td>
+                                        <td>{value.needs}</td>
+                                        <td>{formatterJPY(value.salary)}</td>
+                                        <td>{moment(value.departure).format("DD/MM/yyyy")}</td>
+                                        <td className="flex flex-row gap-1 items-start">
+                                            <Link href={`/jobs/detail/${value.id}`}>
+                                                <RiFileEditFill 
+                                                    className="hover:text-primary cursor-pointer p-1 text-3xl"
+                                                    data-tip="Hapus Data"
+                                                />
+                                            </Link>
+                                            <RiDeleteBin5Fill 
+                                                onClick={() => handleDelete(value.id)} 
+                                                className="hover:text-primary cursor-pointer p-1 text-3xl"
+                                            />
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </TitleCard>
     )
 }
 

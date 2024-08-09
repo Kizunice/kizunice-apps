@@ -19,3 +19,13 @@ export async function GET(req, { params }) {
 
   return NextResponse.json(jobs);
 }
+
+export async function DELETE(req,{ params }) {
+  console.log(params)
+  await prisma.companies.jobOpportunity({
+    where: {
+      id: params.jobsId,
+    },
+  });
+  return NextResponse.json({ message: "done" });
+}

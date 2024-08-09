@@ -7,7 +7,7 @@ export async function GET(req, res) {
 
   const scores = await prisma.scores.findMany({
     orderBy: {
-      createdAt : "desc"
+      scoreAvg : "desc"
     }
   });
 
@@ -29,6 +29,7 @@ export async function POST(req) {
         kaiwa : parseInt(kaiwa),
         bunka : parseInt(bunka),
         aisatsu : parseInt(aisatsu),
+        scoreAvg: parseInt((parseInt(bunpou)+parseInt(choukai)+parseInt(kanji)+parseInt(kaiwa)+parseInt(bunka))/5),
         pushUp : parseInt(pushUp),
         sitUp : parseInt(sitUp),
         barbel : parseInt(barbel),

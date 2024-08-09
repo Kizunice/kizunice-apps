@@ -5,6 +5,8 @@ import SelectField from '../ui/SelectField';
 import axios from 'axios';
 import Button from '../ui/Button';
 import toast from "react-hot-toast";
+import {saveAs} from 'file-saver';
+import ExcelJS from 'exceljs';
 
 export default function DocumentPage() {
     const downloadPath = `/doc/CV.xlsx`
@@ -70,18 +72,21 @@ export default function DocumentPage() {
       }
 
     async function handleDownload(value) {
-        const id = value.studentId
         setLoadingB(true)
         try {
-            const res = await axios.get(`/api/data/student/${id}`);
-            const profile  = res.data
-            const URL = `/doc/CV-${profile.name}.xlsx`
-            const link = document.createElement("a");
-            link.href = URL;
-            link.setAttribute("download", "CV-" + profile.name);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            const res = await axios.get(`/api/data/student/${value.studentId}`, {responseType: "blob"});
+            // const URL = `/tmp/CV-${profile.name}.xlsx`
+            var blob = new Blob([res.data], {
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            });
+
+            saveAs(blob, `fileName.xlsx`);
+            // const link = document.createElement("a");
+            // link.href = window.URL.createObjectURL(blob);
+            // link.setAttribute("download", "CV-Siswa.xlsx" );
+            // document.body.appendChild(link);
+            // link.click();
+            // document.body.removeChild(link);
             setLoadingB(false)
         } catch (err) {
             console.log("[collections_GET]", err);

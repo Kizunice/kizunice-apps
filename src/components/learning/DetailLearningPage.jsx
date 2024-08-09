@@ -40,6 +40,8 @@ function DetailLearningPage() {
             <table className="table w-full">
                 <thead >
                 <tr className="font-bold text-primary text-[14px]">
+                    <th>Rank</th>
+                    <th>Nilai Akhir</th>
                     <th>Nama</th>
                     <th>Bunpou</th>
                     <th>Choukai</th>
@@ -54,9 +56,11 @@ function DetailLearningPage() {
                 </thead>
                 <tbody>
                     {
-                        values.scores.map(value =>{
+                        values.scores.map((value,idx) =>{
                             return (
                                 <tr key={value.id} className="text-grey ">
+                                    <td>{idx+1}</td>
+                                    <td className="font-bold">{value.scoreAvg}</td>
                                     <td>{value.student.name}</td>
                                     <td>{value.bunpou}</td>
                                     <td>{value.choukai}</td>

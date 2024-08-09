@@ -49,42 +49,38 @@ export default function CreateScorePage() {
 
     async function fetchDataLearning() {
         const { data } = await axios.get("/api/learning");
-        const results = []
+        const resultsL = []
+        const resultsS = []
         console.log("my learning :", data)
         data.forEach((value) => {
-          results.push({
-            label: value.title,
-            value: value.id,
-          });
+            resultsL.push({
+                label: value.part + " - " + value.title,
+                value: value.id,
+            });
+            value.students.forEach((val) => {
+                resultsS.push({
+                    label: val.name,
+                    value: val.id,
+                });
+            });
         });
-
+        
         setOptionsL([
-          {key: 'Select a company', value: ''}, 
-          ...results
+          {key: 'Select Learning Materi', value: ''}, 
+          ...resultsL
         ])
-    }
-
-    async function fetchDataStudents() {
-        const { data } = await axios.get("/api/profile");
-        const results = []
-        console.log("my students :", data)
-        data.forEach((value) => {
-        results.push({
-            label: value.name,
-            value: value.id,
-        });
-        });
 
         setOptionsS([
-        {key: 'Select a company', value: ''}, 
-        ...results
+            {key: 'Select a company', value: ''}, 
+            ...resultsS
         ])
     }
+
+   
 
     useEffect(() => {
         getUsers()
         fetchDataLearning();
-        fetchDataStudents();
       }, []);
 
     const handleChange = (e) => {

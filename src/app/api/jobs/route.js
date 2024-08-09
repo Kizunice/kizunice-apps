@@ -8,6 +8,10 @@ export async function GET(req) {
       orderBy: {
         createdAt: 'desc',
       },
+      include : {
+        company : true,
+        supervisor: true
+      }
     });
   
     //return response JSON
