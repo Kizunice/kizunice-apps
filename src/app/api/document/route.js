@@ -27,10 +27,10 @@ export async function POST(req,res) {
     });
 
     const path = 'public/doc/CV-Siswa.xlsx';
-    
-    const wb = new ExcelJS.Workbook()
+    const blobPath = "https://m3xutoofvpsdf3ds.public.blob.vercel-storage.com/public/doc/CV-Siswa.xlsx"
 
-    wb.xlsx.readFile(path)
+    const wb = new ExcelJS.Workbook()
+    wb.xlsx.read(blobPath)
         .then(async function() {
             let ws = wb.getWorksheet('Sheet1')
 
@@ -82,7 +82,7 @@ export async function POST(req,res) {
             row10.getCell(3).value = profile.paspor || "";
             row10.getCell(9).value = "";
             row11.getCell(3).value = "";
-            row11.getCell(9).value = "Deutsch, English, Japanese";
+            row11.getCell(9).value = "";
             row12.getCell(3).value = "";
             row12.getCell(9).value = " 02/24 ~ 08/24";
             row13.getCell(3).value = "";
@@ -150,7 +150,6 @@ export async function POST(req,res) {
             row33.commit()
             row34.commit()
             row36.commit()
-
 
             const buffer = await wb.xlsx.writeBuffer();
             const {url} = await put(`public/doc/CV-${profile.name}.xlsx`, buffer, { access: 'public', addRandomSuffix: false });
