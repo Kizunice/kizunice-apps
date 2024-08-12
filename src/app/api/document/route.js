@@ -4,6 +4,7 @@ import { getCurrentUser } from '@/lib/session';
 import ExcelJS from 'exceljs';
 import moment from 'moment';
 import { put } from "@vercel/blob";
+import { promises as fs } from 'fs';
 
 export async function GET(req) {
   const doc = await prisma.document.findMany({
@@ -26,11 +27,9 @@ export async function POST(req,res) {
         },
     });
 
-    const fs = require('fs');
-    const fullPath = fs.realpathSync('/doc/CV-Siswa.xlsx')
-
+    const path = "/public/doc/CV-Siswa.xlsx"
     const wb = new ExcelJS.Workbook()
-    wb.xlsx.readFile(fullPath)
+    wb.xlsx.readFile(path)
         .then(async function() {
             let ws = wb.getWorksheet('Sheet1')
 
