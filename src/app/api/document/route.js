@@ -11,7 +11,7 @@ export async function GET(req) {
       profile : true
     },
     orderBy : {
-      createdAt : 'asc'
+      createdAt : 'desc'
     }
   })
   return NextResponse.json(doc);
@@ -26,10 +26,11 @@ export async function POST(req,res) {
         },
     });
 
-    const path = 'doc/CV-Siswa.xlsx';
+    const fs = require('fs');
+    const fullPath = fs.realpathSync('public/doc/CV-Siswa.xlsx')
 
     const wb = new ExcelJS.Workbook()
-    wb.xlsx.readFile(path)
+    wb.xlsx.readFile(fullPath)
         .then(async function() {
             let ws = wb.getWorksheet('Sheet1')
 
