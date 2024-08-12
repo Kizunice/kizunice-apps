@@ -27,7 +27,7 @@ export async function POST(req,res) {
         },
     });
 
-    const path = 'public/doc/CV-Siswa.xlsx';
+    const path = 'public/doc/default.xlsx';
 
     const wb = new ExcelJS.Workbook()
 
