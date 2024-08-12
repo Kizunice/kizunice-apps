@@ -4,34 +4,14 @@ import { useSession } from "next-auth/react";
 import { useEffect,useState, useCallback } from "react";
 import TitleCard from "../ui/TitleCards";
 import InputField from "../ui/InputField";
-import moment from "moment";
 import Link from "next/link";
 import Loading from "@/app/(dashboard)/loading"
-
-
-const TopMiddleButtons = ({handleChange, value}) => {
-    const {data:session} =  useSession()
-   
-    if (session?.user.role === 'ADMIN'|| session?.user.role === 'FINANCE') {
-        return(
-            <div className="justify-center">
-                <InputField
-                    type="text"
-                    value={value}
-                    placeholder="Search..."
-                    name="value"
-                    onChange={handleChange}
-                />
-            </div>
-        )
-    }
-   return
-}
+import SearchButton from "../ui/SearchButton";
 
 export default function StudentPage() {
     const [loading, setLoading] = useState(true);
-    const [query, setQuery] = useState('');
     const [users, setUsers] = useState([])
+    const [query, setQuery] = useState('');
     const [filteredList, setFilteredList] = useState('');
 
     const getUsers = async () => {
@@ -57,7 +37,8 @@ export default function StudentPage() {
 
     const searchHandler = useCallback(() => {
         const filteredData = users.filter((user) => {
-          return user.name.toLowerCase().includes(query.toLowerCase())
+          return user.name.toLowerCase().includes(query.toLowerCase()) ||
+           user.asalLPK.toLowerCase().includes(query.toLowerCase())
         })
         setFilteredList(filteredData)
         setLoading(false);
@@ -79,9 +60,7 @@ export default function StudentPage() {
             <TitleCard 
                 title={"Data Student"} 
                 topMargin="mt-2" 
-                TopSideButtons={
-                    <TopMiddleButtons handleChange={handleChange} value={query} />
-                    }  
+                TopSideButtons={<SearchButton handleChange={handleChange} value={query} placeholder={"Cari Siswa"} />}  
                 >
                 <div className="overflow-x-auto w-full">
                     <table className="table w-full">
@@ -89,8 +68,8 @@ export default function StudentPage() {
                         <tr className="font-bold text-primary text-[14px]">
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Jenis Kelamin</th>
                             <th>Asal LPK</th>
+                            <th>Jenis Kelamin</th>
                             <th>Nomor HP</th>
                             <th>Action</th>
                         </tr>
@@ -102,8 +81,8 @@ export default function StudentPage() {
                                         <tr key={user.id} className="text-grey ">
                                             <td>{index+1}</td>
                                             <td>{user.name}</td>
-                                            <td>{user.gender}</td>
                                             <td>{user.asalLPK}</td>
+                                            <td>{user.gender}</td>
                                             <td>{user.phone}</td>
                                             <td className="flex items-center">
                                                 <Link href={`/data-student/detail/${user.id}`} className="badge badge-success px-4 text-white font-normal">Detail</Link>
@@ -118,5 +97,4 @@ export default function StudentPage() {
             </TitleCard>
         );
     }
-    
 }

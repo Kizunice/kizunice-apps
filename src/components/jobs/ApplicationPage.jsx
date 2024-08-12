@@ -4,13 +4,13 @@ import { useSession } from "next-auth/react"
 import axios from "axios"
 import moment from "moment"
 import TitleCard from "../ui/TitleCards"
-import { formatterJPY } from "@/lib/utils"
 import Link from "next/link"
 import Loading from "@/app/(dashboard)/loading"
+import { RiFileEditFill, RiDeleteBin5Fill, RiEyeFill } from "react-icons/ri"
+import SearchButton from "../ui/SearchButton"
 
 const TopSideButtons= () =>{
     const {data:session} =  useSession()
-
     if (session?.user.role !== 'STUDENT' && session?.user.role !== 'SENSEI') {
         return(
             <div className="inline-block float-right">
@@ -21,32 +21,12 @@ const TopSideButtons= () =>{
    return
 }
 
-
-const TopMiddleButtons = ({handleChange, value}) => {
-    const {data:session} =  useSession()
-   
-    if (session?.user.role === 'ADMIN') {
-        return(
-            <div className="inline-block float-right">
-                <input 
-                    type="text"
-                    value={value}
-                    placeholder="Search..."
-                    name="value"
-                    onChange={handleChange} 
-                    className="btn-sm px-4 border-2 rounded-lg text-sm"/>
-            </div>
-        )
-    }
-   return
-}
-
-
 export default function ApplicationPage() {
     const [values,setValues] = useState([])
     const [loading, setLoading] = useState(true)
     const [filteredList, setFilteredList] = useState('');
     const [query, setQuery] = useState('');
+    const [showModal, setShowModal] = useState(false);
 
     const getJobs = async () => {
         try {  
@@ -67,7 +47,11 @@ export default function ApplicationPage() {
     const searchHandler = useCallback(() => {
         if(values) {
             const filteredData = values.filter((value) => {
-                return value.student.name.toLowerCase().includes(query.toLowerCase())
+                return value.student.name.toLowerCase().includes(query.toLowerCase()) ||
+                    value.student.asalLPK.toLowerCase().includes(query.toLowerCase()) ||
+                    value.partner.name.toLowerCase().includes(query.toLowerCase()) ||
+                    value.job.company.name.toLowerCase().includes(query.toLowerCase()) ||
+                    value.job.fieldJob.toLowerCase().includes(query.toLowerCase()) 
             })
             setFilteredList(filteredData)
         }
@@ -93,17 +77,17 @@ export default function ApplicationPage() {
     if (loading) return <Loading />
     return (
         <TitleCard 
-            title={"Data Lamaran"} 
+            title={"Data Lamaran Kerja"} 
             topMargin="mt-2" 
             TopSideButtons={<TopSideButtons/>} 
-            TopMiddleButtons={<TopMiddleButtons handleChange={handleChange} value={query} />}
+            TopMiddleButtons={<SearchButton handleChange={handleChange} value={query} placeholder={"Cari Data Pelamar"} />}
             
             >
             <div className="overflow-x-auto w-full">
                 <table className="table w-full">
                     <thead >
                     <tr className="font-bold text-primary text-[14px]">
-                        <th>No</th>
+                        <th></th>
                         <th>Nama</th>
                         <th>Asal LPK</th>
                         <th>Jenis Kelamin</th>
@@ -111,7 +95,7 @@ export default function ApplicationPage() {
                         <th>Lembaga</th>
                         <th>Perusahaan</th>
                         <th>Pekerjaan</th>
-                        <th>Keberangkatan</th>
+                        <th>Berangkat</th>
                         <th>Keterangan</th>
                         <th>Status</th>
                         <th>Aksi</th>
@@ -130,11 +114,24 @@ export default function ApplicationPage() {
                                         <td>{value.partner.name}</td>
                                         <td>{value.job.company.name}</td>
                                         <td>{value.job.fieldJob}</td>
-                                        <td>{moment(value.job.departure).format("DD MMM yyyy")}</td>
+                                        <td>{moment(value.job.departure).format("DD/MM/yyyy")}</td>
                                         <td>{value.note}</td>
                                         <td>{value.status ? "Diterima" : ""}</td>
-                                        <td className="flex flex-col gap-2 items-start">
-                                            <Link href={`/jobs/detail/${value.id}`} className="badge badge-success w-16 text-white font-normal">Detail</Link>
+                                        <td className="flex flex-row items-start">
+                                            <Link href={`/jobs/detail/${value.job.id}`}>
+                                                <RiEyeFill 
+                                                    className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
+                                                />
+                                            </Link>
+                                            <Link href={`/jobs-application/edit/${value.id}`}>
+                                                <RiFileEditFill 
+                                                    className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
+                                                />
+                                            </Link>
+                                            <RiDeleteBin5Fill 
+                                                onClick={() => handleDelete(value.id)} 
+                                                className="text-primary cursor-pointer p-1 text-3xl"
+                                            />
                                         </td>
                                     </tr>
                                 )

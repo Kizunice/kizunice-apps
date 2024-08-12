@@ -2,7 +2,6 @@ import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/session';
 
-
 export async function GET(req, res) {
   const session = await getCurrentUser(req, res);
   if(session.role === "SENSEI") {
@@ -53,8 +52,8 @@ export async function POST(req,res) {
   const newDate = new Date(date);
   
   let studentData = []
-  students.map(id => {
-      studentData.push({id})
+    students.map(id => {
+        studentData.push({id})
   })
 
   const newLearning = await prisma.learning.create({

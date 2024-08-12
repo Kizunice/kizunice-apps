@@ -39,7 +39,6 @@ export default function CreateScorePage() {
             const users = res.data
             console.log(users)
             setFormValues({...formValues, senseiId : users.id, senseiName: users.name})
-            console.log(res.data)
             setLoading(false)
         } catch (err) {
           console.log("[collections_GET]", err);

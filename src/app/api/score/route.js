@@ -5,13 +5,42 @@ import { getCurrentUser } from '@/lib/session';
 export async function GET(req, res) {
   const session = await getCurrentUser(req, res);
 
+  if(session.role === "SENSEI") {
+    const profile = await prisma.senseiProfile.findUnique({
+      where : {
+        userId : session.id
+      }
+    })
+    
+    const scores = await prisma.scores.findMany({
+      where : {
+        senseiId : profile.id
+      },
+      orderBy: {
+        createdAt : "desc"
+      },
+      include : {
+        sensei: true,
+        learning : true,
+        student : true,
+      }
+    });
+    return NextResponse.json(scores);
+  }
+
   const scores = await prisma.scores.findMany({
     orderBy: {
       scoreAvg : "desc"
+    },
+    include : {
+      sensei: true,
+      learning : true,
+      student : true,
     }
   });
-
   return NextResponse.json(scores);
+  
+
 }
 
 export async function POST(req) {

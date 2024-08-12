@@ -1,16 +1,15 @@
 'use client'
-import { useState, useEffect } from "react";
+import { useState, useEffect , useCallback} from "react";
 import moment from "moment";
 import axios from "axios";
 import TitleCard from "@/components/ui/TitleCards";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Loading from '@/app/(dashboard)/loading';
-
+import SearchButton from "../ui/SearchButton";
 
 const TopSideButtons = () => {
     const {data:session} =  useSession()
-
     if (session?.user.role !== 'STUDENT' && 'PARTNER') {
         return(
             <div className="inline-block float-right">
@@ -21,17 +20,36 @@ const TopSideButtons = () => {
    return
 }
 
-export default async function ScorePage() {
+export default function ScorePage() {
     const {data:session} =  useSession()
     const [values, setValues] = useState([])
     const [loading, setLoading] = useState(true)
+    const [query, setQuery] = useState('');
+    const [filteredList, setFilteredList] = useState('');
 
-    const getLearningData = async () => {
+    // const getLearningData = async () => {
+    //     try {  
+    //         const res = await axios.get('/api/learning');
+    //         const data = res.data
+    //         const filteredData = data.filter((x => x.scores.length !== 0 ))
+    //         setValues(filteredData)
+    //         setLoading(false)
+    //     } catch (err) {
+    //       console.log("[collections_GET]", err);
+    //       setLoading(false)
+    //     }
+    //   };
+
+    // useEffect(() => {
+    // getLearningData();
+    // }, []);
+
+    const getScoresData = async () => {
         try {  
-            const res = await axios.get('/api/learning');
+            const res = await axios.get('/api/score');
             const data = res.data
-            const filteredData = data.filter((x => x.scores.length !== 0 ))
-            setValues(filteredData)
+            console.log(data)
+            setValues(data)
             setLoading(false)
         } catch (err) {
           console.log("[collections_GET]", err);
@@ -40,48 +58,85 @@ export default async function ScorePage() {
       };
 
     useEffect(() => {
-    getLearningData();
+        getScoresData();
     }, []);
 
+    const searchHandler = useCallback(() => {
+        const filteredData = values.filter((value) => {
+            return value.student.name.toLowerCase().includes(query.toLowerCase())
+        })
+        setFilteredList(filteredData)
+    }, [values, query])
+    
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            searchHandler()
+        }, 500)
+
+        return () => {
+            clearTimeout(timer)
+        }
+    }, [searchHandler])
+
+    const handleChange = (e) => {
+        e.preventDefault()
+        setQuery(e.target.value);
+        console.log(query);
+    };
+
     if (loading) return <Loading />
-    return (
-        <TitleCard title={"Data Nilai Siswa"} topMargin="mt-2" TopSideButtons={<TopSideButtons/>} >
-            <div className="overflow-x-auto w-full">
-                <table className="table w-full">
-                    <thead >
-                    <tr className="font-bold text-primary text-[14px]">
-                        <th>No</th>
-                        <th>Tanggal</th>
-                        <th>Judul</th>
-                        <th>Bagian</th>
-                        <th>Deskripsi</th>                    
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            values.map((value, index) =>{
-                                return (
-                                    <tr key={value.id} className="text-grey ">
-                                        <td>{index+1}</td>
-                                        <td>{moment(value.date).format('DD/MM/YYYY')}</td>
-                                        <td>{value.title}</td>
-                                        <td>{value.part}</td>
-                                        <td>{value.description}</td> 
-                                        <td className="flex flex-col gap-2 items-start">
-                                            <Link href={`/learning/detail/${value.id}`} className="badge badge-success w-16 text-white font-normal">Detail</Link>
-                                            {session?.user.role == 'SENSEI' ?
-                                                <Link href={`/learning/edit/${value.id}`} className="badge badge-warning w-16 text-white font-normal">Edit</Link>
-                                            : <></>}
-                                            
-                                        </td>
-                                    </tr>
-                                )
-                            })    
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </TitleCard> 
-    );
+    if(filteredList) {
+        return (
+          <TitleCard 
+                title="Data Nilai Siswa" 
+                topMargin="mt-2" 
+                TopMiddleButtons={<SearchButton handleChange={handleChange} value={query} placeholder={"Cari Nilai Siswa"} />}
+                TopSideButtons={<TopSideButtons/>} >
+                <div className="overflow-x-auto w-full">
+                    <table className="table w-full">
+                        <thead >
+                        <tr className="font-bold text-primary text-[14px]">
+                            <th>No</th>
+                            <th>Nama Siswa</th>
+                            <th>Materi</th>
+                            <th>Tanggal</th>
+                            <th>Bunpou</th>
+                            <th>Choukai</th>
+                            <th>Kanji</th>
+                            <th>Kaiwa</th>
+                            <th>Bunka</th>
+                            <th>Aisatsu</th>
+                            <th>Push Up</th>
+                            <th>Sit Up</th>
+                            <th>Barbel</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                filteredList.map((value,idx) =>{
+                                    return (
+                                        <tr key={idx} className="text-grey ">
+                                            <td>{idx+1}</td>
+                                            <td>{value.student.name}</td>
+                                            <td>{value.learning.part}</td>
+                                            <td>{moment(value.learning.date).format("DD/MM/YY")}</td>
+                                            <td>{value.bunpou}</td>
+                                            <td>{value.choukai}</td>
+                                            <td>{value.kanji}</td>
+                                            <td>{value.kaiwa}</td>
+                                            <td>{value.bunka}</td>
+                                            <td>{value.aisatsu}</td>
+                                            <td>{value.pushUp}</td>
+                                            <td>{value.sitUp}</td>
+                                            <td>{value.barbel}</td>
+                                        </tr>
+                                    )
+                                })    
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </TitleCard>
+        );
+    }
 }

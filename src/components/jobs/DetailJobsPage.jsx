@@ -7,9 +7,9 @@ import axios from "axios";
 import TitleCard from "@/components/ui/TitleCards";
 import InputField from "../ui/InputField";
 import Button from "../ui/Button";
-import toast, { Toaster } from "react-hot-toast";
 import Loading from "@/app/(dashboard)/loading";
 import { formatterJPY } from "@/lib/utils";
+import { TableAplicant } from "./TableApplicant";
 
 function DetailJobsPage() {
     const params = useParams()
@@ -45,6 +45,15 @@ function DetailJobsPage() {
             <Button text={"Lamar Pekerjaan"} loading={loading} />
         ) 
     }
+
+    const TableApps =  ({values}) =>{
+        if (session?.user.role === "ADMIN" || session?.user.role === "PARTNER" )
+        return (
+            <TableAplicant values={values}/>
+        ) 
+    }
+
+
 
     if (loading) return <Loading />
     return (
@@ -122,9 +131,9 @@ function DetailJobsPage() {
                 </div>
             </div>
             <div className="divider my-8" ></div>
-            {/* <div className="overflow-x-auto w-full">
-                <TableScores data={values.scores} />
-            </div> */}
+            <div className="overflow-x-auto w-full">
+                <TableApps values={values.applications}/>
+            </div>
             <ButtonApplication />
         </TitleCard>
     );

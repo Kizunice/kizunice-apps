@@ -5,6 +5,18 @@ import ExcelJS from 'exceljs';
 import moment from 'moment';
 import { put } from "@vercel/blob";
 
+export async function GET(req) {
+  const doc = await prisma.document.findMany({
+    include : {
+      profile : true
+    },
+    orderBy : {
+      createdAt : 'asc'
+    }
+  })
+  return NextResponse.json(doc);
+}
+
 export async function POST(req,res) {
     const body = await req.json();
 
@@ -141,15 +153,16 @@ export async function POST(req,res) {
 
 
             const buffer = await wb.xlsx.writeBuffer();
-            console.log(buffer)
-            // const {url} = await put(`public/doc/CV-${profile.name}.xlsx`, buffer, { access: 'public', addRandomSuffix: false });
-            return NextResponse.json(buffer);
-            // const workbook = new ExcelJS.Workbook();
-            // await workbook.xlsx.load(buffer);
-            // return workbook.xlsx.writeFile('public/doc/CV-Siswa.xlsx');
-            return NextResponse.json({
-                status: 'success',
-              });
+            const {url} = await put(`public/doc/CV-${profile.name}.xlsx`, buffer, { access: 'public', addRandomSuffix: false });
+
+            const doc = await prisma.document.create({
+              data : {
+                link: url,
+                profileId : profile.id,
+                created : true
+              }
+            })
+            return NextResponse.json(doc)
 
         })
         .catch(err => {

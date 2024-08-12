@@ -5,17 +5,19 @@ import SelectField from '../ui/SelectField';
 import axios from 'axios';
 import Button from '../ui/Button';
 import toast from "react-hot-toast";
+import moment from 'moment';
 import {saveAs} from 'file-saver';
-import ExcelJS from 'exceljs';
+import { RiFileDownloadFill } from "react-icons/ri";
+import Loading from '@/app/(dashboard)/loading';
 
 export default function DocumentPage() {
     const downloadPath = `/doc/CV.xlsx`
     const [optionsS,setOptionsS] = useState([])
     const [path, setPath] = useState('')
-    const [loading, setLoading] = useState(true)
-    const [loadingB, setLoadingB] = useState(false)
-    const [loadingD, setLoadingD] = useState(true)
+    const [loading, setLoading] = useState(false)
+    const [pageLoading, setPageLoading] = useState(true)
     const [studentId,setStudentId] = useState('')
+    const [docs,setDocs] = useState([])
 
     async function getDataStudent() {
         const { data } = await axios.get("/api/profile");
@@ -32,11 +34,23 @@ export default function DocumentPage() {
         {key: 'Select a company', value: ''}, 
         ...results
         ])
-        setLoading(false)
+        setPageLoading(false)
     }
+
+    const getDocument = async () => {
+        try {  
+            const res = await axios.get('/api/document');
+            const doc  = res.data
+            console.log("doc:", doc)
+            setDocs(doc)
+        } catch (err) {
+          console.log("[collections_GET]", err);
+        }
+      };
 
     useEffect(() => {
         getDataStudent();
+        getDocument()
       }, []);
 
     const handleChange = (e) => {
@@ -48,7 +62,7 @@ export default function DocumentPage() {
     };
 
     async function handleSubmit() {
-        setLoadingB(true)
+        setLoading(true)
         try {
           const response = await fetch("/api/document", {
             method: "POST",
@@ -59,70 +73,83 @@ export default function DocumentPage() {
           })
           
           if (response.ok) {
-            console.log(response)
             toast.success("Berhasil membuat cv");
-            setLoadingB(false);
-            setLoadingD(false);
+            location.reload()
+            setLoading(false);
           } 
         } catch (error) {
-          setLoading(false);
           console.error("Network Error:", error);
-          setLoadingD(false);
+          setLoading(false);
         }
       }
 
-    async function handleDownload(value) {
-        setLoadingB(true)
+    async function handleDownload(values) {
+        setLoading(true);
         try {
-            const res = await axios.get(`/api/data/student/${value.studentId}`, {responseType: "blob"});
-            // const URL = `/tmp/CV-${profile.name}.xlsx`
-            var blob = new Blob([res.data], {
-                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            });
-
-            saveAs(blob, `fileName.xlsx`);
-            // const link = document.createElement("a");
-            // link.href = window.URL.createObjectURL(blob);
-            // link.setAttribute("download", "CV-Siswa.xlsx" );
-            // document.body.appendChild(link);
-            // link.click();
-            // document.body.removeChild(link);
-            setLoadingB(false)
+            const data = values.link
+            saveAs(data, `CV-${values.profile.name}.xlsx`);
+            setLoading(false);
         } catch (err) {
             console.log("[collections_GET]", err);
-            setLoadingB(false);
+            setLoading(false);
         }
     }
 
-
+    if(pageLoading) return <Loading/>
     return (
+        <>
         <TitleCard title={"Dokumen CV Siswa"} topMargin="mt-2">
             <SelectField
                 value={studentId}
-                optionName="Pilih Siswa"
+                optionName="Pilih Nama Siswa"
                 label="Nama Siswa"
                 name="studentId"
                 options={optionsS}
                 onChange={handleChange}
             />
             <div className="flex flex-col lg:flex-row gap-4 mt-8">
-                <Button handleSubmit={handleSubmit} text={"Buat Data CV"} loading={loadingB} />
-                <Button handleSubmit={() => handleDownload(studentId)} text={"Download CV"} loading={loadingB} />
+                <Button handleSubmit={handleSubmit} text={"Buat Data CV"} loading={loading} />
             </div>
-            {/* <button 
-                onClick={() => download(studentId)}
-                className='w-full text-white bg-primary mt-4 hover:bg-secondary disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
-                >
-                Download CV
-            </button> */}
-            {/* <button 
-                disabled={loadingD} 
-                href={downloadPath} 
-                download="CV-Nibel Ghifari"  
-                className='w-full text-white bg-primary mt-4 hover:bg-secondary disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
-                >
-                Download CV
-            </button> */}
         </TitleCard>
+        <TitleCard title={"Data CV"} topMargin="mt-2">
+            <div className="overflow-x-auto lg:overflow-hidden w-full">
+                <table className="table w-full">
+                    <thead >
+                    <tr className="font-bold text-primary text-[14px]">
+                        <th>No</th>
+                        <th>Nama Siswa</th>
+                        <th>Asal LPK</th>
+                        <th>Tanggal Pembuatan</th>
+                        <th>Link CV</th>
+                        <th>Download</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            docs.map((doc,idx) =>{
+                                return (
+                                    <tr key={idx} className="text-grey ">
+                                        <td>{idx+1}</td>
+                                        <td>{doc.profile.name}</td>
+                                        <td>{doc.profile.asalLPK}</td>
+                                        <td>{moment(doc.createdAt).format("DD/MM/YYYY")}</td>
+                                        <td>{doc.link}</td>
+                                        <td>
+                                            <div className="lg:tooltip" data-tip="Download CV">
+                                                <RiFileDownloadFill 
+                                                    onClick={() => handleDownload(doc)} 
+                                                    className="text-primary cursor-pointer p-1 text-3xl"
+                                                />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                            })    
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </TitleCard>
+        </>
     )
 }

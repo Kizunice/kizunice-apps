@@ -99,25 +99,25 @@ export default function CreateApplicationPage() {
 
    
     async function handleSubmit() {
-        try {
-          const response = await fetch("/api/jobs-application", {
-            method: "POST",
-            body: JSON.stringify(formValues),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-          
-          if (response.ok) {
-            toast.success("Berhasil menambahkan data belajar");
-            router.push('/jobs-application')
-            setLoading(false);
-          } 
-        } catch (error) {
+      try {
+        const response = await fetch("/api/jobs-application", {
+          method: "POST",
+          body: JSON.stringify(formValues),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        
+        if (response.ok) {
+          toast.success("Berhasil menambahkan data belajar");
+          router.push('/jobs-application')
           setLoading(false);
-          console.error("Network Error:", error);
-        }
+        } 
+      } catch (error) {
+        setLoading(false);
+        console.error("Network Error:", error);
       }
+    }
 
     if (loading) return <Loading />
     return (

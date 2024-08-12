@@ -139,28 +139,34 @@ export const FINANCE_ROUTES = [
     key: '1',
   },
   {
+    path: '/finance/student',
+    icon: <FaCoins size={22} />,
+    name: 'Keuangan Siswa',
+    key: '2',
+  },
+  {
     path: '/data-student',
     icon: <HiUsers size={22} />,
     name: 'Data Siswa',
-    key: '2',
+    key: '3',
   },
   {
     path: '/data-partner',
     icon: <HiUsers size={22} />,
     name: 'Data Rekanan',
-    key: '3',
+    key: '4',
   },
   {
     path: '/data-sensei',
     icon: <HiUsers size={22} />,
     name: 'Data Sensei',
-    key: '4',
+    key: '5',
   },
   {
     path: '/settings',
     icon: <IoMdSettings size={22} />,
     name: 'Pengaturan',
-    key: '5',
+    key: '6',
   },
 ];
 

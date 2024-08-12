@@ -12,7 +12,6 @@ export default function LoginForm() {
   });
   const router = useRouter()
   const [loading, setLoading] = useState(false);
-  const { data:session } = useSession()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -32,10 +31,8 @@ export default function LoginForm() {
 
           if(callback?.ok && !callback?.error) {
             setLoading(false)
-            toast.success('Logged in successfully!')
-            console.log("before refresh")
+            toast.success('Berhasil Masuk!')
             router.refresh()
-            console.log("after refresh")
             router.push("/dashboard");
           }
       } )
@@ -53,7 +50,6 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <Toaster />
-      {/* {isVerifying && <p>verifying please wait...</p>} */}
       <div>
         <label
           htmlFor="email"

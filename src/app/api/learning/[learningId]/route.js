@@ -23,3 +23,21 @@ export async function GET(req, { params }) {
 
   return NextResponse.json(learning);
 }
+
+
+export async function DELETE(req,{ params }) {
+  console.log(params)
+  await prisma.scores.deleteMany({
+    where: {
+      learningId: params.learningId,
+    },
+  });
+
+  await prisma.learning.delete({
+    where: {
+      id: params.learningId,
+    },
+  });
+
+  return NextResponse.json({ message: "done" });
+}

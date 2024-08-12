@@ -1,13 +1,14 @@
 'use client'
-import { useState,useEffect } from "react"
+import { useState,useEffect,useCallback } from "react"
 import { useSession } from "next-auth/react"
 import axios from "axios"
 import moment from "moment"
 import TitleCard from "../ui/TitleCards"
 import { formatterJPY } from "@/lib/utils"
 import Link from "next/link"
+import SearchButton from "../ui/SearchButton"
 import Loading from "@/app/(dashboard)/loading"
-import { RiDeleteBin5Fill, RiEdit2Fill, RiFileEditFill  } from "react-icons/ri";
+import { RiDeleteBin5Fill, RiEyeFill, RiFileEditFill  } from "react-icons/ri";
 
 const TopSideButtons= () =>{
     const {data:session} =  useSession()
@@ -26,6 +27,8 @@ const TopSideButtons= () =>{
 export default function JobsPage() {
     const [values,setValues] = useState([])
     const [loading, setLoading] = useState(true)
+    const [filteredList, setFilteredList] = useState('');
+    const [query, setQuery] = useState('');
 
     const getJobs = async () => {
         try {  
@@ -52,59 +55,105 @@ export default function JobsPage() {
         }
     }
 
+    const handleChange = (e) => {
+        e.preventDefault()
+        setQuery(e.target.value)
+        console.log(query)
+    }
+
+    const searchHandler = useCallback(() => {
+        const filteredData = values.filter((value) => {
+          return value.supervisor.name.toLowerCase().includes(query.toLowerCase()) ||
+          value.location.toLowerCase().includes(query.toLowerCase()) ||
+          value.title.toLowerCase().includes(query.toLowerCase()) ||
+          value.fieldJob.toLowerCase().includes(query.toLowerCase()) 
+        })
+        setFilteredList(filteredData)
+        setLoading(false);
+      }, [values, query])
+    
+      useEffect(() => {
+        const timer = setTimeout(() => {
+          searchHandler()
+        }, 500)
+    
+        return () => {
+          clearTimeout(timer)
+        }
+      }, [searchHandler])
+
     if (loading) return <Loading />
-    return (
-        <TitleCard title={"Data Lowongan Kerja"} topMargin="mt-2" TopSideButtons={<TopSideButtons/>} >
-            <div className="overflow-x-auto w-full">
-                <table className="table w-full">
-                    <thead >
-                    <tr className="font-bold text-primary text-[14px]">
-                        <th>No</th>
-                        <th>Program</th>
-                        <th>Kumiai</th>
-                        <th>Lokasi</th>
-                        <th>Bidang</th>
-                        <th>Jenis Kelamin</th>
-                        <th>Pekerja</th>
-                        <th>Gaji</th>
-                        <th>Keberangkatan</th>
-                        <th>Aksi</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            values.map((value,index) =>{
-                                return (
-                                    <tr key={value.id} className="text-grey ">
-                                        <td>{index+1}</td>
-                                        <td>{value.title}</td>
-                                        <td>{value.supervisor.name}</td>
-                                        <td>{value.location}</td>
-                                        <td>{value.fieldJob}</td>
-                                        <td>{value.gender}</td>
-                                        <td>{value.needs}</td>
-                                        <td>{formatterJPY(value.salary)}</td>
-                                        <td>{moment(value.departure).format("DD/MM/yyyy")}</td>
-                                        <td className="flex flex-row gap-1 items-start">
-                                            <Link href={`/jobs/detail/${value.id}`}>
-                                                <RiFileEditFill 
-                                                    className="hover:text-primary cursor-pointer p-1 text-3xl"
-                                                    data-tip="Hapus Data"
-                                                />
-                                            </Link>
-                                            <RiDeleteBin5Fill 
-                                                onClick={() => handleDelete(value.id)} 
-                                                className="hover:text-primary cursor-pointer p-1 text-3xl"
-                                            />
-                                        </td>
-                                    </tr>
-                                )
-                            })
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </TitleCard>
-    )
+    if(filteredList) {
+        return (
+            <TitleCard 
+                title={"Data Program Kerja"} 
+                topMargin="mt-2" 
+                TopMiddleButtons={<SearchButton handleChange={handleChange} value={query} placeholder={"Cari kumiai"} />} 
+                TopSideButtons={<TopSideButtons/>} 
+            >
+                <div className="overflow-x-auto lg:overflow-hidden w-full">
+                    <table className="table w-full">
+                        <thead >
+                        <tr className="font-bold text-primary text-[14px]">
+                            <th></th>
+                            <th>Program</th>
+                            <th>Kumiai</th>
+                            <th>Lokasi</th>
+                            <th>Bidang</th>
+                            <th>Jenis Kelamin</th>
+                            <th>Pekerja</th>
+                            <th>Gaji</th>
+                            <th>Berangkat</th>
+                            <th>Aksi</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                filteredList.map((value,index) =>{
+                                    return (
+                                        <tr key={value.id} className="text-grey ">
+                                            <td>{index+1}</td>
+                                            <td>{value.title}</td>
+                                            <td>{value.supervisor.name}</td>
+                                            <td>{value.location}</td>
+                                            <td>{value.fieldJob}</td>
+                                            <td>{value.gender}</td>
+                                            <td>{value.needs}</td>
+                                            <td>{formatterJPY(value.salary)}</td>
+                                            <td>{moment(value.departure).format("DD/MM/yyyy")}</td>
+                                            <td className="flex flex-row items-start">
+                                                <div className="lg:tooltip" data-tip="Lihat Data">
+                                                    <Link href={`/jobs/detail/${value.id}`}>
+                                                        <RiEyeFill 
+                                                            className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
+                                                        />
+                                                    </Link>
+                                                </div>
+                                                <div className="lg:tooltip" data-tip="Ubah Data">
+                                                    <Link href={`/jobs/edit/${value.id}`}>
+                                                        <RiFileEditFill 
+                                                            className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
+                                                        />
+                                                    </Link>
+                                                </div>
+                                               
+                                                <div className="lg:tooltip" data-tip="Hapus Data">
+                                                    <RiDeleteBin5Fill 
+                                                        onClick={() => handleDelete(value.id)} 
+                                                        className="text-primary cursor-pointer p-1 text-3xl"
+                                                    />
+                                                </div>
+                                               
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </TitleCard>
+        )
+    }
 }
 

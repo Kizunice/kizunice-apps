@@ -13,7 +13,11 @@ export async function GET(req, { params }) {
     include: {
       company: true,
       supervisor: true,
-      applications: true,
+      applications: {
+        include: {
+          student : true,
+        }
+      },
     },
   });
 
@@ -22,7 +26,7 @@ export async function GET(req, { params }) {
 
 export async function DELETE(req,{ params }) {
   console.log(params)
-  await prisma.companies.jobOpportunity({
+  await prisma.jobOpportunity.findUnique({
     where: {
       id: params.jobsId,
     },

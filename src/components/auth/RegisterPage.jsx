@@ -33,13 +33,13 @@ export default function RegisterForm() {
       
       if (response.ok) {
         setLoading(false);
-        toast.success("User Created Successfully");
+        toast.success("Berhasil membuat akun!");
         router.push("/login");
       } else {
         setLoading(false);
         if (response.status === 409) {
           setEmailErr("User with this Email already exists");
-          toast.error("User with this Email already exists");
+          toast.error("Akun dengan email ini sudah ada!");
         } else {
           toast.error("Oops Something Went wrong");
         }
