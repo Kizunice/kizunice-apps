@@ -26,7 +26,7 @@ export async function POST(req,res) {
         },
     });
 
-    const path = '/doc/CV-Siswa.xlsx';
+    const path = 'doc/CV-Siswa.xlsx';
 
     const wb = new ExcelJS.Workbook()
     wb.xlsx.readFile(path)
