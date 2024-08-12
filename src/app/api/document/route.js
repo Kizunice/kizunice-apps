@@ -27,7 +27,7 @@ export async function POST(req,res) {
     });
 
     const fs = require('fs');
-    const fullPath = fs.realpathSync('public/doc/CV-Siswa.xlsx')
+    const fullPath = fs.realpathSync('/doc/CV-Siswa.xlsx')
 
     const wb = new ExcelJS.Workbook()
     wb.xlsx.readFile(fullPath)
