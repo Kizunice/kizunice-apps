@@ -26,11 +26,10 @@ export async function POST(req,res) {
         },
     });
 
-    const path = 'public/doc/CV-Siswa.xlsx';
-    const blobPath = "https://m3xutoofvpsdf3ds.public.blob.vercel-storage.com/public/doc/CV-Siswa.xlsx"
+    const path = '/doc/CV-Siswa.xlsx';
 
     const wb = new ExcelJS.Workbook()
-    wb.xlsx.read(blobPath)
+    wb.xlsx.readFile(path)
         .then(async function() {
             let ws = wb.getWorksheet('Sheet1')
 
