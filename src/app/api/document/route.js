@@ -27,11 +27,10 @@ export async function POST(req,res) {
         },
     });
 
-    const path = '/api/public/doc/default.xlsx';
-
+    const path = './doc/default.xlsx';
     const wb = new ExcelJS.Workbook()
 
-    wb.xlsx.readFile(path)
+    wb.xlsx.read(path)
         .then(async function() {
             let ws = wb.getWorksheet('Sheet1')
 
