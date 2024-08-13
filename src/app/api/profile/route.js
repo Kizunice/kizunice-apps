@@ -6,6 +6,9 @@ export async function GET(req) {
   const profile = await prisma.studentProfile.findMany({
     orderBy : {
       name: "asc"
+    },
+    include: {
+      jobApplications: true
     }
   });
 

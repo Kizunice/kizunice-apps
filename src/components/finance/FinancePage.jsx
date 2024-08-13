@@ -86,7 +86,8 @@ export default async function FinancePage() {
                                 <th>Tipe</th>
                                 <th>Siswa</th>
                                 <th>Jumlah</th>
-                                <th>Deskripsi</th>
+                                <th>Pembayaran</th>
+                                <th>Keterangan</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -103,6 +104,7 @@ export default async function FinancePage() {
                                             </td>
                                             <td>{value.student ? value.student.name : ""}</td>
                                             <td>{formatterIDR(value.amount)}</td>
+                                            <td>{value.studentPayment}</td>
                                             <td>{value.description}</td>
                                         </tr>
                                     )

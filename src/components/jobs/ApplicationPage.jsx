@@ -116,7 +116,7 @@ export default function ApplicationPage() {
                                         <td>{value.job.fieldJob}</td>
                                         <td>{moment(value.job.departure).format("DD/MM/yyyy")}</td>
                                         <td>{value.note}</td>
-                                        <td>{value.status ? "Diterima" : ""}</td>
+                                        <td>{value.status ? "Diterima" : "Belum Diterima"}</td>
                                         <td className="flex flex-row items-start">
                                             <Link href={`/jobs/detail/${value.job.id}`}>
                                                 <RiEyeFill 

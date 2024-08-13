@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Button from "../ui/Button";
 import Loading from "@/app/(dashboard)/loading";
+import SelectField from "../ui/SelectField";
 
 export default function CreateLearningPage() {
     const {data:session} =  useSession()
@@ -48,7 +49,7 @@ export default function CreateLearningPage() {
       console.log("my category :", data)
       data.forEach((value) => {
         results.push({
-          label: value.name,
+          label: value.name + " " + value.asalLPK,
           value: value.id,
         });
       });
@@ -72,12 +73,17 @@ export default function CreateLearningPage() {
         console.log(formValues);
     };
 
-    const handleMulti = (selectedStudents) => {
-        setFormValues({ ...formValues, students: selectedStudents});
-        console.log(formValues)
-    }
+    const handleSelect = (value, meta) => {
+      let res = []
+      value.map(val=> {
+        res.push(val.value)
+      })
+      setFormValues({ ...formValues, [meta.name]: res});
+      console.log(formValues)
+    };
 
     async function handleSubmit() {
+      setLoading(true)
         try {
           const response = await fetch("/api/learning", {
             method: "POST",
@@ -136,12 +142,14 @@ export default function CreateLearningPage() {
               />   
           </div>
           <div className="divider" ></div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <MultiSelectDropdown
-                formFieldName={students}
-                label="Pilih Siswa"
-                options={options}
-                onChange={handleMulti}
+          <div className="grid grid-cols-1">
+            <SelectField
+              placeholder="Pilih Siswa"
+              label="Nama Siswa"
+              name="students"
+              isMulti="isMulti"
+              options={options}
+              onChange={(value, meta) => handleSelect(value, meta)}
             />
           </div>
           <div className="divider" ></div>

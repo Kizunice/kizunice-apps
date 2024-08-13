@@ -26,14 +26,24 @@ export async function GET(req) {
 
   export async function POST(req,res) {
     const body = await req.json();
-    const { jobId, partnerId, studentId, status, note} = body;
+    const { jobId, partnerId, studentId, status, note, id} = body;
 
-    const application = await prisma.jobApplication.create({
-      data: {
+    const application = await prisma.jobApplication.upsert({
+      where : {
+        id
+      },
+      update : {
         jobId ,
         studentId,
         partnerId,  
-        status,           
+        status : JSON.parse(status),           
+        note
+      },
+      create : {
+        jobId ,
+        studentId,
+        partnerId,  
+        status : JSON.parse(status),           
         note
       },
     });

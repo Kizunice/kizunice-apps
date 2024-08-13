@@ -30,16 +30,14 @@ export async function POST(req,res) {
     });
 
     const filePath = path.resolve('./public', 'doc', 'default.xlsx');
-    // const file = fs.readFileSync(filePath);
   
-    // const path = './doc/default.xlsx';
     const wb = new ExcelJS.Workbook()
 
     await wb.xlsx.readFile(filePath)
         .then(async function() {
             let ws = wb.getWorksheet('Sheet1')
-
             let row2 = ws.getRow(2);
+            let row3 = ws.getRow(3);
             let row4 = ws.getRow(4);
             let row5 = ws.getRow(5);
             let row6 = ws.getRow(6);
@@ -67,6 +65,7 @@ export async function POST(req,res) {
             let row33 = ws.getRow(33);
             let row34 = ws.getRow(34);
             let row36 = ws.getRow(36);
+
 
             row2.getCell(3).value = "KIN-001";
             row2.getCell(11).value = "08 - 08 - 2024";
@@ -130,6 +129,7 @@ export async function POST(req,res) {
             row36.getCell(1).value = "Tidak";
 
             row2.commit();
+            row3.commit();
             row4.commit();
             row5.commit()
             row6.commit()

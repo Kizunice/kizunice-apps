@@ -117,6 +117,7 @@ export default function CreateSenseiPage() {
                     />
                      <SelectField
                         value={gender}
+                        optionName={"Pilih Jenis Kelamin"}
                         defaultValue={gender}
                         label="Jenis Kelamin"
                         name="gender"

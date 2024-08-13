@@ -90,6 +90,11 @@ export default function CreateScorePage() {
         console.log(formValues);
     };
 
+    const handleSelect = (value, meta) => {
+        setFormValues({ ...formValues, [meta.name]: value.value});
+        console.log(formValues)
+      };
+
     async function handleSubmit() {
         setLoading(true);
         try {
@@ -131,7 +136,7 @@ export default function CreateScorePage() {
                         label="Materi Belajar"
                         name="learningId"
                         options={optionsL}
-                        onChange={handleChange}
+                        onChange={(value, meta) => handleSelect(value, meta)}
                     />
                     <SelectField
                         value={studentId}
@@ -139,7 +144,7 @@ export default function CreateScorePage() {
                         label="Nama Siswa"
                         name="studentId"
                         options={optionsS}
-                        onChange={handleChange}
+                        onChange={(value, meta) => handleSelect(value, meta)}
                     />
                 </div>
                 <div className="divider" ></div>

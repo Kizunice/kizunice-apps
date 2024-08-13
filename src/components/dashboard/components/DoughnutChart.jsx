@@ -49,7 +49,7 @@ import {
   
       return(
           <TitleCard title={"Student Status"}>
-                  <Doughnut options={options} data={data} />
+            <Doughnut options={options} data={data} />
           </TitleCard>
       )
   }

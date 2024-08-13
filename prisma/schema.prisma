@@ -14,9 +14,11 @@ model StudentProfile {
   user                User?                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   image               String?
   name                String?
+  nihongoName         String?
   email               String?
   address             String?
   phone               String?
+  parentsPhone        String?              @default("")
   gender              String?
   age                 Int?
   dateOfBirth         DateTime?
@@ -25,9 +27,15 @@ model StudentProfile {
   bodyHeight          String?
   bodyWeight          String?
   asalLPK             String?
+  isHired             Boolean?             @default(false)
+  isDepart            Boolean?             @default(false)
+  isPaid              Boolean?             @default(false)
   religion            String?
   status              String?
   blood               String?
+  desease             Boolean?             @default(false)
+  deseaseName         String?              @default("")
+  deseasePeriod       String?              @default("")
   shoesSize           String?              @default("")
   teesSize            String?              @default("")
   waistLine           String?              @default("")
@@ -249,7 +257,9 @@ model FinanceTransaction {
   userId          String
   transactionType Type            @default(EXPENSE)
   amount          Float
+  amountLeft      Float           @default(41000000)
   description     String?
+  studentPayment  String?         @default("")
   transactionDate DateTime
   user            User            @relation(fields: [userId], references: [id])
   studentId       String?

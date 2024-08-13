@@ -97,6 +97,11 @@ export default function CreateApplicationPage() {
         console.log(formValues);
     };
 
+    const handleSelect = (value, meta) => {
+      setFormValues({ ...formValues, [meta.name]: value.value});
+      console.log(formValues)
+    };
+
    
     async function handleSubmit() {
       try {
@@ -125,30 +130,29 @@ export default function CreateApplicationPage() {
             <Toaster />
             <TitleCard title="Tambah Data Lamaran" topMargin="mt-2"  >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                   
                     <SelectField
                         value={jobId}
-                        optionName="Pilih program kerja"
+                        placeholder="Pilih program kerja"
                         label="Program Kerja"
                         name="jobId"
                         options={optionsJ}
-                        onChange={handleChange}
+                        onChange={(value, meta) => handleSelect(value, meta)}
                     />
                     <SelectField
                         value={partnerId}
-                        optionName="Pilih Lembaga"
+                        placeholder="Pilih Lembaga"
                         label="Nama Lembaga"
                         name="partnerId"
                         options={optionsP}
-                        onChange={handleChange}
+                        onChange={(value, meta) => handleSelect(value, meta)}
                     />
                     <SelectField
                         value={studentId}
-                        optionName="Pilih Siswa"
+                        placeholder="Pilih Siswa"
                         label="Nama Siswa"
                         name="studentId"
                         options={optionsS}
-                        onChange={handleChange}
+                        onChange={(value, meta) => handleSelect(value, meta)}
                     />
                      <InputField
                         type="text"

@@ -24,18 +24,33 @@ export default function CreateFinancePage() {
           value: "INCOME",
         }
     ])
+    const [optionPayment, setOptionPayment] = useState([
+        {
+            label: "Biaya Pendidikan",
+            value: "Biaya Pendidikan",
+        },
+        {
+            label: "Biaya Dokumen Awal",
+            value: "Biaya Dokumen Awal",
+        },
+        {
+            label: "Biaya Keberangkatan",
+            value: "Biaya Keberangkatan",
+        }
+    ])
     const [loading, setLoading] = useState(false)
     const [students,setStudents] = useState([])
     const [formValues, setFormValues]  = useState({
         userId : session?.user.id,
         studentId: "",
-        transactionType: 'EXPENSE',      
+        transactionType: '',      
         transactionDate :"",
         amount: '', 
         description:'',
+        studentPayment:'',
     })
 
-    const{transactionDate, transactionType,amount, description, studentProfileId} = formValues  
+    const{transactionDate, transactionType,amount, description, studentProfileId, studentPayment} = formValues  
 
     async function fetchDataStudents() {
         const { data } = await axios.get("/api/profile");
@@ -66,6 +81,11 @@ export default function CreateFinancePage() {
         console.log(formValues);
     };
 
+    const handleSelect = (value, meta) => {
+        setFormValues({ ...formValues, [meta.name]: value.value});
+        console.log(formValues)
+    };
+
     async function handleSubmit() {
         console.log(formValues)
         setLoading(true)
@@ -89,11 +109,10 @@ export default function CreateFinancePage() {
         }
       }
     
-
     return(
         <>
         <Toaster />
-            <TitleCard title="Tambah Nilai Siswa" topMargin="mt-2"  >
+            <TitleCard title="Tambah Data Keuangan" topMargin="mt-2"  >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <InputField
                         type="date"
@@ -105,19 +124,19 @@ export default function CreateFinancePage() {
                     />
                     <SelectField
                         value={transactionType}
-                        placeholder="Expense"
+                        placeholder="Pilih Tipe Transaksi"
                         label="Tipe Transaksi"
                         name="transactionType"
                         options={options}
-                        onChange={handleChange}
+                        onChange={(value, meta) => handleSelect(value, meta)}
                     />
                     <SelectField
                         value={studentProfileId}
-                        placeholder="Nama Siswa"
+                        placeholder="Pilih Nama Siswa"
                         label="Nama Siswa"
                         name="studentId"
                         options={students}
-                        onChange={handleChange}
+                        onChange={(value, meta) => handleSelect(value, meta)}
                     />
                     <InputField
                         type="text"
@@ -133,6 +152,14 @@ export default function CreateFinancePage() {
                         label="Note"
                         name="description"
                         onChange={handleChange}
+                    />
+                    <SelectField
+                        value={studentPayment}
+                        placeholder="Pilih Pembayaran"
+                        label="Pembayaran"
+                        name="studentPayment"
+                        options={optionPayment}
+                        onChange={(value, meta) => handleSelect(value, meta)}
                     />
                 </div>
                 <div className="divider" ></div>

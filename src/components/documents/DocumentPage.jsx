@@ -53,11 +53,8 @@ export default function DocumentPage() {
         getDocument()
       }, []);
 
-    const handleChange = (e) => {
-        e.preventDefault()
-        const { name, value } = e.target;
-        
-        setStudentId({ [name]: value});
+    const handleSelect = (value, meta) => {
+        setStudentId({ [meta.name]: value.value});
         console.log(studentId)
     };
 
@@ -101,11 +98,11 @@ export default function DocumentPage() {
         <TitleCard title={"Dokumen CV Siswa"} topMargin="mt-2">
             <SelectField
                 value={studentId}
-                optionName="Pilih Nama Siswa"
+                placeholder="Pilih Nama Siswa"
                 label="Nama Siswa"
                 name="studentId"
                 options={optionsS}
-                onChange={handleChange}
+                onChange={(value, meta) => handleSelect(value, meta)}
             />
             <div className="flex flex-col lg:flex-row gap-4 mt-8">
                 <Button handleSubmit={handleSubmit} text={"Buat Data CV"} loading={loading} />

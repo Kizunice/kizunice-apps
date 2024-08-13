@@ -45,8 +45,8 @@ export default function CreateJobsPage() {
             label: "Perempuan",
             value: "Perempuan",
         },{
-            label: "Laki-Laki dan Perempuan",
-            value: "Laki-Laki dan Perempuan",
+            label: "Laki-Laki & Perempuan",
+            value: "Laki-Laki & Perempuan",
         },
     ])
     async function fetchDataSupervisor() {
@@ -89,6 +89,11 @@ export default function CreateJobsPage() {
         console.log(formValues);
     };
 
+    const handleSelect = (value, meta) => {
+        setFormValues({ ...formValues, [meta.name]: value.value});
+        console.log(formValues)
+    };
+
     async function handleSubmit(event) {
         setLoading(true);
         try {
@@ -117,19 +122,19 @@ export default function CreateJobsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <SelectField
                     value={supervisorId}
-                    placeholder="Nama Lembaga Pengawas"
+                    placeholder="Pilih Lembaga Pengawas"
                     label="Nama Lembaga Pengawas"
                     name="supervisorId"
                     options={optionsS}
-                    onChange={handleChange}
+                    onChange={(value, meta) => handleSelect(value, meta)}
                 />
                 <SelectField
                     value={companyId}
-                    placeholder="Nama Perusahaan"
+                    placeholder="Pilih Nama Perusahaan"
                     label="Nama Perusahaan"
                     name="companyId"
                     options={optionsC}
-                    onChange={handleChange}
+                    onChange={(value, meta) => handleSelect(value, meta)}
                 />
                 <InputField
                     type="text"
@@ -165,12 +170,11 @@ export default function CreateJobsPage() {
                 />
                 <SelectField
                     value={gender}
-                    defaultValue={gender}
                     label="Jenis Kelamin"
-                    placeholder="Laki-Laki"
+                    placeholder="Pilih Jenis Kelamin"
                     name="gender"
                     options={options}
-                    onChange={handleChange}
+                    onChange={(value, meta) => handleSelect(value, meta)}
                 />
                 <InputField
                     type="text"
