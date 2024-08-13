@@ -30,7 +30,7 @@ export async function POST(req,res) {
     const path = './doc/default.xlsx';
     const wb = new ExcelJS.Workbook()
 
-    wb.xlsx.read(path)
+    wb.xlsx.readFile(path)
         .then(async function() {
             let ws = wb.getWorksheet('Sheet1')
 
