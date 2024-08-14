@@ -19,7 +19,6 @@ export default function CreateApplicationPage() {
         jobId: "",
         partnerId: "",
         note: "",
-       
     })
     const{jobId, studentId,partnerId, status, note } = formValues
     const [optionsJ,setOptionsJ] = useState([])

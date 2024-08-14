@@ -81,6 +81,7 @@ model StudentProfile {
   financeTransactions FinanceTransaction[]
   learning            Learning[]
   document            Document[]
+  studentPayment      StudentPayment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -263,7 +264,24 @@ model FinanceTransaction {
   transactionDate DateTime
   user            User            @relation(fields: [userId], references: [id])
   studentId       String?
-  student         StudentProfile? @relation(fields: [studentId], references: [id], onDelete: SetNull, onUpdate: SetNull)
+  student         StudentProfile? @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  paymentId       String?
+  payment         StudentPayment? @relation(fields: [paymentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model StudentPayment {
+  id              String          @id @default(cuid())
+  totalCost       Float           @default(41000000)
+  costLeft        Float           
+  note            String?
+  isPaidOff       Boolean?         @default(false)
+  isInstallment   Boolean?         @default(false)
+  studentId       String?
+  student         StudentProfile? @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  finance         FinanceTransaction[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

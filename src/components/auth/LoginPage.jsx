@@ -90,7 +90,7 @@ export default function LoginForm() {
       <div className="flex gap-4 items-center">
         <Link
           href="/forgot-password"
-          className="shrink-0 font-small text-sm hover:underline dark:text-white"
+          className="shrink-0 font-small text-sm hover:underline text-white"
         >
           Lupa Password
         </Link>

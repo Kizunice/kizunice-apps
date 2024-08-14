@@ -1,5 +1,5 @@
 'use client'
-import { useState , useEffect, useCallback} from 'react';
+import { useState , useEffect, useMemo} from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
@@ -12,6 +12,7 @@ import TitleCard from '@/components/ui/TitleCards';
 import InputField from "../ui/InputField";
 import toast from "react-hot-toast";
 import Loading from '@/app/(dashboard)/loading';
+import Pagination from '../ui/Pagination';
 
 const statsData = [
     {title : "Today", value : "150", icon: <IoCalendar size={30}/>, color:"bg-white"},
@@ -66,14 +67,14 @@ const TopSideButtons = () => {
                 <dialog id="attend_modal" className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box bg-white">
                     <h3 className="text-md text-center mb-4">Kehadiran Siswa</h3>
-                    <form>
+                    <form className='card flex flex-col gap-4'>
                         <InputField
                             type="date"
                             value={date}
                             placeholder="Tanggal Hari Ini"
                             label="Tanggal Hari Ini"
                             name="date"
-                            onChange={handleChange}
+                            readOnly="readOnly"
                         />
                          <InputField
                             type="text"
@@ -83,7 +84,6 @@ const TopSideButtons = () => {
                             name="status"
                             onChange={handleChange}
                         />
-                        
                     </form>
                     <div className="modal-action">                    
                     <form method="dialog">
@@ -99,11 +99,19 @@ const TopSideButtons = () => {
    return
 }
 
+let PageSize = 10;
+
 export default async function AttendancePage() {
+    const {data:session} =  useSession()
     const [values, setValues] = useState([])
     const [loading, setLoading] = useState(true)
-    const {data:session} =  useSession()
-    const router = useRouter()
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const paginatedList = useMemo(() => {
+      const firstPageIndex = (currentPage - 1) * PageSize;
+      const lastPageIndex = firstPageIndex + PageSize;
+      return values.slice(firstPageIndex, lastPageIndex);
+    }, [currentPage, values]);
 
     const getAttendance = async () => {
         try {  
@@ -130,9 +138,7 @@ export default async function AttendancePage() {
                 "Content-Type": "application/json",
                 },
             })
-            console.log(response)
             if (response.ok) {
-                // setLoading(false);
                 toast.success("Berhasil Sign Out!");
                 location.reload();
             } 
@@ -170,7 +176,7 @@ export default async function AttendancePage() {
                         </thead>
                         <tbody>
                             {
-                                values.map((value,index) =>{
+                                paginatedList.map((value,index) =>{
                                     return (
                                         <tr key={value.id} className="text-grey ">
                                         <td>{index+1}</td>
@@ -190,6 +196,15 @@ export default async function AttendancePage() {
                             }
                         </tbody>
                     </table>
+                </div>
+                <div className="flex justify-center items-center mt-4">
+                    <Pagination
+                        className="pagination-bar"
+                        currentPage={currentPage}
+                        totalCount={values.length}
+                        pageSize={PageSize}
+                        onPageChange={page => setCurrentPage(page)}
+                    />
                 </div>
             </TitleCard>
         </>

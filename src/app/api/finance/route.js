@@ -23,23 +23,35 @@ export async function GET(req,res) {
 export async function POST(req,res) {
     const session = await getCurrentUser(req, res);
     const body = await req.json();
-    const { userId, studentId, transactionType, studentPayment, transactionDate, amount, description } = body;
+    const { userId, studentId, transactionType, studentPayment, transactionDate, amount, description, id } = body;
     const newDate = new Date(transactionDate);
 
-    const defaulTotalAmount = 41000000
+    const defaultTotalAmount = 41000000
+
     if (session.role === "ADMIN" || session.role === "FINANCE" ) {
-        const finance = await prisma.financeTransaction.create({
-            data: {
-              userId : session.id || userId,
-              studentId : studentId ? studentId : null,
-              studentPayment,
-              transactionType,  
-              transactionDate: newDate.toISOString(),           
-              amount: parseFloat(amount),              
-              amountLeft: defaulTotalAmount - parseFloat(amount),              
-              description , 
-            },
-          });
+      let payment = []
+      const paymentAmount = await prisma.financeTransaction.findMany({
+        where : {
+          studentId
+        }
+      })
+      paymentAmount.forEach(val => {
+        payment.push(parseFloat(val.amount))
+      });
+      const totalPayment = payment.reduce((amt, a) => amt + a, 0)
+
+      const finance = await prisma.financeTransaction.create({
+        data: {
+          userId : session.id || userId,
+          studentId : studentId ? studentId : null,
+          studentPayment,
+          transactionType,  
+          transactionDate: newDate.toISOString(),           
+          amount: parseFloat(amount),              
+          amountLeft: defaultTotalAmount-(totalPayment+parseFloat(amount)),             
+          description , 
+        },
+      });
 
         return NextResponse.json(finance);
     }

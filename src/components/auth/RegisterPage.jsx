@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export default function RegisterForm() {
   const router = useRouter()
@@ -58,7 +58,6 @@ export default function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <Toaster />
       <div>
         <label
           htmlFor="name"
@@ -131,12 +130,12 @@ export default function RegisterForm() {
         <button
           disabled
           type="button"
-          className="w-full text-white text-center bg-primary hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 inline-flex items-center"
+          className="w-full text-white justify-center text-center bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 inline-flex items-center"
         >
           <svg
             aria-hidden="true"
             role="status"
-            className="inline w-4 h-4 mr-3 text-white animate-spin"
+            className="inline w-4 h-4 mr-3 text-white justify-center animate-spin"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -150,7 +149,7 @@ export default function RegisterForm() {
               fill="currentColor"
             />
           </svg>
-          Mohon tunggu . . .
+          Mohon tunggu...
         </button>
       ) : (
         <button
@@ -160,7 +159,6 @@ export default function RegisterForm() {
           Daftar
         </button>
       )}
-    
       <p className="text-sm font-light text-gray-400">
         Sudah punya akun?{" "}
         <Link

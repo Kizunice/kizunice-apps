@@ -72,12 +72,6 @@ export const ADMIN_ROUTES = [
     key: '9',
   },
   {
-    path: '/content',
-    icon: <BiSolidBookContent size={22} />,
-    name: 'Konten Website',
-    key: '10',
-  },
-  {
     path: '/settings',
     icon: <IoMdSettings size={22} />,
     name: 'Pengaturan',

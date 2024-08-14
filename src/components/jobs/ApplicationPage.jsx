@@ -8,6 +8,9 @@ import Link from "next/link"
 import Loading from "@/app/(dashboard)/loading"
 import { RiFileEditFill, RiDeleteBin5Fill, RiEyeFill } from "react-icons/ri"
 import SearchButton from "../ui/SearchButton"
+import Pagination from "../ui/Pagination"
+
+let PageSize = 5;
 
 const TopSideButtons= () =>{
     const {data:session} =  useSession()
@@ -26,7 +29,7 @@ export default function ApplicationPage() {
     const [loading, setLoading] = useState(true)
     const [filteredList, setFilteredList] = useState('');
     const [query, setQuery] = useState('');
-    const [showModal, setShowModal] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const getJobs = async () => {
         try {  
@@ -53,10 +56,13 @@ export default function ApplicationPage() {
                     value.job.company.name.toLowerCase().includes(query.toLowerCase()) ||
                     value.job.fieldJob.toLowerCase().includes(query.toLowerCase()) 
             })
-            setFilteredList(filteredData)
+            const firstPageIndex = (currentPage - 1) * PageSize;
+            const lastPageIndex = firstPageIndex + PageSize;
+            const paginatedList = filteredData.slice(firstPageIndex, lastPageIndex);
+            setFilteredList(paginatedList)
         }
         
-    }, [values, query])
+    }, [values, query, currentPage])
     
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -139,6 +145,15 @@ export default function ApplicationPage() {
                         }
                     </tbody>
                 </table>
+            </div>
+            <div className="flex justify-center items-center mt-4">
+                <Pagination
+                    className="pagination-bar"
+                    currentPage={currentPage}
+                    totalCount={values.length}
+                    pageSize={PageSize}
+                    onPageChange={page => setCurrentPage(page)}
+                />
             </div>
         </TitleCard>
     )

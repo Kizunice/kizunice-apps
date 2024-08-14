@@ -18,9 +18,11 @@ export default function ProfilePage(){
     const [formValues, setFormValues]  = useState({})
     const { 
         name, 
+        nihongoName,
         email, 
         image, 
         phone, 
+        parentsPhone,
         address, 
         gender, 
         age, 
@@ -112,6 +114,11 @@ export default function ProfilePage(){
         console.log(formValues);
     };
 
+    const handleSelect = (value, meta) => {
+        setFormValues({ ...formValues, [meta.name]: value.value});
+        console.log(formValues)
+    };
+
     const saveAvatar = (url) => {
         setFormValues(formValues => ({
             ...formValues,
@@ -183,18 +190,18 @@ export default function ProfilePage(){
                     />
                     <InputField
                         type="text"
-                        value={email}
-                        placeholder="Alamat Email"
-                        label="Email"
-                        name="email"
+                        value={nihongoName}
+                        placeholder="Nama Lengkap dalam Nihongo"
+                        label="Nama Lengkap dalam Nihongo"
+                        name="nihongoName"
                         onChange={handleChange}
                     />
                     <InputField
                         type="text"
-                        value={phone}
-                        placeholder="0812xxxxxxx"
-                        label="Nomor Handphone"
-                        name="phone"
+                        value={email}
+                        placeholder="Alamat Email"
+                        label="Email"
+                        name="email"
                         onChange={handleChange}
                     />
                     <InputField
@@ -205,13 +212,28 @@ export default function ProfilePage(){
                         name="address"
                         onChange={handleChange}
                     />
-                     <SelectField
-                        value={gender}
-                        defaultValue={gender}
+                    <InputField
+                        type="text"
+                        value={phone}
+                        placeholder="+62 8XXXXXXXXX"
+                        label="Nomor Handphone Pribadi"
+                        name="phone"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={parentsPhone}
+                        placeholder="+62 8XXXXXXXXX"
+                        label="Nomor Handphone Wali"
+                        name="parentsPhone"
+                        onChange={handleChange}
+                    />
+                    <SelectField
+                        defaultValue={options.find(({value}) => value === gender)}
                         label="Jenis Kelamin"
                         name="gender"
                         options={options}
-                        onChange={handleChange}
+                        onChange={(value, meta) => handleSelect(value, meta)}
                     />
                     <InputField
                         type="number"
@@ -222,19 +244,19 @@ export default function ProfilePage(){
                         onChange={handleChange}
                     />
                     <InputField
-                        type="date"
-                        value={moment(dateOfBirth).format("YYYY-MM-DD")}
-                        placeholder="Tanggal Lahir"
-                        label="Tanggal Lahir"
-                        name="dateOfBirth"
-                        onChange={handleChange}
-                    />
-                    <InputField
                         type="text"
                         value={placeOfBirth}
                         placeholder="Jakarta"
                         label="Tempat Lahir"
                         name="placeOfBirth"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="date"
+                        value={moment(dateOfBirth).format("YYYY-MM-DD")}
+                        placeholder="Tanggal Lahir"
+                        label="Tanggal Lahir"
+                        name="dateOfBirth"
                         onChange={handleChange}
                     />
                     <InputField

@@ -1,18 +1,20 @@
 'use client'
 import axios from "axios";
-import { useSession } from "next-auth/react";
-import { useEffect,useState, useCallback } from "react";
+import { useEffect,useState, useCallback, useMemo } from "react";
 import TitleCard from "../ui/TitleCards";
-import InputField from "../ui/InputField";
 import Link from "next/link";
 import Loading from "@/app/(dashboard)/loading"
 import SearchButton from "../ui/SearchButton";
+import Pagination from "../ui/Pagination";
+
+let PageSize = 10;
 
 export default function StudentPage() {
     const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([])
     const [query, setQuery] = useState('');
     const [filteredList, setFilteredList] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
 
     const getUsers = async () => {
         try {  
@@ -34,15 +36,19 @@ export default function StudentPage() {
         setQuery(e.target.value)
         console.log(query)
     }
-
+   
     const searchHandler = useCallback(() => {
         const filteredData = users.filter((user) => {
           return user.name.toLowerCase().includes(query.toLowerCase()) ||
            user.asalLPK.toLowerCase().includes(query.toLowerCase())
         })
-        setFilteredList(filteredData)
+
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        const paginatedList = filteredData.slice(firstPageIndex, lastPageIndex);
+        setFilteredList(paginatedList)
         setLoading(false);
-      }, [users, query])
+      }, [users, query, currentPage])
     
       useEffect(() => {
         const timer = setTimeout(() => {
@@ -54,11 +60,12 @@ export default function StudentPage() {
         }
       }, [searchHandler])
 
+
     if (loading) return <Loading />
     if (filteredList) {
         return (
             <TitleCard 
-                title={"Data Student"} 
+                title={"Data Siswa"} 
                 topMargin="mt-2" 
                 TopSideButtons={<SearchButton handleChange={handleChange} value={query} placeholder={"Cari Siswa"} />}  
                 >
@@ -94,6 +101,15 @@ export default function StudentPage() {
                         </tbody>
                     </table>
                 </div>
+                <div className="flex justify-center items-center mt-4">
+                        <Pagination
+                            className="pagination-bar"
+                            currentPage={currentPage}
+                            totalCount={users.length}
+                            pageSize={PageSize}
+                            onPageChange={page => setCurrentPage(page)}
+                        />
+                    </div>
             </TitleCard>
         );
     }

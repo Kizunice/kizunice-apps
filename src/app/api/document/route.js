@@ -7,7 +7,6 @@ import { put } from "@vercel/blob";
 import fs from 'fs'
 import path from 'path'
 
-
 export async function GET(req) {
   const doc = await prisma.document.findMany({
     include : {

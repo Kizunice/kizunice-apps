@@ -16,7 +16,6 @@ function DetailJobsPage() {
     const {data:session} =  useSession()
     const [values, setValues] = useState([])
     const [loading, setLoading] = useState(true)
-
     const getJobsDetail = async () => {
         try {  
             const res = await axios.get(`/api/jobs/${params.jobsId}`);
@@ -52,8 +51,6 @@ function DetailJobsPage() {
             <TableAplicant values={values}/>
         ) 
     }
-
-
 
     if (loading) return <Loading />
     return (

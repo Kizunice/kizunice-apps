@@ -23,8 +23,8 @@ const TopSideButtons= () =>{
    return
 }
 
-
 export default function JobsPage() {
+    const {data:session} =  useSession()
     const [values,setValues] = useState([])
     const [loading, setLoading] = useState(true)
     const [filteredList, setFilteredList] = useState('');
@@ -104,7 +104,7 @@ export default function JobsPage() {
                             <th>Pekerja</th>
                             <th>Gaji</th>
                             <th>Berangkat</th>
-                            <th>Aksi</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -129,21 +129,25 @@ export default function JobsPage() {
                                                         />
                                                     </Link>
                                                 </div>
-                                                <div className="lg:tooltip" data-tip="Ubah Data">
-                                                    <Link href={`/jobs/edit/${value.id}`}>
-                                                        <RiFileEditFill 
-                                                            className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
-                                                        />
-                                                    </Link>
-                                                </div>
-                                               
-                                                <div className="lg:tooltip" data-tip="Hapus Data">
-                                                    <RiDeleteBin5Fill 
-                                                        onClick={() => handleDelete(value.id)} 
-                                                        className="text-primary cursor-pointer p-1 text-3xl"
-                                                    />
-                                                </div>
-                                               
+                                                {
+                                                    session?.user.role === "STUDENT" ? "" : (
+                                                        <>
+                                                        <div className="lg:tooltip" data-tip="Ubah Data">
+                                                            <Link href={`/jobs/edit/${value.id}`}>
+                                                                <RiFileEditFill 
+                                                                    className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
+                                                                />
+                                                            </Link>
+                                                        </div>
+                                                        <div className="lg:tooltip" data-tip="Hapus Data">
+                                                            <RiDeleteBin5Fill 
+                                                                onClick={() => handleDelete(value.id)} 
+                                                                className="text-primary cursor-pointer p-1 text-3xl"
+                                                            />
+                                                        </div>
+                                                        </>
+                                                    ) 
+                                                }
                                             </td>
                                         </tr>
                                     )

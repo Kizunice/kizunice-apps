@@ -57,7 +57,6 @@ export default function LearningPage() {
         }
     }
 
-
     const searchHandler = useCallback(() => {
         const filteredData = values.filter((value) => {
             return value.sensei.name.toLowerCase().includes(query.toLowerCase()) ||
@@ -86,7 +85,7 @@ export default function LearningPage() {
     if(filteredList) {
         return (
             <TitleCard 
-                title={"Data Pembelajaran Siswa"} 
+                title={"Data Belajar Siswa"} 
                 topMargin="mt-2" 
                 TopMiddleButtons={<SearchButton handleChange={handleChange} value={query} placeholder={"Cari Data"} />}
                 TopSideButtons={<TopSideButtons/>} 

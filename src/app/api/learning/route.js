@@ -25,7 +25,32 @@ export async function GET(req, res) {
       }
     }); 
     return NextResponse.json(learning);
-  }
+  } 
+
+  if(session.role === "STUDENT") {
+    const learning = await prisma.learning.findMany({
+      where: {
+        students: {
+          some : {
+            userId : session.id
+          }
+        }
+      },
+      include: {
+        students: true,
+        sensei : true,
+        scores: {
+          include : {
+            student : true
+          }
+        },
+      },
+      orderBy: {
+        createdAt : "desc"
+      }
+    }); 
+    return NextResponse.json(learning);
+  } 
 
   const learning = await prisma.learning.findMany({
     include: {

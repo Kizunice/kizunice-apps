@@ -15,7 +15,7 @@ function TitleCard({title, children, topMargin, TopMiddleButtons, TopSideButtons
             }
           </Subtitle> */}
 
-          <Subtitle styleClass={TopSideButtons ? "flex flex-col lg:flex-row justify-between items-center" : ""}>
+          <Subtitle styleClass={TopSideButtons ? "flex flex-col lg:flex-row justify-between items-center gap-4" : ""}>
             <div className="justify-center align-center">{title}</div> 
 
             {/* Top side button, show only if present */}
@@ -24,7 +24,7 @@ function TitleCard({title, children, topMargin, TopMiddleButtons, TopSideButtons
             }
 
             {
-                TopSideButtons && <div className="align-center float-left mt-2 md:mt-0">{TopSideButtons}</div>
+                TopSideButtons && <div className="items-start lg:align-center float-left mt-2 md:mt-0">{TopSideButtons}</div>
             }
           </Subtitle>
           

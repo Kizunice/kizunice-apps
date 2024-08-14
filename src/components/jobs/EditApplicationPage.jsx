@@ -18,7 +18,6 @@ export default function EditApplicationPage(){
     const [loading, setLoading] = useState(false)
     const [pageLoading, setPageLoading] = useState(true)
     const [formValues, setFormValues]  = useState({})
-
     const [options, setOptions] = useState([
       {
           label: "Belum Diterima",
