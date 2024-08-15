@@ -1,5 +1,5 @@
 'use client'
-import { useState,useEffect, useCallback } from "react"
+import { useState,useEffect, useCallback, useMemo } from "react"
 import { useSession } from "next-auth/react"
 import axios from "axios"
 import moment from "moment"
@@ -47,7 +47,7 @@ export default function ApplicationPage() {
     getJobs();
     }, []);
 
-    const searchHandler = useCallback(() => {
+    const searchHandler = useMemo(() => {
         if(values) {
             const filteredData = values.filter((value) => {
                 return value.student.name.toLowerCase().includes(query.toLowerCase()) ||
@@ -79,6 +79,15 @@ export default function ApplicationPage() {
         setQuery(e.target.value);
         console.log(query);
     };
+
+    const handleDelete = async (value) => {
+        const approval = confirm("Apakah kamu yakin ingin menghapus?")
+
+        if (approval) {
+            await fetch(`/api/jobs-application/${value}`, { method: "DELETE" });
+            location.reload()
+        }
+    }
 
     if (loading) return <Loading />
     return (

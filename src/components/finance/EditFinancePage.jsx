@@ -128,7 +128,7 @@ export default function EditFinancePage(){
                     onChange={handleChange}
                 />
                 <SelectField
-                    value={formValues.transactionType}
+                    value={options.find(({value}) => value === formValues.transactionType)}
                     placeholder="Pilih Tipe Transaksi"
                     label="Tipe Transaksi"
                     name="transactionType"
@@ -136,7 +136,7 @@ export default function EditFinancePage(){
                     onChange={(value, meta) => handleSelect(value, meta)}
                 />
                 <SelectField
-                    value={formValues.studentProfileId}
+                    value={students.find(({value}) => value === formValues.studentId)}
                     placeholder="Pilih Nama Siswa"
                     label="Nama Siswa"
                     name="studentId"
@@ -152,7 +152,7 @@ export default function EditFinancePage(){
                     onChange={handleChange}
                 />
                 <SelectField
-                    value={formValues.studentPayment}
+                    value={optionPayment.find(({value}) => value === formValues.studentPayment)}
                     placeholder="Pilih Pembayaran"
                     label="Pembayaran untuk"
                     name="studentPayment"

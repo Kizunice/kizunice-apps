@@ -145,7 +145,7 @@ export default function CreateFinancePage() {
                     onChange={handleChange}
                 />
                 <SelectField
-                    value={studentPayment}
+                    defaultValue={studentPayment}
                     placeholder="Pilih Pembayaran"
                     label="Pembayaran untuk"
                     name="studentPayment"

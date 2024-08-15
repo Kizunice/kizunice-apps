@@ -1,5 +1,5 @@
 'use client'
-import { useState , useEffect, useCallback} from 'react';
+import { useState , useEffect, useCallback, useMemo} from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { useSession } from 'next-auth/react'
@@ -33,6 +33,7 @@ export default function FinancePage() {
     const [incomes, setIncomes] = useState()
     const [expenses, setExpenses] = useState()
     const [loading, setLoading] = useState(true)
+    const [loadingData, setLoadingData] = useState(false)
     const [currentPage, setCurrentPage] = useState(1);
     const [filteredList, setFilteredList] = useState('');
     
@@ -41,25 +42,23 @@ export default function FinancePage() {
         endDate: null,
     });
 
-    const searchHandler = useCallback(() => {
-        if(values) {
-            const filteredData = values.filter((value) => {
-                let filterPass = true
-                const date = moment(value.transactionDate).format("YYYY-MM-DD")
-                if (dateFilter.startDate) {
-                    filterPass = filterPass && dateFilter.startDate <= date
-                }
-                if (dateFilter.endDate) {
-                    filterPass = filterPass && dateFilter.endDate >= date
-                }
-                return filterPass
-            })
-            const firstPageIndex = (currentPage - 1) * PageSize;
-            const lastPageIndex = firstPageIndex + PageSize;
-            const paginatedList = filteredData.slice(firstPageIndex, lastPageIndex);
-            setFilteredList(paginatedList)
-        }
-    }, [values, currentPage])
+    const searchHandler = useMemo(() => {
+        const filteredData = values.filter((value) => {
+            let filterPass = true
+            const date = moment(value.transactionDate).format("YYYY-MM-DD")
+            if (dateFilter.startDate) {
+                filterPass = filterPass && dateFilter.startDate <= date
+            }
+            if (dateFilter.endDate) {
+                filterPass = filterPass && dateFilter.endDate >= date
+            }
+            return filterPass
+        })
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        const paginatedList = filteredData.slice(firstPageIndex, lastPageIndex);
+        setFilteredList(paginatedList)
+    }, [currentPage, values, dateFilter])
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -107,7 +106,7 @@ export default function FinancePage() {
                             today: "Hari Ini", 
                             yesterday: "Kemarin", 
                             currentMonth: "Bulan Ini", 
-                            pastMonth: "Bulan Kemarin"
+                            pastMonth: "Bulan Kemarin",
                         },
                     }} 
                     primaryColor={"blue"} 
@@ -178,12 +177,12 @@ export default function FinancePage() {
                                 {
                                     filteredList.map((value, index) =>{
                                         return (
-                                            <tr key={value.id} className="text-grey items-center">
+                                            <tr key={value.id} className="text-grey">
                                                 <td>{index+1}</td>
                                                 <td>{moment(value.transactionDate).format("DD/MM/yyyy")}</td>
-                                                <td className="flex items-center">
+                                                <td>
                                                     <span 
-                                                        className={`badge px-4 text-white font-normal ${value.transactionType === "EXPENSE" ? "badge-error" : "badge-success"}`}
+                                                        className={`badge px-4  text-white font-normal ${value.transactionType === "EXPENSE" ? "badge-error" : "badge-success"}`}
                                                     >{value.transactionType}</span>
                                                 </td>
                                                 <td>{value.student ? value.student.name : ""}</td>

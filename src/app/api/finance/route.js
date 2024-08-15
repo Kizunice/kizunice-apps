@@ -38,6 +38,7 @@ export async function POST(req,res) {
       paymentAmount.forEach(val => {
         payment.push(parseFloat(val.amount))
       });
+      
       const totalPayment = payment.reduce((amt, a) => amt + a, 0)
 
       const finance = await prisma.financeTransaction.create({
