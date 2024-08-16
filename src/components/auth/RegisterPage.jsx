@@ -1,52 +1,81 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 export default function RegisterForm() {
   const router = useRouter()
-
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);
   const [formValues, setFormValues] = useState({
     name: "",
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
-  const [emailErr, setEmailErr] = useState("");
+  const {name, email, password } = formValues
+
+  useEffect(() => {
+    validateForm();
+  }, [name, email, password]);
+  // Validate form
+  const validateForm = () => {
+      let errors = {};
+
+      if (!name) {
+          errors.name = 'Name is required.';
+      }
+
+      if (!email) {
+          errors.email = 'Email is required.';
+      } else if (!/\S+@\S+\.\S+/.test(email)) {
+          errors.email = 'Email is invalid.';
+      }
+
+      if (!password) {
+          errors.password = 'Password is required.';
+      } else if (password.length < 6) {
+          errors.password = 'Password must be at least 6 characters.';
+      }
+
+      setErrors(errors);
+      setIsFormValid(Object.keys(errors).length === 0);
+  };
 
   async function handleSubmit(event) {
     event.preventDefault()
     setLoading(true);
-    setFormValues({ name: "", email: "", password: "" });
-    console.log(formValues)
-
-    try {
-      const response = await fetch("/api/register", {
-        method: "POST",
-        body: JSON.stringify(formValues),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      
-      if (response.ok) {
-        setLoading(false);
-        toast.success("Berhasil membuat akun!");
-        router.push("/login");
-      } else {
-        setLoading(false);
-        if (response.status === 409) {
-          setEmailErr("User with this Email already exists");
-          toast.error("Akun dengan email ini sudah ada!");
+    if(isFormValid) {
+      try {
+        const response = await fetch("/api/register", {
+          method: "POST",
+          body: JSON.stringify(formValues),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        
+        if (response.ok) {
+          setLoading(false);
+          toast.success("Berhasil membuat akun!");
+          router.push("/login");
         } else {
-          toast.error("Oops Something Went wrong");
+          setLoading(false);
+          if (response.status === 409) {
+            toast.error("Akun dengan email ini sudah ada!");
+          } else {
+            toast.error("Akun dengan email ini sudah ada!");
+          }
         }
+      } catch (error) {
+        setLoading(false);
+        console.error("Network Error:", error);
       }
-    } catch (error) {
-      setLoading(false);
-      console.error("Network Error:", error);
+    } else {
+      setLoading(false)
+      toast.error("Form Error, Silahkan cek kembali");
     }
   }
 
@@ -74,11 +103,7 @@ export default function RegisterForm() {
           value={formValues.name}
           onChange={handleChange}
         />
-        {/* {errors.name && (
-          <small className="text-red-600 text-sm ">
-            This field is required
-          </small>
-        )} */}
+        {/* {errors.name && <p className="text-red-600 text-sm">{errors.name}</p>} */}
       </div>
       <div>
         <label
@@ -96,12 +121,7 @@ export default function RegisterForm() {
           value={formValues.email}
           onChange={handleChange}
         />
-        {/* {errors.email && (
-          <small className="text-red-600 text-sm ">
-            This field is required
-          </small>
-        )} */}
-        {/* <small className="text-red-600 text-sm ">{emailErr}</small> */}
+      
       </div>
       <div className='my-2'>
         <label
@@ -120,11 +140,7 @@ export default function RegisterForm() {
           value={formValues.password}
           onChange={handleChange}
         />
-        {/* {errors.password && (
-          <small className="text-red-600 text-sm ">
-            This field is required
-          </small>
-        )} */}
+      
       </div>
       {loading ? (
         <button

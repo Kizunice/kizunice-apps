@@ -151,7 +151,7 @@ export default async function AttendancePage() {
 
     return (
         <>
-            <div className="grid lg:grid-cols-3 mt-2 md:grid-cols-3 grid-cols-1 gap-6 mb-6">
+            {/* <div className="grid lg:grid-cols-3 mt-2 md:grid-cols-3 grid-cols-1 gap-6 mb-6">
                 {
                     statsData.map((d, k) => {
                         return (
@@ -159,7 +159,7 @@ export default async function AttendancePage() {
                         )
                     })
                 }
-            </div>
+            </div> */}
             <TitleCard title={"Daftar Kehadiran Siswa"} topMargin="mt-2" TopSideButtons={<TopSideButtons/>}>
                 <div className="overflow-x-auto w-full">
                     <table className="table w-full">

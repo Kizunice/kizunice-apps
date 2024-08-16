@@ -231,6 +231,7 @@ export default function ProfilePage(){
                     <SelectField
                         defaultValue={options.find(({value}) => value === gender)}
                         label="Jenis Kelamin"
+                        placeholder={"Pilih jenis kelamin"}
                         name="gender"
                         options={options}
                         onChange={(value, meta) => handleSelect(value, meta)}

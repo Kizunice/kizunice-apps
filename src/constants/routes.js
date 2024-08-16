@@ -56,7 +56,7 @@ export const ADMIN_ROUTES = [
   {
     path: '/data-partner',
     icon: <HiUsers size={22} />,
-    name: 'Data Rekanan',
+    name: 'Data Lembaga',
     key: '7',
   },
   {

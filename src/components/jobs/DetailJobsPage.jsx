@@ -32,6 +32,10 @@ function DetailJobsPage() {
     getJobsDetail();
     }, []);
 
+    async function handleSubmit() {
+        return confirm("Silahkan hubungi sensei")
+    }
+
     const TopSide =() =>{
         if(values) {
             return <div className="text-primary font-bold text-xl">{values.title}</div>
@@ -41,12 +45,12 @@ function DetailJobsPage() {
     const ButtonApplication =  () =>{
         if (session?.user.role === "STUDENT")
         return (
-            <Button text={"Lamar Pekerjaan"} loading={loading} />
+            <Button text={"Lamar Pekerjaan"} loading={loading} handleSubmit={handleSubmit} />
         ) 
     }
 
     const TableApps =  ({values}) =>{
-        if (session?.user.role === "ADMIN" || session?.user.role === "PARTNER" )
+        if (session?.user.role !== "STUDENT"  )
         return (
             <TableAplicant values={values}/>
         ) 

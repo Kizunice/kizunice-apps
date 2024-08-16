@@ -70,7 +70,7 @@ export default function EditApplicationPage(){
           
           if (response.ok) {
             setLoading(false);
-            toast.success("Update data pelamar berhasil");
+            toast.success("Update data berhasil");
             router.push('/jobs-application')
           } 
         } catch (error) {
@@ -115,7 +115,7 @@ export default function EditApplicationPage(){
                   onChange={handleChange}
               />
               <SelectField
-                  value={formValues.status}
+                  value={options.find(({value}) => value === formValues.status)}
                   label="Status Lamaran"
                   placeholder="Pilih Status Lamaran"
                   name="status"

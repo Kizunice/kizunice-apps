@@ -7,6 +7,9 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Loading from '@/app/(dashboard)/loading';
 import SearchButton from "../ui/SearchButton";
+import Pagination from "../ui/Pagination";
+
+let PageSize = 10
 
 const TopSideButtons = () => {
     const {data:session} =  useSession()
@@ -25,6 +28,7 @@ export default function ScorePage() {
     const [values, setValues] = useState([])
     const [loading, setLoading] = useState(true)
     const [query, setQuery] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
     const [filteredList, setFilteredList] = useState('');
 
     // const getLearningData = async () => {
@@ -63,9 +67,13 @@ export default function ScorePage() {
 
     const searchHandler = useCallback(() => {
         const filteredData = values.filter((value) => {
-            return value.student.name.toLowerCase().includes(query.toLowerCase())
+            return value.student.name.toLowerCase().includes(query.toLowerCase()) ||
+            value.learning.part.toLowerCase().includes(query.toLowerCase())
         })
-        setFilteredList(filteredData)
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        const paginatedList = filteredData.slice(firstPageIndex, lastPageIndex);
+        setFilteredList(paginatedList)
     }, [values, query])
     
     useEffect(() => {
@@ -135,6 +143,15 @@ export default function ScorePage() {
                             }
                         </tbody>
                     </table>
+                </div>
+                <div className="flex justify-center items-center mt-4">
+                    <Pagination
+                        className="pagination-bar"
+                        currentPage={currentPage}
+                        totalCount={values.length}
+                        pageSize={PageSize}
+                        onPageChange={page => setCurrentPage(page)}
+                    />
                 </div>
             </TitleCard>
         );

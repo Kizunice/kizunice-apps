@@ -129,11 +129,11 @@ export default function LoginForm() {
         )}
       </div>
 
-      <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+      <p className="text-sm font-light text-gray-400">
         Belum punya akun?{" "}
         <Link
           href="/register"
-          className="font-medium  hover:underline dark:text-white"
+          className="font-medium hover:underline text-white"
         >
           Daftar
         </Link>

@@ -30,6 +30,7 @@ export default function ApplicationPage() {
     const [filteredList, setFilteredList] = useState('');
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [index, setIndex] = useState(0)
 
     const getJobs = async () => {
         try {  
@@ -47,14 +48,15 @@ export default function ApplicationPage() {
     getJobs();
     }, []);
 
-    const searchHandler = useMemo(() => {
+    const searchHandler = useCallback(() => {
         if(values) {
             const filteredData = values.filter((value) => {
                 return value.student.name.toLowerCase().includes(query.toLowerCase()) ||
                     value.student.asalLPK.toLowerCase().includes(query.toLowerCase()) ||
                     value.partner.name.toLowerCase().includes(query.toLowerCase()) ||
                     value.job.company.name.toLowerCase().includes(query.toLowerCase()) ||
-                    value.job.fieldJob.toLowerCase().includes(query.toLowerCase()) 
+                    value.job.fieldJob.toLowerCase().includes(query.toLowerCase()) ||
+                    value.note.toLowerCase().includes(query.toLowerCase()) 
             })
             const firstPageIndex = (currentPage - 1) * PageSize;
             const lastPageIndex = firstPageIndex + PageSize;
@@ -91,6 +93,7 @@ export default function ApplicationPage() {
 
     if (loading) return <Loading />
     return (
+        <>
         <TitleCard 
             title={"Data Lamaran Kerja"} 
             topMargin="mt-2" 
@@ -165,6 +168,8 @@ export default function ApplicationPage() {
                 />
             </div>
         </TitleCard>
+        </>
+        
     )
 }
 

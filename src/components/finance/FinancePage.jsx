@@ -42,7 +42,7 @@ export default function FinancePage() {
         endDate: null,
     });
 
-    const searchHandler = useMemo(() => {
+    const searchHandler = useCallback(() => {
         const filteredData = values.filter((value) => {
             let filterPass = true
             const date = moment(value.transactionDate).format("YYYY-MM-DD")
@@ -58,6 +58,16 @@ export default function FinancePage() {
         const lastPageIndex = firstPageIndex + PageSize;
         const paginatedList = filteredData.slice(firstPageIndex, lastPageIndex);
         setFilteredList(paginatedList)
+        setIncomes(
+            filteredData
+            .filter(el => el.transactionType === "INCOME")
+            .reduce((acc,income) => acc + income.amount, 0)
+        )
+        setExpenses(
+            filteredData
+            .filter(el => el.transactionType === "EXPENSE")
+            .reduce((acc,expense) => acc + expense.amount, 0)
+        )
     }, [currentPage, values, dateFilter])
 
     useEffect(() => {
@@ -133,26 +143,25 @@ export default function FinancePage() {
                     <Stats
                         title="Balance"
                         icon={<FaMoneyBillTransfer size={30} />}
-                        color="bg-blue text-secondary"
+                        color="bg-blue text-secondary "
                         size="text-[22px]"
-                        value={formatterIDR(incomes.reduce((acc,income) => acc + income.amount, 0) - expenses.reduce((acc,income) => acc + income.amount, 0))}
+                        value={formatterIDR(incomes - expenses)}
                     />
                      <Stats
                         title="Total Pemasukan"
                         icon={<FaMoneyBillTransfer size={30} />}
-                        color="bg-green text-secondary"
+                        color="bg-green text-secondary "
                         size="text-[22px]"
-                        value={formatterIDR(incomes.reduce((acc,income) => acc + income.amount, 0))}
+                        value={formatterIDR(incomes)}
                     />
                     <Stats
                         title="Total Pengeluaran"
                         icon={<FaMoneyBillTransfer size={30} />}
-                        color="bg-red text-secondary"
+                        color="bg-red text-secondary "
                         size="text-[22px]"
-                        value={formatterIDR(expenses.reduce((acc,income) => acc + income.amount, 0))}
+                        value={formatterIDR(expenses)}
                     />
                 </div>
-            
                 <TitleCard 
                     title={"Data Neraca Keuangan"} 
                     topMargin="mt-2"

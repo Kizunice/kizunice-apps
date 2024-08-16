@@ -27,7 +27,6 @@ export async function GET(req) {
   export async function POST(req,res) {
     const body = await req.json();
     const { jobId, partnerId, studentId, status, note, id} = body;
-
     const application = await prisma.jobApplication.upsert({
       where : {
         id
@@ -47,6 +46,17 @@ export async function GET(req) {
         note
       },
     });
-  
+
+    const hired = status === true
+    if(hired) {
+      await prisma.studentProfile.update({
+        where : {
+          id : studentId
+        },
+        data : {
+          isHired : status
+        }
+      })
+    }
     return NextResponse.json(application);
   }

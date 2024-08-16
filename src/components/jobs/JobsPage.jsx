@@ -130,7 +130,7 @@ export default function JobsPage() {
                                                     </Link>
                                                 </div>
                                                 {
-                                                    session?.user.role === "STUDENT" ? "" : (
+                                                    session?.user.role !== "ADMIN" ? "" : (
                                                         <>
                                                         <div className="lg:tooltip" data-tip="Ubah Data">
                                                             <Link href={`/jobs/edit/${value.id}`}>

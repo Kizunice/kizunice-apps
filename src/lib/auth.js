@@ -14,7 +14,7 @@ export const authOptions = {
       },
       async authorize(credentials) {
         if (!credentials.email || !credentials.password) {
-          throw new Error('Please enter an email and password');
+          throw new Error('Tolong isi email dan password');
         }
 
         const user = await prisma.user.findUnique({
@@ -24,7 +24,7 @@ export const authOptions = {
         });
 
         if (!user || !user?.password) {
-          throw new Error('No user found');
+          throw new Error('Akun tidak ditemukan');
         }
 
         const passwordMatch = await bcrypt.compare(
@@ -33,7 +33,7 @@ export const authOptions = {
         );
 
         if (!passwordMatch) {
-          throw new Error('Incorrect password');
+          throw new Error('Password Salah');
         }
         return {
           id: user.id,

@@ -14,7 +14,6 @@ export const TableAplicant =  ({values}) =>{
                     <th>Usia</th>
                     <th>Keterangan</th>
                     <th>Status</th>
-                    <th>Aksi</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -28,7 +27,7 @@ export const TableAplicant =  ({values}) =>{
                                     <td>{value.student.gender}</td>
                                     <td>{value.student.age}</td>
                                     <td>{value.note}</td>
-                                    <td>{value.status}</td>
+                                    <td>{value.status ? "Diterima" : "Belum diterima" }</td>
                                 </tr>
                             )
                         })

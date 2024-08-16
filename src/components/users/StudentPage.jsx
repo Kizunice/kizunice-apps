@@ -6,7 +6,7 @@ import Link from "next/link";
 import Loading from "@/app/(dashboard)/loading"
 import SearchButton from "../ui/SearchButton";
 import Pagination from "../ui/Pagination";
-
+import { RiEyeFill } from "react-icons/ri";
 let PageSize = 10;
 
 export default function StudentPage() {
@@ -78,6 +78,7 @@ export default function StudentPage() {
                             <th>Asal LPK</th>
                             <th>Jenis Kelamin</th>
                             <th>Nomor HP</th>
+                            <th>Job</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -91,8 +92,18 @@ export default function StudentPage() {
                                             <td>{user.asalLPK}</td>
                                             <td>{user.gender}</td>
                                             <td>{user.phone}</td>
+                                            <td>{user.isHired ? 
+                                                    <span className="badge badge-success px-4 text-white font-normal">Sudah</span>
+                                                    :  <span className="badge badge-error px-4 text-white font-normal">Belum</span>}
+                                            </td>
                                             <td className="flex items-center">
-                                                <Link href={`/data-student/detail/${user.id}`} className="badge badge-success px-4 text-white font-normal">Detail</Link>
+                                                <div className="tooltip" data-tip="Detil Profile">
+                                                <Link href={`/data-student/detail/${user.id}`}>
+                                                    <RiEyeFill 
+                                                        className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
+                                                    />
+                                                </Link>
+                                                </div>
                                             </td>
                                         </tr>
                                     )
