@@ -70,7 +70,7 @@ const sendVerificationEmail = async (user) => {
     dengan kunjungi link di bawah ini</p>
   <br />
   <div style="text-align: center;">
-    <a class=”link” href="http://localhost:3000/email/verify/${user.id}"
+    <a class=”link” href="https://kizunice-apps.vercel.app/email/verify/${user.id}"
       style="background-color:#AF282F;padding:8px 16px;color:white;text-decoration:none;border-radius:4px">
       Konfirmasi email
     </a>
