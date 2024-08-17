@@ -1,50 +1,21 @@
-import bcrypt from 'bcrypt';
 import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
-import { redirect } from 'next/navigation';
-import { randomBytes } from 'crypto';
 import nodemailer from 'nodemailer'    
 
 export async function POST(request) {
   const body = await request.json();
-  const { name, email, password } = body;
+  const { userId } = body;
 
-  if (!name || !email || !password) {
-    return new NextResponse('Missing Fields', { status: 400 });
-  }
-
-  const exist = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  });
-
-  if (exist) {
-    throw new Error('Email already exists');
-  }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const verificationToken = generateEmailVerificationToken();
-
-  const user = await prisma.user.create({
+  await prisma.user.update({
+    where: { id : userId },
     data: {
-      name,
-      email: email.toLowerCase(),
-      password: hashedPassword,
-      emailVerifToken : verificationToken
+      emailVerified: new Date(),
+      emailVerifToken: null,
     },
   });
-
-  if(user) {
-    await sendVerificationEmail(user)
-  }
-
-  return new NextResponse('User Created');
+  return new NextResponse('User verify');
 }
 
-const generateEmailVerificationToken = () => {
-  return randomBytes(32).toString('hex')
-}
 
 const transporter = nodemailer.createTransport({
   service: process.env.MAIL_SERVICE,

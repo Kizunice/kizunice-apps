@@ -60,7 +60,7 @@ export default function RegisterForm() {
         if (response.ok) {
           setLoading(false);
           toast.success("Berhasil membuat akun!");
-          router.push("/login");
+          router.push(`/email/verify/`);
         } else {
           setLoading(false);
           if (response.status === 409) {

@@ -25,6 +25,8 @@ export const authOptions = {
 
         if (!user || !user?.password) {
           throw new Error('Akun tidak ditemukan');
+        } else if (!user?.emailVerified) {
+          throw new Error('Belum Verifikasi Email');
         }
 
         const passwordMatch = await bcrypt.compare(
