@@ -32,6 +32,7 @@ export default function SettingsPage() {
           })
           if (response.ok) {
             setLoading(false);
+            setFormValues({ currentPassword :'', newPassword: '', confirmPassword: ''})
             toast.success("Berhasil mengganti password");
           } else if (!response.ok) {
             setLoading(false);

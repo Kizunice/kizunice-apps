@@ -1,10 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import ForgotPassForm from '@/components/auth/ForgotPasswordPage';
-import KizuniceLogo from "../../../../public/logo-kizunice-white.png"
+import KizuniceLogo from "/public/logo-kizunice-white.png"
+import NewPassPage from '@/components/auth/NewPasswordPage';
 
-export default function ForgotPage() {
+export default function ResetPasswordPage({ params }) {
     return (
       <section className="bg-white">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -16,7 +16,7 @@ export default function ForgotPage() {
                   
                   </Link>
               </div>
-                <ForgotPassForm />
+                <NewPassPage params={params} />
             </div>
           </div>
         </div>
