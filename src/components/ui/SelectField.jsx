@@ -10,7 +10,7 @@ const customStyles = {
   })
 };
 
-const SelectField = ({ label, name, isMulti, defaultValue, placeholder, options, onChange, value}) => (
+const SelectField = ({ label, name, isMulti, defaultValue, placeholder, options, onChange, value, labelStyle}) => (
   // <div className="form-control">
   //   {label && <label htmlFor="input-field label">{label}</label>}
   //   <select
@@ -29,7 +29,7 @@ const SelectField = ({ label, name, isMulti, defaultValue, placeholder, options,
   //   </select>
   // </div>
   <div className="form-control">
-    {label && <label htmlFor="input-field label">{label}</label>}
+    {label && <label className={`input-field ${labelStyle}`}>{label}</label>}
     <Select
       isMulti={isMulti}
       name={name}

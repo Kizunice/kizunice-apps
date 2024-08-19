@@ -97,7 +97,7 @@ export default function DocumentPage() {
         <>
         <TitleCard title={"Dokumen CV Siswa"} topMargin="mt-2">
             <SelectField
-                value={studentId}
+                defaultValue={studentId}
                 placeholder="Pilih Nama Siswa"
                 label="Nama Siswa"
                 name="studentId"

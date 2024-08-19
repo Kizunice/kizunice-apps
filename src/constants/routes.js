@@ -66,16 +66,10 @@ export const ADMIN_ROUTES = [
     key: '8',
   },
   {
-    path: '/finance',
-    icon: <FaCoins size={22} />,
-    name: 'Keuangan',
-    key: '9',
-  },
-  {
     path: '/settings',
     icon: <IoMdSettings size={22} />,
     name: 'Pengaturan',
-    key: '11',
+    key: '9',
   },
 ];
 
@@ -131,12 +125,6 @@ export const FINANCE_ROUTES = [
     icon: <FaCoins size={22} />,
     name: 'Keuangan',
     key: '1',
-  },
-  {
-    path: '/finance/student',
-    icon: <FaCoins size={22} />,
-    name: 'Keuangan Siswa',
-    key: '2',
   },
   {
     path: '/data-student',

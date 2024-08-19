@@ -1,8 +1,8 @@
 import React  from "react";
 
-const InputField = ({ value, label, name, placeholder, type, onChange, readOnly, style }) => (
+const InputField = ({ value, label, name, placeholder, type, onChange, readOnly, style, labelStyle }) => (
   <div className="form-control">
-    {label && <label htmlFor="input-field label!important">{label}</label>}
+    {label && <label className={`input-field label!important ${labelStyle}`}>{label}</label>}
     <input
       type={type}
       value={value}

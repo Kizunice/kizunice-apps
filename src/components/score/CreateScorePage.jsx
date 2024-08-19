@@ -131,7 +131,7 @@ export default function CreateScorePage() {
                         onChange={handleChange}
                     />
                     <SelectField
-                        value={learningId}
+                        defaultValue={learningId}
                         placeholder="Materi Belajar"
                         label="Materi Belajar"
                         name="learningId"
@@ -139,7 +139,7 @@ export default function CreateScorePage() {
                         onChange={(value, meta) => handleSelect(value, meta)}
                     />
                     <SelectField
-                        value={studentId}
+                        defaultValue={studentId}
                         placeholder="Nama Siswa"
                         label="Nama Siswa"
                         name="studentId"

@@ -29,7 +29,7 @@ export async function POST(req,res) {
     });
 
     const filePath = path.resolve('./public', 'doc', 'default.xlsx');
-  
+    
     const wb = new ExcelJS.Workbook()
 
     await wb.xlsx.readFile(filePath)
@@ -65,21 +65,21 @@ export async function POST(req,res) {
             let row34 = ws.getRow(34);
             let row36 = ws.getRow(36);
 
-
-            row2.getCell(3).value = "KIN-001";
-            row2.getCell(11).value = "08 - 08 - 2024";
+            row2.getCell(3).value = "KIN-XXX";
+            row2.getCell(11).value = moment().format("DD-MM-YYYY");
+            row3.getCell(3).value = profile.nihongoName;
             row4.getCell(3).value = profile.name;
             row5.getCell(3).value = profile.address;
             row6.getCell(3).value = moment(profile.dateOfBirth).format("DD-MM-YYYY");
-            row6.getCell(7).value = profile.age;
+            row6.getCell(7).value = profile.age + "歳";
             row6.getCell(10).value = profile.gender;
             row7.getCell(3).value = profile.phone;
             row7.getCell(7).value = profile.religion;
-            row7.getCell(10).value = profile.bodyHeight + " cm";
+            row7.getCell(10).value = profile.bodyHeight + "cm";
             row8.getCell(3).value = profile.blood;
             row8.getCell(8).value = profile.shoesSize;
-            row8.getCell(10).value = profile.bodyWeight + " kg";
-            row8.getCell(12).value = profile.waistLine + " cm";
+            row8.getCell(10).value = profile.bodyWeight + "kg";
+            row8.getCell(12).value = profile.waistLine + "cm";
             row9.getCell(3).value = "";
             row9.getCell(9).value = "";
             row10.getCell(3).value = profile.paspor || "";
@@ -87,7 +87,7 @@ export async function POST(req,res) {
             row11.getCell(3).value = "";
             row11.getCell(9).value = "";
             row12.getCell(3).value = "";
-            row12.getCell(9).value = " 02/24 ~ 08/24";
+            row12.getCell(9).value = profile.studyMonth+"ヶ月";
             row13.getCell(3).value = "";
             row13.getCell(9).value = profile.asalLPK;
             row20.getCell(1).value = profile.esYearIn + "~" + profile.esYearOut;
@@ -125,7 +125,7 @@ export async function POST(req,res) {
             row34.getCell(3).value = profile.drinking;
             row34.getCell(6).value = "";
             row34.getCell(10).value = "";
-            row36.getCell(1).value = "Tidak";
+            row36.getCell(1).value = "無";
 
             row2.commit();
             row3.commit();

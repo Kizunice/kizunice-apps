@@ -165,10 +165,10 @@ export default function ProfilePage(){
                         onChange={handleChange}
                     />
                     <InputField
-                        type="text"
+                        type="number"
                         value={studyMonth}
-                        placeholder="4 Bulan"
-                        label="Lama Belajar"
+                        placeholder="4"
+                        label="Lama Belajar (dalam bulan)"
                         name="studyMonth"
                         onChange={handleChange}
                     />
@@ -277,17 +277,17 @@ export default function ProfilePage(){
                         onChange={handleChange}
                     />
                     <InputField
-                        type="text"
+                        type="number"
                         value={bodyHeight}
-                        placeholder="160cm"
+                        placeholder="160"
                         label="Tinggi Badan"
                         name="bodyHeight"
                         onChange={handleChange}
                     />
                     <InputField
-                        type="text"
+                        type="number"
                         value={bodyWeight}
-                        placeholder="50kg"
+                        placeholder="50"
                         label="Berat Badan"
                         name="bodyWeight"
                         onChange={handleChange}
@@ -301,9 +301,9 @@ export default function ProfilePage(){
                         onChange={handleChange}
                     />
                     <InputField
-                        type="text"
+                        type="number"
                         value={waistLine}
-                        placeholder="50cm"
+                        placeholder="50"
                         label="Lingkar Pinggang"
                         name="waistLine"
                         onChange={handleChange}
@@ -317,7 +317,7 @@ export default function ProfilePage(){
                         onChange={handleChange}
                     />
                      <InputField
-                        type="text"
+                        type="number"
                         value={shoesSize}
                         placeholder="42"
                         label="Ukuran Sepatu"
