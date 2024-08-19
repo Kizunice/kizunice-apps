@@ -27,7 +27,12 @@ export async function middleware(req) {
   if (!session && protectedRoutes.includes(path)) {
     const absoluteURL = new URL("/login", req.nextUrl.origin);
     return NextResponse.redirect(absoluteURL.toString());
-  } 
+  }  else {
+    if (path === "/login") {
+      const dashboardUrl = new NextURL("/dashboard", req.nextUrl.origin);
+      return NextResponse.redirect(dashboardUrl);
+    }
+  }
 
   if(session) {
     return Redirect()
