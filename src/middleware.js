@@ -23,20 +23,15 @@ export async function middleware(req) {
       return NextResponse.redirect(absoluteURL.toString());
     }
   }
- 
-  if (!session && protectedRoutes.includes(path)) {
-    const absoluteURL = new URL("/login", req.nextUrl.origin);
-    return NextResponse.redirect(absoluteURL.toString());
-  }  else {
-    if (path === "/login") {
-      const dashboardUrl = new NextURL("/dashboard", req.nextUrl.origin);
-      return NextResponse.redirect(dashboardUrl);
-    }
-  }
 
   if(session) {
     return Redirect()
   }
+
+  if (!session && protectedRoutes.includes(path)) {
+    const absoluteURL = new URL("/login", req.nextUrl.origin);
+    return NextResponse.redirect(absoluteURL.toString());
+  } 
 
   return NextResponse.next();
 
