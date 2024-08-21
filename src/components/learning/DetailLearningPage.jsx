@@ -64,15 +64,7 @@ function DetailLearningPage() {
                                 <tr key={value.id} className="text-grey ">
                                     <td>{idx+1}</td>
                                     <td className="font-bold">{value.scoreAvg}</td>
-                                    <td className="hover:text-white hover:bg-primary">
-                                        {
-                                            session?.user.role !== "SENSEI" ? 
-                                            (<Link href={`/data-student/detail/${value.student.id}`} >
-                                                {value.student.name}
-                                            </Link>) :
-                                            (value.student.name)
-                                        }
-                                    </td>
+                                    <td>{value.student.name}</td>
                                     <td>{value.grade}</td>
                                     <td>{value.bunpou}</td>
                                     <td>{value.choukai}</td>
