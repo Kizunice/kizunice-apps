@@ -26,10 +26,18 @@ export async function GET(req, { params }) {
 
 export async function DELETE(req,{ params }) {
   console.log(params)
-  await prisma.jobOpportunity.findUnique({
+
+  await prisma.jobApplication.deleteMany({
+    where: {
+      jobId: params.jobsId,
+    },
+  });
+
+  await prisma.jobOpportunity.delete({
     where: {
       id: params.jobsId,
     },
   });
+
   return NextResponse.json({ message: "done" });
 }

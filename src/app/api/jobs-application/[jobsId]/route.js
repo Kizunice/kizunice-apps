@@ -4,12 +4,12 @@ import { getCurrentUser } from '@/lib/session';
 
 export async function GET(req, { params }) {
     console.log(params)
-    if (!params.jobId) {
+    if (!params.jobsId) {
       return new NextResponse('LearningId is required', { status: 400 });
     }
     const lamaran = await prisma.jobApplication.findUnique({
       where: {
-        id: params.jobId,
+        id: params.jobsId,
       },
       include: {
         student: true,
@@ -20,3 +20,15 @@ export async function GET(req, { params }) {
   
     return NextResponse.json(lamaran);
   }
+
+export async function DELETE(req,{ params }) {
+  console.log(params)
+
+  await prisma.jobApplication.deleteMany({
+    where: {
+      id: params.jobsId,
+    },
+  });
+
+  return NextResponse.json({ message: "done" });
+}

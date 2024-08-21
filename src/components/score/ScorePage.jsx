@@ -8,6 +8,7 @@ import Link from "next/link";
 import Loading from '@/app/(dashboard)/loading';
 import SearchButton from "../ui/SearchButton";
 import Pagination from "../ui/Pagination";
+import { RiFileEditFill } from "react-icons/ri";
 
 let PageSize = 10
 
@@ -31,23 +32,6 @@ export default function ScorePage() {
     const [currentPage, setCurrentPage] = useState(1);
     const [filteredList, setFilteredList] = useState('');
 
-    // const getLearningData = async () => {
-    //     try {  
-    //         const res = await axios.get('/api/learning');
-    //         const data = res.data
-    //         const filteredData = data.filter((x => x.scores.length !== 0 ))
-    //         setValues(filteredData)
-    //         setLoading(false)
-    //     } catch (err) {
-    //       console.log("[collections_GET]", err);
-    //       setLoading(false)
-    //     }
-    //   };
-
-    // useEffect(() => {
-    // getLearningData();
-    // }, []);
-
     const getScoresData = async () => {
         try {  
             const res = await axios.get('/api/score');
@@ -68,7 +52,8 @@ export default function ScorePage() {
     const searchHandler = useCallback(() => {
         const filteredData = values.filter((value) => {
             return value.student.name.toLowerCase().includes(query.toLowerCase()) ||
-            value.learning.part.toLowerCase().includes(query.toLowerCase())
+            value.learning.part.toLowerCase().includes(query.toLowerCase()) ||
+            value.grade.toLowerCase().includes(query.toLowerCase())
         })
         const firstPageIndex = (currentPage - 1) * PageSize;
         const lastPageIndex = firstPageIndex + PageSize;
@@ -89,7 +74,6 @@ export default function ScorePage() {
     const handleChange = (e) => {
         e.preventDefault()
         setQuery(e.target.value);
-        console.log(query);
     };
 
     if (loading) return <Loading />
@@ -100,23 +84,26 @@ export default function ScorePage() {
                 topMargin="mt-2" 
                 TopMiddleButtons={<SearchButton handleChange={handleChange} value={query} placeholder={"Cari Nilai Siswa"} />}
                 TopSideButtons={<TopSideButtons/>} >
-                <div className="overflow-x-auto w-full">
+                <div className="overflow-x-auto lg:overflow-hidden w-full">
                     <table className="table w-full">
                         <thead >
                         <tr className="font-bold text-primary text-[14px]">
                             <th>No</th>
+                            <th>Tanggal</th>
                             <th>Nama Siswa</th>
                             <th>Materi</th>
-                            <th>Tanggal</th>
+                            <th>Grade</th>
+                            <th>Rata-rata</th>
                             <th>Bunpou</th>
                             <th>Choukai</th>
                             <th>Kanji</th>
                             <th>Kaiwa</th>
                             <th>Bunka</th>
                             <th>Aisatsu</th>
-                            <th>Push Up</th>
+                            {/* <th>Push Up</th>
                             <th>Sit Up</th>
-                            <th>Barbel</th>
+                            <th>Barbel</th> */}
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -125,18 +112,29 @@ export default function ScorePage() {
                                     return (
                                         <tr key={idx} className="text-grey ">
                                             <td>{idx+1}</td>
+                                            <td>{moment(value.learning.date).format("DD/MM/YY")}</td>
                                             <td>{value.student.name}</td>
                                             <td>{value.learning.part}</td>
-                                            <td>{moment(value.learning.date).format("DD/MM/YY")}</td>
+                                            <td>{value.grade}</td>
+                                            <td>{value.scoreAvg}</td>
                                             <td>{value.bunpou}</td>
                                             <td>{value.choukai}</td>
                                             <td>{value.kanji}</td>
                                             <td>{value.kaiwa}</td>
                                             <td>{value.bunka}</td>
                                             <td>{value.aisatsu}</td>
-                                            <td>{value.pushUp}</td>
+                                            {/* <td>{value.pushUp}</td>
                                             <td>{value.sitUp}</td>
-                                            <td>{value.barbel}</td>
+                                            <td>{value.barbel}</td> */}
+                                            <td>
+                                                <div className="lg:tooltip" data-tip="Ubah Nilai">
+                                                    <Link href={`/score/edit/${value.id}`}>
+                                                        <RiFileEditFill 
+                                                            className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
+                                                        />
+                                                    </Link>
+                                                </div>
+                                            </td>
                                         </tr>
                                     )
                                 })    

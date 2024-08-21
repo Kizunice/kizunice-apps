@@ -9,6 +9,8 @@ import Link from "next/link";
 import Loading from '@/app/(dashboard)/loading';
 import { RiFileEditFill, RiEyeFill, RiDeleteBin5Fill } from "react-icons/ri";
 import SearchButton from "../ui/SearchButton";
+import Pagination from "../ui/Pagination"
+let PageSize = 10;
 
 const TopSideButtons = () => {
     const {data:session} =  useSession()
@@ -30,6 +32,7 @@ export default function LearningPage() {
     const [loading, setLoading] = useState(true)
     const [query, setQuery] = useState('');
     const [filteredList, setFilteredList] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
 
     const getLearningData = async () => {
         try {  
@@ -50,7 +53,6 @@ export default function LearningPage() {
     
     const handleDelete = async (value) => {
         const approval = confirm("Apakah kamu yakin ingin menghapus? Jika menghapus data belajar maka data nilai akan terhapus juga")
-
         if (approval) {
             await fetch(`/api/learning/${value}`, { method: "DELETE" });
             location.reload()
@@ -62,8 +64,11 @@ export default function LearningPage() {
             return value.sensei.name.toLowerCase().includes(query.toLowerCase()) ||
             value.part.toLowerCase().includes(query.toLowerCase())
         })
-        setFilteredList(filteredData)
-    }, [values, query])
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        const paginatedList = filteredData.slice(firstPageIndex, lastPageIndex);
+        setFilteredList(paginatedList)
+    }, [values, query, currentPage])
     
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -85,7 +90,7 @@ export default function LearningPage() {
     if(filteredList) {
         return (
             <TitleCard 
-                title={"Data Belajar Siswa"} 
+                title={"Laporan Belajar Siswa"} 
                 topMargin="mt-2" 
                 TopMiddleButtons={<SearchButton handleChange={handleChange} value={query} placeholder={"Cari Data"} />}
                 TopSideButtons={<TopSideButtons/>} 
@@ -105,7 +110,7 @@ export default function LearningPage() {
                         </thead>
                         <tbody>
                             {
-                                filteredList.map((value, index) =>{
+                                filteredList ? filteredList.map((value, index) => {
                                     return (
                                         <tr key={value.id} className="text-grey ">
                                             <td>{index+1}</td>
@@ -142,10 +147,19 @@ export default function LearningPage() {
                                             </td>
                                         </tr>
                                     )
-                                })    
+                                }) : ''   
                             }
                         </tbody>
                     </table>
+                </div>
+                <div className="flex justify-center items-center mt-4">
+                    <Pagination
+                        className="pagination-bar"
+                        currentPage={currentPage}
+                        totalCount={values.length}
+                        pageSize={PageSize}
+                        onPageChange={page => setCurrentPage(page)}
+                    />
                 </div>
             </TitleCard> 
         );

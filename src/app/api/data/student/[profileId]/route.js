@@ -16,9 +16,16 @@ export async function GET(req, { params }) {
             include : {
                 learning: true,
                 sensei : true,
+            },
+            orderBy : {
+              createdAt : 'desc'
             }
         },
-        financeTransactions: true,
+        financeTransactions: {
+          orderBy : {
+            createdAt : 'desc'
+          }
+        },
         jobApplications: {
           include : {
             student: true,
@@ -28,6 +35,9 @@ export async function GET(req, { params }) {
                 company: true
               }
             }
+          },
+          orderBy : {
+            createdAt : 'desc'
           }
         },
     }

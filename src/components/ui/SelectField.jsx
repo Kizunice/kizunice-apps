@@ -29,7 +29,7 @@ const SelectField = ({ label, name, isMulti, defaultValue, placeholder, options,
   //   </select>
   // </div>
   <div className="form-control">
-    {label && <label className={`input-field ${labelStyle}`}>{label}</label>}
+    {label && <label htmlFor={name} className={`input-field ${labelStyle}`}>{label}</label>}
     <Select
       isMulti={isMulti}
       name={name}

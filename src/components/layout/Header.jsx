@@ -8,7 +8,7 @@ export default function Header()  {
   const router = useRouter()
 
   return (
-    <header className="navbar sticky top-0 z-10 h-20 bg-white justify-end lg:px-8">
+    <header className="navbar sticky top-0 z-10 h-18 bg-white justify-end lg:px-8">
       <div className="flex-1">
           <label htmlFor="my-drawer-2" className="drawer-button btn btn-primary bg-secondary text-white  lg:hidden">
             <FaBars className="h-5 inline-block w-5 "/>

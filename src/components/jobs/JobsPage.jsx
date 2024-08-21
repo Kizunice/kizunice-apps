@@ -50,7 +50,7 @@ export default function JobsPage() {
         const approval = confirm("Apakah kamu yakin ingin menghapus?")
 
         if (approval) {
-            await fetch(`/api/data/partner/${value}`, { method: "DELETE" });
+            await fetch(`/api/jobs/${value}`, { method: "DELETE" });
             location.reload()
         }
     }

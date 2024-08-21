@@ -1,14 +1,16 @@
 'use client'
 import { useState, useEffect } from "react";
 import { useParams } from 'next/navigation'
+import { useSession } from "next-auth/react";
 import moment from "moment";
 import axios from "axios";
+import Link from "next/link";
 import TitleCard from "@/components/ui/TitleCards";
 import InputField from "../ui/InputField";
-import toast, { Toaster } from "react-hot-toast";
 import Loading from "@/app/(dashboard)/loading";
 function DetailLearningPage() {
     const params = useParams()
+    const {data:session} =  useSession()
     const [values, setValues] = useState([])
     const [loading, setLoading] = useState(true)
 
@@ -43,6 +45,7 @@ function DetailLearningPage() {
                     <th>Rank</th>
                     <th>Nilai Akhir</th>
                     <th>Nama</th>
+                    <th>Grade</th>
                     <th>Bunpou</th>
                     <th>Choukai</th>
                     <th>Kanji</th>
@@ -61,7 +64,16 @@ function DetailLearningPage() {
                                 <tr key={value.id} className="text-grey ">
                                     <td>{idx+1}</td>
                                     <td className="font-bold">{value.scoreAvg}</td>
-                                    <td>{value.student.name}</td>
+                                    <td className="hover:text-white hover:bg-primary">
+                                        {
+                                            session?.user.role !== "SENSEI" ? 
+                                            (<Link href={`/data-student/detail/${value.student.id}`} >
+                                                {value.student.name}
+                                            </Link>) :
+                                            (value.student.name)
+                                        }
+                                    </td>
+                                    <td>{value.grade}</td>
                                     <td>{value.bunpou}</td>
                                     <td>{value.choukai}</td>
                                     <td>{value.kanji}</td>

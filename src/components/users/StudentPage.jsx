@@ -12,15 +12,22 @@ let PageSize = 10;
 export default function StudentPage() {
     const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([])
+    const [job, setJob] = useState([])
+    const [notJob, setNotJob] = useState([])
+    const [notMensetsu, setNotMensetsu] = useState([])
     const [query, setQuery] = useState('');
     const [filteredList, setFilteredList] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [index, setIndex] = useState(0)
 
     const getUsers = async () => {
         try {  
             const res = await axios.get('/api/profile');
             console.log(res.data)
             setUsers(res.data)
+            setJob(res.data.filter((data) => data.isHired === true))
+            setNotJob(res.data.filter((data) => data.isHired === false))
+            setNotMensetsu(res.data.filter((data) => data.jobApplications <= 0))
             setLoading(false);
         } catch (err) {
           console.log("[collections_GET]", err);
@@ -38,7 +45,17 @@ export default function StudentPage() {
     }
    
     const searchHandler = useCallback(() => {
-        const filteredData = users.filter((user) => {
+        let filterJob = []
+        if (index === 0) {
+            filterJob.push(users)
+        } else if (index === 1) {
+            filterJob.push(job)
+        } else  if (index === 2) {
+            filterJob.push(notJob)
+        } else  if (index === 3) {
+            filterJob.push(notMensetsu)
+        }
+        const filteredData = filterJob[0].filter((user) => {
           return user.name.toLowerCase().includes(query.toLowerCase()) ||
            user.asalLPK.toLowerCase().includes(query.toLowerCase())
         })
@@ -48,7 +65,7 @@ export default function StudentPage() {
         const paginatedList = filteredData.slice(firstPageIndex, lastPageIndex);
         setFilteredList(paginatedList)
         setLoading(false);
-      }, [users, query, currentPage])
+      }, [users, query, currentPage, index])
     
       useEffect(() => {
         const timer = setTimeout(() => {
@@ -60,6 +77,38 @@ export default function StudentPage() {
         }
       }, [searchHandler])
 
+    const FilterJob = () => {
+        return(
+            <div className="flex flex-col justify-center items-center">
+                <ul className="menu menu-vertical lg:menu-horizontal bg-secondary rounded-md text-white">
+                    <li className={`${index === 0 ? "bg-primary" : "bg-secondary"} rounded-sm`}>
+                        <button onClick={() => {setIndex(0)}}  >
+                            Semua Siswa
+                            <span>({users.length})</span>
+                        </button>
+                    </li>
+                    <li className={`${index === 1 ? "bg-primary" : "bg-secondary"} rounded-sm`}>
+                        <button onClick={() => {setIndex(1)}}  >
+                            Sudah dapat Job 
+                            <span>({job.length})</span>
+                        </button>
+                    </li>
+                    <li className={`${index === 2 ? "bg-primary" : "bg-secondary"} rounded-sm`}>
+                        <button onClick={() => {setIndex(2)}}  >
+                            Belum dapat Job 
+                            <span>({notJob.length})</span>
+                        </button>
+                    </li>
+                    <li className={`${index === 3 ? "bg-primary" : "bg-secondary"} rounded-sm`}>
+                        <button onClick={() => {setIndex(3)}}  >
+                            Belum Mensetsu
+                            <span>({notMensetsu.length})</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        )
+    }
 
     if (loading) return <Loading />
     if (filteredList) {
@@ -67,6 +116,7 @@ export default function StudentPage() {
             <TitleCard 
                 title={"Data Siswa"} 
                 topMargin="mt-2" 
+                TopMiddleButtons={<FilterJob />}
                 TopSideButtons={<SearchButton handleChange={handleChange} value={query} placeholder={"Cari Siswa"} />}  
                 >
                 <div className="overflow-x-auto w-full">

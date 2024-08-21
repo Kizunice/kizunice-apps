@@ -11,7 +11,6 @@ import { RiFileDownloadFill } from "react-icons/ri";
 import Loading from '@/app/(dashboard)/loading';
 
 export default function DocumentPage() {
-    const downloadPath = `/doc/CV.xlsx`
     const [optionsS,setOptionsS] = useState([])
     const [path, setPath] = useState('')
     const [loading, setLoading] = useState(false)
@@ -51,6 +50,7 @@ export default function DocumentPage() {
     useEffect(() => {
         getDataStudent();
         getDocument()
+        console.log(moment().format("YY MMM"))
       }, []);
 
     const handleSelect = (value, meta) => {
@@ -129,7 +129,7 @@ export default function DocumentPage() {
                                         <td>{idx+1}</td>
                                         <td>{doc.profile.name}</td>
                                         <td>{doc.profile.asalLPK}</td>
-                                        <td>{moment(doc.createdAt).format("DD/MM/YYYY")}</td>
+                                        <td>{moment(doc.createdAt).format("ll")}</td>
                                         <td>{doc.link}</td>
                                         <td>
                                             <div className="lg:tooltip" data-tip="Download CV">

@@ -27,11 +27,11 @@ export async function POST(req,res) {
         id: body.studentId,
         },
     });
-
+   
     const filePath = path.resolve('./public', 'doc', 'default.xlsx');
     
     const wb = new ExcelJS.Workbook()
-
+    
     await wb.xlsx.readFile(filePath)
         .then(async function() {
             let ws = wb.getWorksheet('Sheet1')
@@ -65,12 +65,21 @@ export async function POST(req,res) {
             let row34 = ws.getRow(34);
             let row36 = ws.getRow(36);
 
-            row2.getCell(3).value = "KIN-XXX";
-            row2.getCell(11).value = moment().format("DD-MM-YYYY");
+            if(profile.image) {
+              const imageId = wb.addImage({
+                buffer: profile.image,
+                extension: 'jpg',
+              });
+              ws.addImage(imageId, 'K3:L7')
+            }
+           
+            moment.locale('ja');
+            row2.getCell(3).value = "INA-001";
+            row2.getCell(11).value = moment().format('YYYY年MM月D日');
             row3.getCell(3).value = profile.nihongoName;
             row4.getCell(3).value = profile.name;
             row5.getCell(3).value = profile.address;
-            row6.getCell(3).value = moment(profile.dateOfBirth).format("DD-MM-YYYY");
+            row6.getCell(3).value = moment(profile.dateOfBirth).format('YYYY年MM月D日');
             row6.getCell(7).value = profile.age + "歳";
             row6.getCell(10).value = profile.gender;
             row7.getCell(3).value = profile.phone;

@@ -43,14 +43,14 @@ model StudentProfile {
   smoking             String?
   drinking            String?
   esName              String?              @default("")
-  esYearIn            String?
-  esYearOut           String?
+  esYearIn            DateTime?
+  esYearOut           DateTime?
   msName              String?              @default("")
-  msYearIn            String?
-  msYearOut           String?
+  msYearIn            DateTime?
+  msYearOut           DateTime?
   hsName              String?              @default("")
-  hsYearIn            String?
-  hsYearOut           String?
+  hsYearIn            DateTime?
+  hsYearOut           DateTime?
   jobCompany          String?              @default("")
   jobDesc             String?              @default("")
   jobYearIn           DateTime?
@@ -198,6 +198,7 @@ model Scores {
   student     StudentProfile @relation(fields: [studentId], references: [id])
   learningId  String
   learning    Learning       @relation(fields: [learningId], references: [id])
+  grade       Grade          @default(E)
   bunpou      Int
   choukai     Int
   kanji       Int
@@ -267,21 +268,20 @@ model FinanceTransaction {
   student         StudentProfile? @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   paymentId       String?
   payment         StudentPayment? @relation(fields: [paymentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
 }
 
-
 model StudentPayment {
-  id              String          @id @default(cuid())
-  totalCost       Float           @default(41000000)
-  costLeft        Float           
-  note            String?
-  isPaidOff       Boolean?         @default(false)
-  isInstallment   Boolean?         @default(false)
-  studentId       String?
-  student         StudentProfile? @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  finance         FinanceTransaction[]
+  id            String               @id @default(cuid())
+  totalCost     Float                @default(41000000)
+  costLeft      Float
+  note          String?
+  isPaidOff     Boolean?             @default(false)
+  isInstallment Boolean?             @default(false)
+  studentId     String?
+  student       StudentProfile?      @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  finance       FinanceTransaction[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -348,4 +348,12 @@ enum Role {
 enum Type {
   EXPENSE
   INCOME
+}
+
+enum Grade {
+  A
+  B
+  C
+  D
+  E
 }

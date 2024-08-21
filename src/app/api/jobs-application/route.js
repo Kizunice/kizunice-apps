@@ -2,8 +2,9 @@ import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/session';
 
+export async function GET(req,res) {
+  const session = await getCurrentUser(req, res);
 
-export async function GET(req) {
     const application = await prisma.jobApplication.findMany({
       orderBy: {
         createdAt: 'desc',
@@ -29,7 +30,7 @@ export async function GET(req) {
     const { jobId, partnerId, studentId, status, note, id} = body;
     const application = await prisma.jobApplication.upsert({
       where : {
-        id
+        id : id || ''
       },
       update : {
         jobId ,
@@ -47,16 +48,18 @@ export async function GET(req) {
       },
     });
 
-    const hired = status === true
-    if(hired) {
-      await prisma.studentProfile.update({
-        where : {
-          id : studentId
-        },
-        data : {
-          isHired : status
-        }
-      })
-    }
+    await prisma.studentProfile.update({
+      where : {
+        id : studentId
+      },
+      data : {
+        isHired : status
+      }
+    })
+
     return NextResponse.json(application);
   }
+    
+
+
+  

@@ -9,9 +9,10 @@ export const TableScores =  ({values}) =>{
                     <thead >
                     <tr className="font-bold text-primary text-[14px]">
                         <th>No</th>
+                        <th>Tanggal</th>
                         <th>Sensei</th>
                         <th>Materi</th>
-                        <th>Tanggal</th>
+                        <th>Grade</th>
                         <th>Bunpou</th>
                         <th>Choukai</th>
                         <th>Kanji</th>
@@ -29,9 +30,10 @@ export const TableScores =  ({values}) =>{
                                 return (
                                     <tr key={idx} className="text-grey ">
                                         <td>{idx+1}</td>
+                                        <td>{moment(value.learning.date).format("DD/MM/YY")}</td>
                                         <td>{value.sensei.name}</td>
                                         <td>{value.learning.part}</td>
-                                        <td>{moment(value.learning.date).format("DD/MM/YY")}</td>
+                                        <td>{value.grade}</td>
                                         <td>{value.bunpou}</td>
                                         <td>{value.choukai}</td>
                                         <td>{value.kanji}</td>

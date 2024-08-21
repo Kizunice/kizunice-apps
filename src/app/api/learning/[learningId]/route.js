@@ -16,6 +16,9 @@ export async function GET(req, { params }) {
       scores: {
         include : {
           student : true
+        },
+        orderBy : {
+          scoreAvg : 'desc'
         }
       },
     },

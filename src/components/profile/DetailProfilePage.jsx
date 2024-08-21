@@ -1,6 +1,7 @@
 'use client'
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { useSession } from "next-auth/react"
 import { useParams } from "next/navigation"
 import { TableScores } from "./TableScore"
 import { TableFinance } from "./TableFinance"
@@ -10,26 +11,15 @@ import Loading from "@/app/(dashboard)/loading"
 
 export default function DetailProfilePage(){
     const params = useParams()
+    const {data:session} =  useSession()
     const [loading, setLoading] = useState(true)
     const [values, setValues]  = useState({})
-    const [options, setOptions] = useState([
-        {
-            label: "Laki-Laki",
-            value: "Laki-Laki",
-        },
-        {
-            label: "Perempuan",
-            value: "Perempuan",
-        },
-    ])
     const [index, setIndex] = useState(0)
 
     const getProfileData = async () => {
-        console.log("cek params:", params.profileId)
         try {  
             const res = await axios.get(`/api/data/student/${params.profileId}`);
             const profile  = res.data
-            console.log(profile)
             if(profile.length !== 0) {
                 setValues(profile)
             }
@@ -62,7 +52,11 @@ export default function DetailProfilePage(){
                     <li><button onClick={() => {setIndex(0)}} >Biodata Siswa</button></li>
                     <li><button onClick={() => {setIndex(1)}} >Data Nilai </button></li>
                     <li><button onClick={() => {setIndex(2)}} >Data Job </button></li>
-                    <li><button onClick={() => {setIndex(3)}} >Data Pembayaran </button></li>
+                    <li>
+                        {session?.user.role === "ADMIN" ? (
+                            <button onClick={() => {setIndex(3)}} >Data Pembayaran </button>
+                        ) : ''}
+                    </li>
                 </ul>
             </div>
             {DisplayTable(index)}

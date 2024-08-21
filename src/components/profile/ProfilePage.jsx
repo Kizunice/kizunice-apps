@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import TitleCard from "@/components/ui/TitleCards"
 import InputField from "@/components/ui/InputField"
 import SelectField from "../ui/SelectField"
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import moment from "moment"
 import ImageUpload from "../ui/ImageUpload"
 import Button from "../ui/Button"
@@ -142,6 +142,7 @@ export default function ProfilePage(){
             toast.success("Profile Update Success");
             setLoading(false);
           } 
+          setLoading(false);
         } catch (error) {
           console.error("Network Error:", error);
           setLoading(false);
@@ -356,24 +357,20 @@ export default function ProfilePage(){
                             onChange={handleChange}
                         />
                     </div>
-                    
                     <InputField
-                        type="text"
-                        value={esYearIn}
-                        label="Tahun Masuk"
-                        placeholder="2010"
+                        type="date"
+                        value={moment(esYearIn).format("YYYY-MM-DD")}
+                        label="Tanggal Masuk"
                         name="esYearIn"
                         onChange={handleChange}
                     />
                     <InputField
-                        type="text"
-                        value={esYearOut}
-                        label="Tahun Lulus"
-                        placeholder="2013"
+                        type="date"
+                        value={moment(esYearOut).format("YYYY-MM-DD")}
+                        label="Tanggal Lulus"
                         name="esYearOut"
                         onChange={handleChange}
                     />
-
                     <div className="col-span-2 md:col-span-1">
                         <InputField
                             type="text"
@@ -385,18 +382,16 @@ export default function ProfilePage(){
                         />
                     </div>
                      <InputField
-                        type="text"
-                        value={msYearIn}
-                        label="Tahun Masuk"
-                        placeholder="2013"
+                        type="date"
+                        value={moment(msYearIn).format("YYYY-MM-DD")}
+                        label="Tanggal Masuk"
                         name="msYearIn"
                         onChange={handleChange}
                     />
-                     <InputField
-                        type="text"
-                        value={msYearOut}
-                        label="Tahun Lulus "
-                        placeholder="2017"
+                    <InputField
+                        type="date"
+                        value={moment(msYearOut).format("YYYY-MM-DD")}
+                        label="Tanggal Lulus"
                         name="msYearOut"
                         onChange={handleChange}
                     />
@@ -410,20 +405,17 @@ export default function ProfilePage(){
                             onChange={handleChange}
                         />
                     </div>
-                    
-                     <InputField
-                        type="text"
-                        value={hsYearIn}
-                        label="Tahun Masuk "
-                        placeholder="2017"
+                    <InputField
+                        type="date"
+                        value={moment(hsYearIn).format("YYYY-MM-DD")}
+                        label="Tanggal Masuk"
                         name="hsYearIn"
                         onChange={handleChange}
                     />
-                     <InputField
-                        type="text"
-                        value={hsYearOut}
-                        label="Tahun Lulus "
-                        placeholder="2020"
+                    <InputField
+                        type="date"
+                        value={moment(hsYearOut).format("YYYY-MM-DD")}
+                        label="Tanggal Lulus"
                         name="hsYearOut"
                         onChange={handleChange}
                     />

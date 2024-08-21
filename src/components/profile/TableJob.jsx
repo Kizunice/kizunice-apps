@@ -16,6 +16,7 @@ export const TableJob =  ({values}) =>{
                         <th>Perusahaan</th>
                         <th>Jenis Pekerjaan</th>
                         <th>Keberangkatan</th>
+                        <th>Status</th>
                         <th>Keterangan</th>
                     </tr>
                     </thead>
@@ -32,7 +33,11 @@ export const TableJob =  ({values}) =>{
                                         <td>{value.job.company.name}</td>
                                         <td>{value.job.fieldJob}</td>
                                         <td>{moment(value.job.departure).format("DD MMM yyyy")}</td>
-                                        <td>{value.status}</td>
+                                        <td>{value.status ? 
+                                                    <span className="bg-success rounded-md py-2 px-4 text-white font-normal">Diterima</span>
+                                                    :  <span className="bg-error rounded-md py-2 px-4 text-white font-normal">Belum </span>}
+                                            </td>
+                                        <td>{value.note}</td>
                                     </tr>
                                 )
                             })

@@ -1,5 +1,6 @@
 import ProfilePage from "@/components/profile/ProfilePage";
 import ProfileSenseiPage from "@/components/profile/ProfileSenseiPage";
+import ProfilePartnerPage from "@/components/profile/ProfilePartnerPage";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
@@ -14,7 +15,10 @@ export default async function Profile() {
         return (
             <ProfileSenseiPage />
         )
+    } else if (session?.user.role === "PARTNER") {
+        return (
+            <ProfilePartnerPage />
+        )
     }
-
     return
 }

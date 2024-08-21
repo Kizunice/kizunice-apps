@@ -1,17 +1,16 @@
 'use client'
 import { useState, useEffect } from "react";
+import { useRouter, useParams } from "next/navigation";
 import axios from "axios";
 import TitleCard from "@/components/ui/TitleCards";
-import { useSession } from "next-auth/react";
 import InputField from "../ui/InputField";
 import SelectField from "../ui/SelectField";
 import Button from "../ui/Button";
-import toast, { Toaster } from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import toast  from "react-hot-toast";
 
-export default function CreateScorePage() {
-    const {data:session} =  useSession()
+export default function EditScorePage() {
     const router = useRouter()
+    const params = useParams()
     const [loading, setLoading] = useState(false)
     const [formValues, setFormValues]  = useState({
         studentId: "",
@@ -40,12 +39,13 @@ export default function CreateScorePage() {
         { value: 'E', label: 'E'},
     ])
 
-    const getUsers = async () => {
+    const getScoresData = async () => {
         setLoading(true)
         try {  
-            const res = await axios.get('/api/profile/sensei');
-            const users = res.data
-            setFormValues({...formValues, senseiId : users.id, senseiName: users.name})
+            const res = await axios.get(`/api/score/${params.scoreId}`);
+            const data = res.data
+            console.log(data)
+            setFormValues({...formValues, ...data, senseiName: data.sensei.name, senseiId: data.sensei.id})
             setLoading(false)
         } catch (err) {
           console.log("[collections_GET]", err);
@@ -84,7 +84,7 @@ export default function CreateScorePage() {
     }
 
     useEffect(() => {
-        getUsers()
+        getScoresData()
         fetchDataLearning();
         fetchDataStudents()
       }, []);
@@ -139,7 +139,7 @@ export default function CreateScorePage() {
                     readOnly="readOnly"
                 />
                 <SelectField
-                    defaultValue={learningId}
+                    value={optionsL.find(({value}) => value === learningId)}
                     placeholder="Materi Belajar"
                     label="Materi Belajar"
                     name="learningId"
@@ -147,14 +147,15 @@ export default function CreateScorePage() {
                     onChange={(value, meta) => handleSelect(value, meta)}
                 />
                 <SelectField
-                    defaultValue={studentId}
+                    value={optionsS.find(({value}) => value === studentId)}
                     placeholder="Nama Siswa"
                     label="Nama Siswa"
                     name="studentId"
                     options={optionsS}
                     onChange={(value, meta) => handleSelect(value, meta)}
                 />
-                    <SelectField
+                <SelectField
+                    value={optionsG.find(({value}) => value === grade)}
                     placeholder="Pilih grade siswa"
                     label="Grade Siswa"
                     name="grade"
@@ -238,7 +239,7 @@ export default function CreateScorePage() {
                 />
             </div>
             <div className="divider" ></div>
-            <Button handleSubmit={handleSubmit} text={"Submit Nilai"} loading={loading} />
+            <Button handleSubmit={handleSubmit} text={"Ubah Nilai"} loading={loading} />
         </TitleCard>
     )
 }

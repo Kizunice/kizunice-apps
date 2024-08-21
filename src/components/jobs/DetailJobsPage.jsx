@@ -50,7 +50,7 @@ function DetailJobsPage() {
     }
 
     const TableApps =  ({values}) =>{
-        if (session?.user.role !== "STUDENT"  )
+        if (session?.user.role !== "STUDENT" && values.length > 0)
         return (
             <TableAplicant values={values}/>
         ) 

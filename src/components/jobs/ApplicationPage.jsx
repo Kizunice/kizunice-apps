@@ -26,6 +26,8 @@ const TopSideButtons= () =>{
 
 export default function ApplicationPage() {
     const [values,setValues] = useState([])
+    const [jobValues,setJobValues] = useState([])
+    const [notjobValues,setNotJobValues] = useState([])
     const [loading, setLoading] = useState(true)
     const [filteredList, setFilteredList] = useState('');
     const [query, setQuery] = useState('');
@@ -35,8 +37,9 @@ export default function ApplicationPage() {
     const getJobs = async () => {
         try {  
             const res = await axios.get('/api/jobs-application');
-            console.log(res.data)
             setValues(res.data)
+            setJobValues(res.data.filter((data) => data.status === true))
+            setNotJobValues(res.data.filter((data) => data.status === false))
             setLoading(false)
         } catch (err) {
           console.log("[collections_GET]", err);
@@ -50,21 +53,28 @@ export default function ApplicationPage() {
 
     const searchHandler = useCallback(() => {
         if(values) {
-            const filteredData = values.filter((value) => {
+            let filterJob = []
+            if (index === 0) {
+                filterJob.push(values)
+            } else if (index === 1) {
+                filterJob.push(jobValues)
+            } else  if (index === 2) {
+                filterJob.push(notjobValues)
+            }
+            const filteredData = filterJob[0].filter((value) => {
                 return value.student.name.toLowerCase().includes(query.toLowerCase()) ||
                     value.student.asalLPK.toLowerCase().includes(query.toLowerCase()) ||
                     value.partner.name.toLowerCase().includes(query.toLowerCase()) ||
                     value.job.company.name.toLowerCase().includes(query.toLowerCase()) ||
                     value.job.fieldJob.toLowerCase().includes(query.toLowerCase()) ||
-                    value.note.toLowerCase().includes(query.toLowerCase()) 
+                    value.note.toLowerCase().includes(query.toLowerCase())
             })
             const firstPageIndex = (currentPage - 1) * PageSize;
             const lastPageIndex = firstPageIndex + PageSize;
             const paginatedList = filteredData.slice(firstPageIndex, lastPageIndex);
             setFilteredList(paginatedList)
         }
-        
-    }, [values, query, currentPage])
+    }, [values, query, currentPage, index])
     
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -79,28 +89,52 @@ export default function ApplicationPage() {
     const handleChange = (e) => {
         e.preventDefault()
         setQuery(e.target.value);
-        console.log(query);
     };
 
     const handleDelete = async (value) => {
         const approval = confirm("Apakah kamu yakin ingin menghapus?")
-
         if (approval) {
             await fetch(`/api/jobs-application/${value}`, { method: "DELETE" });
             location.reload()
         }
     }
+    
+    const FilterJob = () => {
+        return(
+            <div className="flex flex-col justify-center items-center mb-6 ">
+                <ul className="menu menu-vertical lg:menu-horizontal bg-secondary rounded-md text-white">
+                    <li className={`${index === 0 ? "bg-primary" : "bg-secondary"} rounded-sm`}>
+                        <button onClick={() => {setIndex(0)}}  >
+                            Semua Data
+                            <span>({values.length} Siswa)</span>
+                        </button>
+                    </li>
+                    <li className={`${index === 1 ? "bg-primary" : "bg-secondary"} rounded-sm`}>
+                        <button onClick={() => {setIndex(1)}}  >
+                            Sudah dapat Job 
+                            <span>({jobValues.length} Siswa)</span>
+                        </button>
+                    </li>
+                    <li className={`${index === 2 ? "bg-primary" : "bg-secondary"} rounded-sm`}>
+                        <button onClick={() => {setIndex(2)}}  >
+                            Belum dapat Job 
+                            <span>({notjobValues.length} Siswa)</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        )
+    }
 
     if (loading) return <Loading />
     return (
-        <>
         <TitleCard 
             title={"Data Lamaran Kerja"} 
             topMargin="mt-2" 
             TopSideButtons={<TopSideButtons/>} 
             TopMiddleButtons={<SearchButton handleChange={handleChange} value={query} placeholder={"Cari Data Pelamar"} />}
-            
             >
+            <FilterJob />
             <div className="overflow-x-auto w-full">
                 <table className="table w-full">
                     <thead >
@@ -125,7 +159,13 @@ export default function ApplicationPage() {
                                 return (
                                     <tr key={value.id} className="text-grey ">
                                         <td>{index+1}</td>
-                                        <td>{value.student.name}</td>
+                                        <td className="hover:text-white hover:bg-primary">
+                                            <div className="tooltip" data-tip="Lihat Profil" >
+                                                <Link href={`/data-student/detail/${value.student.id}`} >
+                                                    {value.student.name}
+                                                </Link>
+                                            </div>
+                                        </td>
                                         <td>{value.student.asalLPK}</td>
                                         <td>{value.student.gender}</td>
                                         <td>{value.student.age}</td>
@@ -168,8 +208,6 @@ export default function ApplicationPage() {
                 />
             </div>
         </TitleCard>
-        </>
-        
     )
 }
 

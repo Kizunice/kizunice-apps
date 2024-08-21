@@ -6,7 +6,6 @@ import { useParams, useRouter } from 'next/navigation'
 import TitleCard from "@/components/ui/TitleCards"
 import InputField from "@/components/ui/InputField"
 import toast from "react-hot-toast";
-import moment from "moment"
 import Button from "../ui/Button";
 import Loading from "@/app/(dashboard)/loading";
 import SelectField from "../ui/SelectField"
@@ -14,7 +13,6 @@ import SelectField from "../ui/SelectField"
 export default function EditApplicationPage(){
     const params = useParams()
     const router = useRouter()
-    const {data:session} =  useSession()
     const [loading, setLoading] = useState(false)
     const [pageLoading, setPageLoading] = useState(true)
     const [formValues, setFormValues]  = useState({})
@@ -28,7 +26,7 @@ export default function EditApplicationPage(){
           value: true,
       },
   ])
-    const getLearningData = async () => {
+    const getAppJob = async () => {
         try {  
             const res = await axios.get(`/api/jobs-application/${params.jobId}`);
             console.log(res.data)
@@ -41,7 +39,7 @@ export default function EditApplicationPage(){
       };
 
     useEffect(() => {
-    getLearningData();
+    getAppJob();
     }, []);
 
     const handleChange = (e) => {

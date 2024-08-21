@@ -1,40 +1,24 @@
 'use client'
 import axios from "axios"
-import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter , useParams} from "next/navigation"
 import TitleCard from "@/components/ui/TitleCards"
 import InputField from "@/components/ui/InputField"
 import SelectField from "../ui/SelectField"
 import Button from "../ui/Button"
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
+import moment from "moment"
+import Loading from "@/app/(dashboard)/loading"
 
-export default function CreateJobsPage() {
-    const {data:session} =  useSession()
+export default function EditJobsPage() {
     const router = useRouter()
+    const params = useParams()
+    const [pageLoading, setPageLoading] = useState(true)
     const [loading, setLoading] = useState(false)
     const [optionsS, setOptionsS] = useState([])
     const [optionsC, setOptionsC] = useState([])
-    const [formValues, setFormValues]  = useState({
-        userId : session?.user.id,
-        supervisorId : "",
-        companyId : "",
-        title :"", 
-        fieldJob :"",          
-        typeJob :"",             
-        description :"",        
-        needs  :"",    
-        gender: "",         
-        location :"",           
-        requirement : "",       
-        detail : "",          
-        benefit :"",            
-        salary :"",            
-        deadline :"",
-        interview :"",
-        departure :"",
-    })
-    const { userId, supervisorId, companyId, title, fieldJob, typeJob, description, needs, gender, location, requirement, detail, benefit, salary, deadline, departure } = formValues;
+    const [formValues, setFormValues]  = useState({})
+    const {supervisorId, companyId, title, fieldJob, typeJob, needs, gender, location, requirement, detail, benefit, salary, deadline, departure } = formValues;
     const [options, setOptions] = useState([
         {
             label: "Laki-Laki",
@@ -48,64 +32,61 @@ export default function CreateJobsPage() {
             value: "Laki-Laki & Perempuan",
         },
     ])
+
+    const getJobs = async () => {
+        try {  
+            const res = await axios.get(`/api/jobs/${params.jobsId}`);
+            console.log(res.data)
+            setFormValues(res.data)
+            setPageLoading(false)
+        } catch (err) {
+          console.log("[collections_GET]", err);
+          setPageLoading(false)
+        }
+      };
+
     async function fetchDataSupervisor() {
         const { data } = await axios.get("/api/profile/partner");
         const supervisor = []
         const company = []
-        console.log("my learning :", data)
-        if(session?.user.role === "PARTNER") {
-            setFormValues({...formValues, supervisorId: data.id})
-                supervisor.push({
-                label: data.supervisor,
-                value: data.id,
+        data.forEach((value) => {
+            supervisor.push({
+                label: value.supervisor,
+                value: value.id,
             });
-                data.company.forEach((com) => {
+            value.company.forEach((com) => {
                 company.push({
                     label: com.name,
                     value: com.id,
                 });
             });
-        }
-        data.forEach((value) => {
-            supervisor.push({
-              label: value.supervisor,
-              value: value.id,
-            });
-            value.company.forEach((com) => {
-                company.push({
-                label: com.name,
-                value: com.id,
-                });
-            });
         });
-
         setOptionsS([
-          {key: 'Select a company', value: ''}, 
-          ...supervisor
+            {key: 'Select a company', value: ''}, 
+            ...supervisor
         ])
         setOptionsC([
             {key: 'Select a company', value: ''}, 
             ...company
-          ])
+        ])
+        setPageLoading(false)
     }
     useEffect(() => {
         fetchDataSupervisor();
+        getJobs()
       }, []);
 
     const handleChange = (e) => {
         e.preventDefault()
         const { name, value } = e.target;
-
         setFormValues({ ...formValues, [name]: value});
-        console.log(formValues);
     };
 
     const handleSelect = (value, meta) => {
         setFormValues({ ...formValues, [meta.name]: value.value});
-        console.log(formValues)
     };
 
-    async function handleSubmit(event) {
+    async function handleSubmit() {
         setLoading(true);
         try {
           const response = await fetch("/api/jobs", {
@@ -117,22 +98,22 @@ export default function CreateJobsPage() {
           })
           
           if (response.ok) {
-            toast.success("Berhasil menambah Program kerja");
+            toast.success("Berhasil ubah Program kerja");
             router.push('/jobs')
             setLoading(false);
           } 
-          setLoading(false);
         } catch (error) {
           console.error("Network Error:", error);
           setLoading(false);
         }
       }
+     
+    if(pageLoading) return <Loading />  
     return(
-        <TitleCard title="Tambah Lowongan Kerja" topMargin="mt-2"  >
+        <TitleCard title="Tambah Lowongan Kerja" topMargin="mt-2">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <SelectField
-                    defaultValue={supervisorId}
-                    // value={optionsS.find(({value}) => value === supervisorId)}
+                    value={optionsS.find(({value}) => value === supervisorId)}
                     placeholder="Pilih Lembaga Pengawas"
                     label="Nama Lembaga Pengawas"
                     name="supervisorId"
@@ -140,7 +121,7 @@ export default function CreateJobsPage() {
                     onChange={(value, meta) => handleSelect(value, meta)}
                 />
                 <SelectField
-                    defaultValue={companyId}
+                    value={optionsC.find(({value}) => value === companyId)}
                     placeholder="Pilih Nama Perusahaan"
                     label="Nama Perusahaan"
                     name="companyId"
@@ -180,7 +161,7 @@ export default function CreateJobsPage() {
                     onChange={handleChange}
                 />
                 <SelectField
-                    defaultValue={gender}
+                    value={options.find(({value}) => value === gender)}
                     label="Jenis Kelamin"
                     placeholder="Pilih Jenis Kelamin"
                     name="gender"
@@ -229,21 +210,21 @@ export default function CreateJobsPage() {
                 />
                 <InputField
                     type="date"
-                    value={deadline}
+                    value={moment(deadline).format("YYYY-MM-DD")}
                     label="Tanggal Terakhir"
                     name="deadline"
                     onChange={handleChange}
                 />
                 <InputField
                     type="date"
-                    value={departure}
+                    value={moment(departure).format("YYYY-MM-DD")}
                     label="Tanggal Keberangkatan"
                     name="departure"
                     onChange={handleChange}
                 />
             </div>
             <div className="divider" ></div>
-            <Button handleSubmit={handleSubmit} text={"Buat Program"} loading={loading} />
+            <Button handleSubmit={handleSubmit} text={"Update Program Kerja"} loading={loading} />
         </TitleCard>
     )
 }
