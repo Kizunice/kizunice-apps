@@ -7,7 +7,7 @@ import Link from "next/link";
 import axios from "axios";
 import Loading from "@/app/(dashboard)/loading"
 import SearchButton from "../ui/SearchButton";
-
+import { RiEyeFill, RiDeleteBin5Fill } from "react-icons/ri";
 const TopSideButtons = () => {
     const {data:session} =  useSession()
 
@@ -68,6 +68,14 @@ export default function PartnerPage() {
         console.log(query);
     };
 
+    const handleDelete = async (value) => {
+        const approval = confirm("Apakah kamu yakin ingin menghapus?")
+        if (approval) {
+            await fetch(`/api/jobs-application/${value}`, { method: "DELETE" });
+            location.reload()
+        }
+    }
+
     if (loading) return <Loading />
     if(filteredList) {
         return (
@@ -77,10 +85,10 @@ export default function PartnerPage() {
                 TopMiddleButtons={<SearchButton handleChange={handleChange} value={query} placeholder={"Cari Lembaga"} />}
                 TopSideButtons={<TopSideButtons />} 
                 >
-                <div className="overflow-x-auto w-full">
+                <div className="overflow-x-auto lg:overflow-hidden w-full">
                     <table className="table w-full">
                         <thead >
-                        <tr className="font-bold text-primary text-[14px]">
+                        <tr className="font-bold text-secondary text-[14px]">
                             <th>No</th>
                             <th>Nama Lembaga</th>
                             <th>Alamat</th>
@@ -99,8 +107,21 @@ export default function PartnerPage() {
                                             <td>{user.email}</td>
                                             <td>{user.phone}</td>
                                             {/* <td>{moment(user.createdAt).format('DD-MMM-YYYY')}</td> */}
+                                        
                                             <td className="flex items-center">
-                                                <Link href={`/data-partner/detail/${user.id}`} className="badge badge-success px-4 text-white font-normal">Detail</Link>
+                                                <div className="tooltip" data-tip="Detil Profile">
+                                                    <Link href={`/data-partner/detail/${user.id}`}>
+                                                        <RiEyeFill 
+                                                            className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
+                                                        />
+                                                    </Link>
+                                                </div>
+                                                <div className="tooltip" data-tip="Hapus Akun">
+                                                    <RiDeleteBin5Fill 
+                                                        onClick={() => handleDelete(value.id)} 
+                                                        className="text-error cursor-pointer p-1 text-3xl"
+                                                    />
+                                                </div>
                                             </td>
                                         </tr>
                                     )

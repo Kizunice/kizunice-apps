@@ -72,7 +72,7 @@ export async function GET(req, res) {
 
 export async function POST(req,res) {
   const body = await req.json();
-  const { title, description, part, date, senseiId, students } = body;
+  const { title, description, part, date, senseiId, students, fileUrl} = body;
 
   const newDate = new Date(date);
   
@@ -80,20 +80,20 @@ export async function POST(req,res) {
     students.map(id => {
         studentData.push({id})
   })
-
-  const newLearning = await prisma.learning.create({
+  console.log(body)
+  const learning = await prisma.learning.create({
     data: {
       title: title,
       description: description,
-      part: part,
+      part: parseInt(part),
       date: newDate.toISOString(),
       senseiId: senseiId,
       students : {
         connect : studentData
       },
-      fileUrl: '',
+      fileUrl: fileUrl ,
     },
   });
 
-  return NextResponse.json(newLearning);
+  return NextResponse.json(learning);
 }

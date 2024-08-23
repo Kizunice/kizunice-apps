@@ -55,13 +55,10 @@ export default function DoughnutChart(){
             label: 'Jumlah Siswa',
             data: [hired, notHired],
             backgroundColor: [
-              'rgba(36, 59, 80, 0.8)',
-              'rgba(84, 175, 189, 0.8)',
+              'rgb(138, 196, 68)',
+              'rgb(0, 68, 33)'
             ],
-            borderColor: [
-              'rgba(36, 59, 80, 1)',
-              'rgba(84, 175, 189, 1)',
-            ],
+            borderColor: 'rgba(84, 175, 189, 1)',
             borderWidth: 1,
           }
     ],

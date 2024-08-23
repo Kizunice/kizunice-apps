@@ -18,7 +18,7 @@ export async function GET(req, res) {
         senseiId : profile.id
       },
       orderBy: {
-        createdAt : "desc"
+        scoreAvg : "desc"
       },
       include : {
         sensei: true,
@@ -26,7 +26,21 @@ export async function GET(req, res) {
         student : true,
       }
     });
-    return NextResponse.json(scores);
+
+    const gradeA = scores.filter((data) => data.grade === "A")
+    const gradeB = scores.filter((data) => data.grade === "B")
+    const gradeC = scores.filter((data) => data.grade === "C")
+    const gradeD = scores.filter((data) => data.grade === "D")
+    const gradeE = scores.filter((data) => data.grade === "E")
+
+    return NextResponse.json({
+      scores,
+      gradeA,
+      gradeB,
+      gradeC,
+      gradeD,
+      gradeE
+    });
   }
 
   const scores = await prisma.scores.findMany({
@@ -39,58 +53,63 @@ export async function GET(req, res) {
       student : true,
     }
   });
-  return NextResponse.json(scores);
-  
 
+  const gradeA = scores.filter((data) => data.grade === "A")
+  const gradeB = scores.filter((data) => data.grade === "B")
+  const gradeC = scores.filter((data) => data.grade === "C")
+  const gradeD = scores.filter((data) => data.grade === "D")
+  const gradeE = scores.filter((data) => data.grade === "E")
+
+  return NextResponse.json({
+    scores,
+    gradeA,
+    gradeB,
+    gradeC,
+    gradeD,
+    gradeE
+  });
 }
 
 export async function POST(req,res) {
   const body = await req.json();
-  const { learningId, studentId,grade, senseiId, bunpou,choukai,kanji,kaiwa,bunka,aisatsu,pushUp,sitUp,barbel, id,  } = body;
-  if (id) {
-    await prisma.scores.update({
+  const {scoreId, learningId, studentId,grade,linkFile, senseiId, bunpou,choukai,kanji,kaiwa,bunka,aisatsu,pushUp,sitUp,barbel } = body;
+
+  const score=   await prisma.scores.upsert({
       where : {
-        id 
+        id : scoreId || '',
       },
-      data: {
+      update: {
+        grade,
+        linkFile,
+        bunpou : parseInt(bunpou),
+        choukai : parseInt(choukai),
+        kanji : parseInt(kanji),
+        kaiwa ,
+        bunka ,
+        aisatsu,
+        scoreAvg: parseInt((parseInt(bunpou)+parseInt(choukai)+parseInt(kanji))/3),
+        pushUp : parseInt(pushUp) | '',
+        sitUp : parseInt(sitUp) | '',
+        barbel : parseInt(barbel) | '',
+      },
+      create: {
         learningId,
         studentId,
         senseiId,
         grade,
+        linkFile,
         bunpou : parseInt(bunpou),
         choukai : parseInt(choukai),
         kanji : parseInt(kanji),
-        kaiwa : parseInt(kaiwa),
-        bunka : parseInt(bunka),
-        aisatsu : parseInt(aisatsu),
-        scoreAvg: parseInt((parseInt(bunpou)+parseInt(choukai)+parseInt(kanji)+parseInt(kaiwa)+parseInt(bunka))/5),
-        pushUp : parseInt(pushUp),
-        sitUp : parseInt(sitUp),
-        barbel : parseInt(barbel),
-      }
+        kaiwa ,
+        bunka ,
+        aisatsu,
+        scoreAvg: parseInt((parseInt(bunpou)+parseInt(choukai)+parseInt(kanji))/3),
+        pushUp : parseInt(pushUp) | '',
+        sitUp : parseInt(sitUp) | '',
+        barbel : parseInt(barbel) | '',
+      },
     })
-    return NextResponse.json({ message: "update done" });
 
-  }
-
-  const newScore = await prisma.scores.create({
-    data: {
-      learningId,
-      studentId,
-      senseiId,
-      grade,
-      bunpou : parseInt(bunpou),
-      choukai : parseInt(choukai),
-      kanji : parseInt(kanji),
-      kaiwa : parseInt(kaiwa),
-      bunka : parseInt(bunka),
-      aisatsu : parseInt(aisatsu),
-      scoreAvg: parseInt((parseInt(bunpou)+parseInt(choukai)+parseInt(kanji)+parseInt(kaiwa)+parseInt(bunka))/5),
-      pushUp : parseInt(pushUp),
-      sitUp : parseInt(sitUp),
-      barbel : parseInt(barbel),
-    },
-  });
-
-  return NextResponse.json(newScore);
+  return NextResponse.json(score);
 }

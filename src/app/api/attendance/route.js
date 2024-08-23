@@ -7,11 +7,30 @@ export async function GET(req, res) {
 
   if (session.role === 'ADMIN') {
     const allAttendance = await prisma.attendance.findMany({
+      where : {
+        accepted : true
+      },
       orderBy: {
         createdAt: 'desc',
       },
     });
     return NextResponse.json(allAttendance);
+  } else if (session.role === "SENSEI") {
+    const profile = await prisma.senseiProfile.findUnique({
+      where: {
+        userId : session.id
+      }
+    })
+    const attendance = await prisma.attendance.findMany({
+      where: {
+        senseiId: profile.id,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  
+    return NextResponse.json(attendance);
   }
   const attendance = await prisma.attendance.findMany({
     where: {

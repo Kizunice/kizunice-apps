@@ -112,7 +112,7 @@ export default function DocumentPage() {
             <div className="overflow-x-auto lg:overflow-hidden w-full">
                 <table className="table w-full">
                     <thead >
-                    <tr className="font-bold text-primary text-[14px]">
+                    <tr className="font-bold text-secondary text-[14px]">
                         <th>No</th>
                         <th>Nama Siswa</th>
                         <th>Asal LPK</th>

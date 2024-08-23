@@ -13,7 +13,6 @@ import {
   } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import TitleCard from '@/components/ui/TitleCards';
-
   
 ChartJS.register(
     CategoryScale,
@@ -38,25 +37,25 @@ ChartJS.register(
     };
   
     
-    const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+    const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'];
   
     const data = {
     labels,
     datasets: [
       {
-        fill: true,
-        label: 'MAU',
+        fill: false,
+        label: 'Diterima Job',
         data: labels.map(() => { return Math.random() * 10 + 10 }),
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor:'rgba(84, 175, 189, 1)',
+        borderColor: 'rgb(0, 68, 33)',
         
       },
+      
     ],
   };
     
   
     return(
-      <TitleCard title={"Monthly Attendance"}>
+      <TitleCard title={"Penerimaan Job (per bulan)"}>
           <Line data={data} options={options}/>
       </TitleCard>
     )

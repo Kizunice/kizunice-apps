@@ -2,6 +2,7 @@
 import { useState , useEffect, useMemo} from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import 'moment/locale/ja';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react'
 import { IoCalendar } from 'react-icons/io5';
@@ -13,6 +14,7 @@ import InputField from "../ui/InputField";
 import toast from "react-hot-toast";
 import Loading from '@/app/(dashboard)/loading';
 import Pagination from '../ui/Pagination';
+
 
 const statsData = [
     {title : "Today", value : "150", icon: <IoCalendar size={30}/>, color:"bg-white"},
@@ -164,7 +166,7 @@ export default async function AttendancePage() {
                 <div className="overflow-x-auto w-full">
                     <table className="table w-full">
                         <thead >
-                        <tr className="font-bold text-primary text-[14px]">
+                        <tr className="font-bold text-secondary text-[14px]">
                             <th>No</th>
                             <th>Hari</th>
                             <th>Tanggal</th>
@@ -181,7 +183,7 @@ export default async function AttendancePage() {
                                         <tr key={value.id} className="text-grey ">
                                         <td>{index+1}</td>
                                         <td>{moment(value.date).format("dddd")}</td>
-                                        <td>{moment(value.date).format("DD-MM-yyyy")}</td>
+                                        <td>{moment(value.date).format("ll")}</td>
                                         <td>{value.name}</td>
                                         <td>{moment(value.signInTime).format("hh:mm")}</td>
                                         <td>{session?.user.role=== 'STUDENT' ? 

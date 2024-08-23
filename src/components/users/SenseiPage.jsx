@@ -7,7 +7,7 @@ import Link from "next/link";
 import axios from "axios";
 import Loading from "@/app/(dashboard)/loading"
 import SearchButton from "../ui/SearchButton";
-
+import { RiDeleteBin5Fill, RiEyeFill } from "react-icons/ri";
 const TopSideButtons = () => {
     const {data:session} =  useSession()
 
@@ -65,7 +65,15 @@ export default function SenseiPage() {
         setQuery(e.target.value);
         console.log(query);
     };
-    
+
+    const handleDelete = async (value) => {
+        const approval = confirm("Apakah kamu yakin ingin menghapus?")
+        if (approval) {
+            await fetch(`/api/jobs-application/${value}`, { method: "DELETE" });
+            location.reload()
+        }
+    }
+
     if (loading) return <Loading />
     if(filteredList) {
         return (
@@ -78,7 +86,7 @@ export default function SenseiPage() {
                 <div className="overflow-x-auto w-full">
                     <table className="table w-full">
                         <thead >
-                        <tr className="font-bold text-primary text-[14px]">
+                        <tr className="font-bold text-secondary text-[14px]">
                             <th>No</th>
                             <th>Name</th>
                             <th>Email</th>
@@ -97,8 +105,21 @@ export default function SenseiPage() {
                                             <td>{user.email}</td>
                                             <td>{user.phone}</td>
                                             <td>{moment(user.createdAt).format('DD-MMM-YYYY')}</td>
+                                        
                                             <td className="flex items-center">
-                                                <Link href={`/profile/${user.id}`} className="badge badge-success px-4 text-white font-normal">Detail</Link>
+                                                <div className="tooltip" data-tip="Detil Profile">
+                                                    <Link href={`/profile/${user.id}`}>
+                                                        <RiEyeFill 
+                                                            className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
+                                                        />
+                                                    </Link>
+                                                </div>
+                                                <div className="tooltip" data-tip="Hapus Akun">
+                                                    <RiDeleteBin5Fill 
+                                                        onClick={() => handleDelete(value.id)} 
+                                                        className="text-error cursor-pointer p-1 text-3xl"
+                                                    />
+                                                </div>
                                             </td>
                                         </tr>
                                     )

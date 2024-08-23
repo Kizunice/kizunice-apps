@@ -29,7 +29,7 @@ const Button = ({ loading, handleSubmit, text }) => (
     ) : (
         <button
         type="submit"
-        className="w-full text-white bg-primary hover:bg-secondary font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+        className="w-full text-white bg-primary hover:bg-tersier font-medium rounded-lg text-sm px-5 py-2.5 text-center "
         onClick={() => handleSubmit()}
         >
         {text}

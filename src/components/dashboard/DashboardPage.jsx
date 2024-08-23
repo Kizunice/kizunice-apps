@@ -50,13 +50,13 @@ export default function DashboardPage() {
                 value={totalAttendance}
             />
             <Stats
-                title="Total Materi "
+                title="Total Laporan Belajar "
                 icon={<ImBook size={30} />}
                 color="bg-white"
                 value={totalLearning}
             />
             <Stats
-                title="Total Lowongan"
+                title="Total Program"
                 icon={<FaSuitcase size={30} />}
                 color="bg-white"
                 value={totalJobs}

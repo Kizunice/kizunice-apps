@@ -18,7 +18,7 @@ export default function EditJobsPage() {
     const [optionsS, setOptionsS] = useState([])
     const [optionsC, setOptionsC] = useState([])
     const [formValues, setFormValues]  = useState({})
-    const {supervisorId, companyId, title, fieldJob, typeJob, needs, gender, location, requirement, detail, benefit, salary, deadline, departure } = formValues;
+    const {supervisorId, companyId, title, fieldJob, typeJob, needs, gender, location, requirement, detail, benefit, salary, deadline, departure, linkFile } = formValues;
     const [options, setOptions] = useState([
         {
             label: "Laki-Laki",
@@ -220,6 +220,13 @@ export default function EditJobsPage() {
                     value={moment(departure).format("YYYY-MM-DD")}
                     label="Tanggal Keberangkatan"
                     name="departure"
+                    onChange={handleChange}
+                />
+                <InputField
+                    type="text"
+                    value={linkFile}
+                    label="Link File TSK"
+                    name="linkFile"
                     onChange={handleChange}
                 />
             </div>

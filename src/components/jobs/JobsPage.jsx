@@ -8,7 +8,7 @@ import { formatterJPY } from "@/lib/utils"
 import Link from "next/link"
 import SearchButton from "../ui/SearchButton"
 import Loading from "@/app/(dashboard)/loading"
-import { RiDeleteBin5Fill, RiEyeFill, RiFileEditFill  } from "react-icons/ri";
+import { RiDeleteBin5Fill, RiEyeFill, RiFileEditFill, RiLink} from "react-icons/ri";
 
 const TopSideButtons= () =>{
     const {data:session} =  useSession()
@@ -94,7 +94,7 @@ export default function JobsPage() {
                 <div className="overflow-x-auto lg:overflow-hidden w-full">
                     <table className="table w-full">
                         <thead >
-                        <tr className="font-bold text-primary text-[14px]">
+                        <tr className="font-bold text-secondary text-[14px]">
                             <th></th>
                             <th>Program</th>
                             <th>Kumiai</th>
@@ -104,7 +104,7 @@ export default function JobsPage() {
                             <th>Pekerja</th>
                             <th>Gaji</th>
                             <th>Berangkat</th>
-                            <th></th>
+                            <th>Link</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -121,6 +121,16 @@ export default function JobsPage() {
                                             <td>{value.needs}</td>
                                             <td>{formatterJPY(value.salary)}</td>
                                             <td>{moment(value.departure).format("DD/MM/yyyy")}</td>
+                                            <td>
+                                                { value.linkFile ? (
+                                                    <div className="tooltip" data-tip="Link File">
+                                                        <Link href={value.linkFile} target="_blank">
+                                                            <RiLink className="text-secondary cursor-pointer p-1 text-3xl"/>
+                                                        </Link>
+                                                    </div>
+                                                    ): null
+                                                }
+                                            </td>
                                             <td className="flex flex-row items-start">
                                                 <div className="lg:tooltip" data-tip="Lihat Data">
                                                     <Link href={`/jobs/detail/${value.id}`}>

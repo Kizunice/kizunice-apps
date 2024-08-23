@@ -28,6 +28,7 @@ export async function GET(req,res) {
   export async function POST(req,res) {
     const body = await req.json();
     const { jobId, partnerId, studentId, status, note, id} = body;
+    
     const application = await prisma.jobApplication.upsert({
       where : {
         id : id || ''
@@ -36,26 +37,38 @@ export async function GET(req,res) {
         jobId ,
         studentId,
         partnerId,  
-        status : JSON.parse(status),           
+        status,           
         note
       },
       create : {
         jobId ,
         studentId,
         partnerId,  
-        status : JSON.parse(status),           
+        status,           
         note
       },
     });
 
-    await prisma.studentProfile.update({
-      where : {
-        id : studentId
-      },
-      data : {
-        isHired : status
-      }
-    })
+    if (status === "Diterima") {
+      await prisma.studentProfile.update({
+        where : {
+          id : studentId
+        },
+        data : {
+          isHired : true
+        }
+      })
+    } else if (status === "Ditolak") {
+      await prisma.studentProfile.update({
+        where : {
+          id : studentId
+        },
+        data : {
+          isHired : false
+        }
+      })
+    }
+   
 
     return NextResponse.json(application);
   }

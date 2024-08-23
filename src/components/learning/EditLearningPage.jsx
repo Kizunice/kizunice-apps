@@ -22,11 +22,12 @@ export default function EditLearningPage(){
         description:"", 
         part:"", 
         date: "",
+        fileUrl:'',
         students: [],
         senseiId: session?.user.id,
         senseiName: session?.user.name,
     })
-    const{title, description, part, date} = formValues
+    const{title, description, part, date, fileUrl} = formValues
 
     const getLearningData = async () => {
         try {  
@@ -78,7 +79,15 @@ export default function EditLearningPage(){
     return(
         <TitleCard title="Ubah Data Belajar" topMargin="mt-2"  >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <InputField
+              <InputField
+                  type="date"
+                  value={moment(date).format("YYYY-MM-DD")}
+                  placeholder="Tanggal"
+                  label="Tanggal"
+                  name="date"
+                  onChange={handleChange}
+              /> 
+              <InputField
                   type="text"
                   value={title}
                   placeholder="Judul Materi"
@@ -103,13 +112,14 @@ export default function EditLearningPage(){
                   onChange={handleChange}
               />
               <InputField
-                  type="date"
-                  value={moment(date).format("YYYY-MM-DD")}
-                  placeholder="Tanggal"
-                  label="Tanggal"
-                  name="date"
+                  type="text"
+                  value={fileUrl}
+                  placeholder="Link File Youtube / Drive"
+                  label="Link File"
+                  name="fileUrl"
                   onChange={handleChange}
-              />  
+              />   
+               
             </div>
             <div className="divider" ></div>
             <Button handleSubmit={handleSubmit} loading={loading} text={"Submit Data Belajar"} />

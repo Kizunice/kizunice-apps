@@ -21,7 +21,8 @@ export default function CreateJobsPage() {
         companyId : "",
         title :"", 
         fieldJob :"",          
-        typeJob :"",             
+        typeJob :"",   
+        linkFile:'',          
         description :"",        
         needs  :"",    
         gender: "",         
@@ -34,7 +35,7 @@ export default function CreateJobsPage() {
         interview :"",
         departure :"",
     })
-    const { userId, supervisorId, companyId, title, fieldJob, typeJob, description, needs, gender, location, requirement, detail, benefit, salary, deadline, departure } = formValues;
+    const { userId, supervisorId, companyId, title, fieldJob, typeJob, linkFile, needs, gender, location, requirement, detail, benefit, salary, deadline, departure } = formValues;
     const [options, setOptions] = useState([
         {
             label: "Laki-Laki",
@@ -239,6 +240,13 @@ export default function CreateJobsPage() {
                     value={departure}
                     label="Tanggal Keberangkatan"
                     name="departure"
+                    onChange={handleChange}
+                />
+                <InputField
+                    type="text"
+                    value={linkFile}
+                    label="Link File TSK"
+                    name="linkFile"
                     onChange={handleChange}
                 />
             </div>

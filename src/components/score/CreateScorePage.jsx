@@ -1,24 +1,26 @@
 'use client'
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import axios from "axios";
+import toast from "react-hot-toast";
 import TitleCard from "@/components/ui/TitleCards";
-import { useSession } from "next-auth/react";
 import InputField from "../ui/InputField";
 import SelectField from "../ui/SelectField";
 import Button from "../ui/Button";
-import toast, { Toaster } from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { SCORE_ABC } from "@/constants/routes";
+import Loading from "@/app/(dashboard)/loading";
 
 export default function CreateScorePage() {
-    const {data:session} =  useSession()
     const router = useRouter()
     const [loading, setLoading] = useState(false)
+    const [pageLoading, setPageLoading] = useState(true)
     const [formValues, setFormValues]  = useState({
         studentId: "",
         learningId: "",
         senseiId: "",
         senseiName: "",
         grade: "",
+        linkFile: "",
         bunpou:'',
         choukai:'',
         kanji:'',
@@ -29,27 +31,26 @@ export default function CreateScorePage() {
         sitUp:'',
         barbel:'',
     })
-    const{learningId, studentId,senseiName,grade, bunpou,choukai,kanji,kaiwa,bunka,aisatsu,pushUp,sitUp,barbel,} = formValues
+    const{learningId, studentId,senseiName,linkFile, bunpou,choukai,kanji,kaiwa,bunka,aisatsu,pushUp,sitUp,barbel,} = formValues
     const [optionsL,setOptionsL] = useState([])
     const [optionsS,setOptionsS] = useState([])
     const [optionsG, setOptionsG] = useState([
-        { value: 'A', label: 'A'}, 
-        { value: 'B', label: 'B'},
-        { value: 'C', label: 'C'},
-        { value: 'D', label: 'D'},
-        { value: 'E', label: 'E'},
+        { value: 'A', label: 'A (Bab 1 ~ 10)'}, 
+        { value: 'B', label: 'B (Bab 11 ~ 20)'},
+        { value: 'C', label: 'C (Bab 21 ~ 30)'},
+        { value: 'D', label: 'D (Bab 31 ~ 40)'},
+        { value: 'E', label: 'E (Bab 41 ~ 50)'},
     ])
 
     const getUsers = async () => {
-        setLoading(true)
         try {  
             const res = await axios.get('/api/profile/sensei');
             const users = res.data
             setFormValues({...formValues, senseiId : users.id, senseiName: users.name})
-            setLoading(false)
+            setPageLoading(false)
         } catch (err) {
           console.log("[collections_GET]", err);
-          setLoading(false)
+          setPageLoading(false)
         }
       };
 
@@ -58,7 +59,7 @@ export default function CreateScorePage() {
         const resultsL = []
         data.forEach((value) => {
             resultsL.push({
-                label: value.part + " - " + value.title,
+                label: "Bab " + value.part + " - " + value.title,
                 value: value.id,
             });
         });
@@ -66,6 +67,7 @@ export default function CreateScorePage() {
           {key: 'Select Learning Materi', value: ''}, 
           ...resultsL
         ])
+        setPageLoading(false)
     }
 
     async function fetchDataStudents() {
@@ -81,6 +83,7 @@ export default function CreateScorePage() {
             {key: 'Select student', value: ''}, 
             ...resultsS
         ])
+        setPageLoading(false)
     }
 
     useEffect(() => {
@@ -92,14 +95,11 @@ export default function CreateScorePage() {
     const handleChange = (e) => {
         e.preventDefault()
         const { name, value } = e.target;
-        
         setFormValues({ ...formValues, [name]: value});
-        console.log(formValues);
     };
 
     const handleSelect = (value, meta) => {
         setFormValues({ ...formValues, [meta.name]: value.value});
-        console.log(formValues)
       };
 
     async function handleSubmit() {
@@ -125,8 +125,9 @@ export default function CreateScorePage() {
           console.error("Network Error:", error);
           setLoading(false);
         }
-      }
-
+    }
+    
+    if (pageLoading) return <Loading />
     return (
         <TitleCard title="Tambah Nilai Siswa" topMargin="mt-2"  >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -154,13 +155,21 @@ export default function CreateScorePage() {
                     options={optionsS}
                     onChange={(value, meta) => handleSelect(value, meta)}
                 />
-                    <SelectField
+                <SelectField
                     placeholder="Pilih grade siswa"
                     label="Grade Siswa"
                     name="grade"
                     options={optionsG}
                     onChange={(value, meta) => handleSelect(value, meta)}
                 />
+                 <InputField
+                    type="text"
+                    value={linkFile}
+                    placeholder="Link File Youtube / Drive"
+                    label="Link File"
+                    name="linkFile"
+                    onChange={handleChange}
+                />  
             </div>
             <div className="divider" ></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -188,29 +197,29 @@ export default function CreateScorePage() {
                     name="kanji"
                     onChange={handleChange}
                 />
-                <InputField
-                    type="text"
-                    value={kaiwa}
+                 <SelectField
+                    value={SCORE_ABC.find(({value}) => value === kaiwa)}
                     placeholder="Kaiwa"
                     label="Kaiwa"
                     name="kaiwa"
-                    onChange={handleChange}
+                    options={SCORE_ABC}
+                    onChange={(value, meta) => handleSelect(value, meta)}
                 />
-                <InputField
-                    type="text"
-                    value={bunka}
+                <SelectField
+                    value={SCORE_ABC.find(({value}) => value === bunka)}
                     placeholder="Bunka"
                     label="Bunka"
                     name="bunka"
-                    onChange={handleChange}
+                    options={SCORE_ABC}
+                    onChange={(value, meta) => handleSelect(value, meta)}
                 />
-                <InputField
-                    type="text"
-                    value={aisatsu}
+                <SelectField
+                    value={SCORE_ABC.find(({value}) => value === aisatsu)}
                     placeholder="Aisatsu"
                     label="Aisatsu"
                     name="aisatsu"
-                    onChange={handleChange}
+                    options={SCORE_ABC}
+                    onChange={(value, meta) => handleSelect(value, meta)}
                 />
                 <InputField
                     type="text"

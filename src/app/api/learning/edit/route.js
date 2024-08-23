@@ -4,7 +4,7 @@ import { getCurrentUser } from '@/lib/session';
 
 export async function POST(req) {
   const body = await req.json();
-  const { title, description, part, date, senseiId, senseiName, id } = body;
+  const { title, description, part, date, senseiId, senseiName, id , fileUrl} = body;
 
   const newDate = new Date(date);
 
@@ -19,7 +19,7 @@ export async function POST(req) {
       date: newDate.toISOString(),
       senseiId: senseiId,
       senseiName: senseiName,
-      fileUrl: '',
+      fileUrl: fileUrl,
     },
   });
 

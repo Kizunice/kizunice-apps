@@ -71,7 +71,7 @@ export default function SenseiRegister() {
 
     return (
         <div className="mt-2">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <InputField
                     type="email"
                     value={email}
@@ -149,7 +149,7 @@ export default function SenseiRegister() {
                     onChange={handleChange}
                 />
             </div>
-            <div className="divider" ></div>
+            <div className="divider border-inherit" ></div>
             <Button text={"Buat Akun"} handleSubmit={handleSubmit} loading={loading} />
         </div>
     )

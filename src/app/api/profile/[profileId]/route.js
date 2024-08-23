@@ -13,3 +13,16 @@ export async function GET(req,res,{params}) {
 
   return NextResponse.json(profile);
 }
+
+
+export async function DELETE(req,res,{params}) {
+  // const session = getCurrentUser(req,res)
+  console.log(params)
+  // const profile = await prisma.studentProfile.delete({
+  //   where: {
+  //     userId: params.profileId,
+  //   },
+  // });
+
+  return NextResponse.json({message : "done"});
+}

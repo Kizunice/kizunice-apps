@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import ForgotPassForm from '@/components/auth/ForgotPasswordPage';
-import KizuniceLogo from "../../../../public/logo-kizunice-white.png"
+import LogoINA from "../../../../public/Logo_ina.png"
 
 export default function ForgotPage() {
     return (
@@ -11,10 +11,9 @@ export default function ForgotPage() {
           <div className="w-full bg-secondary rounded-lg shadow-2xl md:mt-0 sm:max-w-md xl:p-0">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <div className="flex mb-6 justify-center items-center w-30 h-auto">
-                  <Link href={"/"} className='mx-auto'>
-                      <Image src={KizuniceLogo} width={140} height={40} priority={true} alt="Kizunice App Logo"/>
-                  
-                  </Link>
+                <Link href={"/"} className='mx-auto bg-white p-2 rounded-md'>
+                    <Image src={LogoINA} width={180} height={40} priority={true} alt="Logo INA Apps"/>
+                </Link>
               </div>
                 <ForgotPassForm />
             </div>

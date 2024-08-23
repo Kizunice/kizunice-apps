@@ -9,6 +9,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Button from "../ui/Button";
 import Loading from "@/app/(dashboard)/loading";
+import { STATUS_OPTION } from "@/constants/routes";
 
 export default function CreateApplicationPage() {
     const {data:session} =  useSession()
@@ -167,7 +168,7 @@ export default function CreateApplicationPage() {
                   label="Status Lamaran"
                   placeholder="Pilih Status Lamaran"
                   name="status"
-                  options={options}
+                  options={STATUS_OPTION}
                   onChange={(value, meta) => handleSelect(value, meta)}
               />
           </div>

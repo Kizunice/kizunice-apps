@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import Button from "../ui/Button";
 import Loading from "@/app/(dashboard)/loading";
 import SelectField from "../ui/SelectField"
+import { STATUS_OPTION } from "@/constants/routes"
 
 export default function EditApplicationPage(){
     const params = useParams()
@@ -18,12 +19,20 @@ export default function EditApplicationPage(){
     const [formValues, setFormValues]  = useState({})
     const [options, setOptions] = useState([
       {
-          label: "Belum Diterima",
-          value: false,
+        label: "Pengajuan",
+        value: "Pengajuan",
       },
       {
-          label: "Sudah Diterima",
-          value: true,
+        label: "Diterima",
+        value: "Diterima",
+      },
+      {
+        label: "Ditolak",
+        value: "Ditolak",
+      },
+      {
+        label: "Cadangan",
+        value: "Cadangan",
       },
   ])
     const getAppJob = async () => {
@@ -113,11 +122,11 @@ export default function EditApplicationPage(){
                   onChange={handleChange}
               />
               <SelectField
-                  value={options.find(({value}) => value === formValues.status)}
+                  value={STATUS_OPTION.find(({value}) => value === formValues.status)}
                   label="Status Lamaran"
                   placeholder="Pilih Status Lamaran"
                   name="status"
-                  options={options}
+                  options={STATUS_OPTION}
                   onChange={(value, meta) => handleSelect(value, meta)}
               />
             </div>

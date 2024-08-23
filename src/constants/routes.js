@@ -10,6 +10,48 @@ import { IoMdSettings } from 'react-icons/io';
 import { FaRankingStar } from "react-icons/fa6";
 import { BsInboxesFill } from "react-icons/bs";
 
+export const STATUS_OPTION = [
+  {
+    label: "Pengajuan",
+    value: "Pengajuan",
+  },
+  {
+    label: "Diterima",
+    value: "Diterima",
+  },
+  {
+    label: "Ditolak",
+    value: "Ditolak",
+  },
+  {
+    label: "Cadangan",
+    value: "Cadangan",
+  },
+]
+
+export const SCORE_ABC = [
+  {
+    label: "A",
+    value: "A",
+  },
+  {
+    label: "B",
+    value: "B",
+  },
+  {
+    label: "C",
+    value: "C",
+  },
+  {
+    label: "D",
+    value: "D",
+  },
+  {
+    label: "E",
+    value: "E",
+  },
+]
+
 export const ADMIN_ROUTES = [
   {
     path: '/dashboard',
@@ -24,58 +66,85 @@ export const ADMIN_ROUTES = [
     key: '1',
   },
   {
-    path: '/learning',
     icon: <ImBook size={22} />,
-    name: 'Belajar',
+    name: 'Laporan Belajar',
     key: '2',
+    sub : [
+      {
+        path: '/learning',
+        name: 'Data Belajar',
+        key: '1',
+      },
+      {
+        path: '/score',
+        name: 'Data Nilai',
+        key: '2',
+      },
+      
+    ]
   },
   {
-    path: '/jobs',
     icon: <FaSuitcase size={22} />,
-    name: 'Pekerjaan',
-    key: '3',
-  },
-  {
-    path: '/jobs-application',
-    icon: <BsInboxesFill size={22} />,
-    name: 'Lamaran',
+    name: 'Program Kerja',
     key: '4',
+    sub : [
+      {
+        path: '/jobs',
+        name: 'Data Job',
+        key: '1',
+      },
+      {
+        path: '/jobs-application',
+        name: 'Data Lamaran',
+        key: '2',
+      },
+      
+    ]
   },
   {
     path: '/document',
     icon: <IoDocumentText size={22} />,
     name: 'Dokumen CV',
-    key: '5',
-  },
-  {
-    path: '/data-student',
-    icon: <HiUsers size={22} />,
-    name: 'Data Siswa',
     key: '6',
   },
   {
-    path: '/data-partner',
     icon: <HiUsers size={22} />,
-    name: 'Data Lembaga',
+    name: 'Data Pengguna',
     key: '7',
-  },
-  {
-    path: '/data-sensei',
-    icon: <HiUsers size={22} />,
-    name: 'Data Sensei',
-    key: '8',
+    sub : [
+      {
+        path: '/data-student',
+        name: 'Data Siswa',
+        key: '1',
+      },
+      {
+        path: '/data-partner',
+        name: 'Data Lembaga',
+        key: '2',
+      },
+      {
+        path: '/data-sensei',
+        name: 'Data Sensei',
+        key: '3',
+      },
+      {
+        path: '/data-staff',
+        name: 'Data Staff',
+        key: '4',
+      },
+    ]
   },
   {
     path: '/finance',
     icon: <FaCoins size={22} />,
     name: 'Keuangan',
-    key: '9',
+    key: '10',
   },
   {
     path: '/settings',
     icon: <IoMdSettings size={22} />,
     name: 'Pengaturan',
-    key: '10',
+    key: '11',
   },
 ];
 

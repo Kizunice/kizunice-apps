@@ -21,11 +21,12 @@ export default function CreateLearningPage() {
         description:"", 
         part:"", 
         date: "",
+        fileUrl: "",
         students: [],
         senseiId: session?.user.id,
         senseiName: session?.user.name,
     })
-    const{title, description,part,date, students} = formValues
+    const{title, description,part,date, students, fileUrl} = formValues
     const [options,setOptions] = useState([])
 
     const getUsers = async () => {
@@ -108,38 +109,48 @@ export default function CreateLearningPage() {
     return (
       <TitleCard title="Tambah Data Pembelajaran" topMargin="mt-2"  >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <InputField
-                  type="text"
-                  value={title}
-                  placeholder="Judul Materi"
-                  label="Judul"
-                  name="title"
-                  onChange={handleChange}
-              />
-              <InputField
-                  type="text"
-                  value={part}
-                  placeholder="Bab 25"
-                  label="Bab Materi"
-                  name="part"
-                  onChange={handleChange}
-              />
-              <InputField
-                  type="text"
-                  value={description}
-                  placeholder="Detail Materi"
-                  label="Deskripsi Materi"
-                  name="description"
-                  onChange={handleChange}
-              />
-              <InputField
-                  type="date"
-                  value={date}
-                  placeholder="Tanggal"
-                  label="Tanggal"
-                  name="date"
-                  onChange={handleChange}
-              />   
+            <InputField
+                type="date"
+                value={date}
+                placeholder="Tanggal"
+                label="Tanggal"
+                name="date"
+                onChange={handleChange}
+            />   
+            <InputField
+                type="text"
+                value={title}
+                placeholder="Judul Materi"
+                label="Judul"
+                name="title"
+                onChange={handleChange}
+            />
+            <InputField
+                type="number"
+                pattern="\d*"
+                max="4"
+                value={part}
+                placeholder="10"
+                label="Bab"
+                name="part"
+                onChange={handleChange}
+            />
+            <InputField
+                type="text"
+                value={description}
+                placeholder="Detail Materi"
+                label="Deskripsi Materi"
+                name="description"
+                onChange={handleChange}
+            />
+            <InputField
+                type="text"
+                value={fileUrl}
+                placeholder="Link File Youtube / Drive"
+                label="Link File"
+                name="fileUrl"
+                onChange={handleChange}
+            />   
           </div>
           <div className="divider" ></div>
           <div className="grid grid-cols-1">

@@ -49,10 +49,8 @@ export async function GET(req,res) {
 export async function POST(req,res) {
     const session = await getCurrentUser(req, res);
     const body = await req.json();
-    const {id, companyId, supervisorId, title, fieldJob, typeJob, description, needs, gender, location, requirement, detail, benefit, salary, departure, interview, deadline } = body;
+    const {id, companyId, supervisorId, title, fieldJob, typeJob, description, needs, gender, location, requirement, detail, benefit, salary, departure, interview, deadline, linkFile } = body;
 
-    const newDate = new Date(deadline);
-  
     const newJobs = await prisma.jobOpportunity.upsert({
       where : {
         id : id || ''
@@ -70,10 +68,11 @@ export async function POST(req,res) {
         requirement ,        
         detail  ,         
         benefit ,            
-        salary ,            
-        deadline: newDate.toISOString(),
-        departure: newDate.toISOString(),
-        interview: newDate.toISOString()
+        salary ,       
+        linkFile,     
+        deadline: new Date(deadline).toISOString(),
+        departure: new Date(departure).toISOString(),
+        interview: new Date(interview).toISOString()
       },
       create: {
         companyId ,
@@ -88,10 +87,11 @@ export async function POST(req,res) {
         requirement ,        
         detail  ,         
         benefit ,            
-        salary ,            
-        deadline: newDate.toISOString(),
-        departure: newDate.toISOString(),
-        interview: newDate.toISOString()
+        salary ,  
+        linkFile,     
+        deadline: new Date(deadline).toISOString(),
+        departure: new Date(departure).toISOString(),
+        interview: new Date(interview).toISOString()
       },
     });
   

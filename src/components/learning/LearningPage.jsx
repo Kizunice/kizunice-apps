@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Loading from '@/app/(dashboard)/loading';
-import { RiFileEditFill, RiEyeFill, RiDeleteBin5Fill } from "react-icons/ri";
+import { RiFileEditFill, RiEyeFill, RiDeleteBin5Fill, RiLink} from "react-icons/ri";
 import SearchButton from "../ui/SearchButton";
 import Pagination from "../ui/Pagination"
 let PageSize = 10;
@@ -62,7 +62,7 @@ export default function LearningPage() {
     const searchHandler = useCallback(() => {
         const filteredData = values.filter((value) => {
             return value.sensei.name.toLowerCase().includes(query.toLowerCase()) ||
-            value.part.toLowerCase().includes(query.toLowerCase())
+            value.part.toString().includes(query.toLowerCase())
         })
         const firstPageIndex = (currentPage - 1) * PageSize;
         const lastPageIndex = firstPageIndex + PageSize;
@@ -98,13 +98,14 @@ export default function LearningPage() {
                 <div className="overflow-x-auto lg:overflow-hidden w-full">
                     <table className="table w-full">
                         <thead >
-                        <tr className="font-bold text-primary text-[14px]">
+                        <tr className="font-bold text-secondary text-[14px]">
                             <th>No</th>
                             <th>Tanggal</th>
                             <th>Sensei</th>
                             <th>Bagian</th>
                             <th>Judul</th>
                             <th>Deskripsi</th>                    
+                            <th>Link</th>                    
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -119,6 +120,16 @@ export default function LearningPage() {
                                             <td>{value.part}</td>
                                             <td>{value.title}</td>
                                             <td>{value.description}</td> 
+                                            <td>
+                                                { value.fileUrl ? (
+                                                    <div className="tooltip" data-tip="Link File">
+                                                        <Link href={value.fileUrl} target="_blank">
+                                                            <RiLink className="text-secondary cursor-pointer p-1 text-3xl"/>
+                                                        </Link>
+                                                    </div>
+                                                    ): null
+                                                }
+                                            </td>
                                             <td className="flex flex-row items-start">
                                                 <div className="lg:tooltip" data-tip="Detil Data">
                                                     <Link href={`/learning/detail/${value.id}`}>

@@ -1,12 +1,12 @@
 'use client'
 import axios from "axios";
-import { useEffect,useState, useCallback, useMemo } from "react";
+import { useEffect,useState, useCallback } from "react";
 import TitleCard from "../ui/TitleCards";
 import Link from "next/link";
 import Loading from "@/app/(dashboard)/loading"
 import SearchButton from "../ui/SearchButton";
 import Pagination from "../ui/Pagination";
-import { RiEyeFill } from "react-icons/ri";
+import { RiEyeFill, RiDeleteBin5Fill } from "react-icons/ri";
 let PageSize = 10;
 
 export default function StudentPage() {
@@ -108,8 +108,17 @@ export default function StudentPage() {
                 </ul>
             </div>
         )
-    }
+    }           
 
+    const handleDelete = async (value) => {
+        console.log(value)
+        const approval = confirm("Apakah kamu yakin ingin menghapus?")
+        if (approval) {
+            await fetch(`/api/data/student/${value}`, { method: "DELETE" });
+            location.reload()
+        }
+    }
+    
     if (loading) return <Loading />
     if (filteredList) {
         return (
@@ -122,7 +131,7 @@ export default function StudentPage() {
                 <div className="overflow-x-auto w-full">
                     <table className="table w-full">
                         <thead >
-                        <tr className="font-bold text-primary text-[14px]">
+                        <tr className="font-bold text-secondarys text-[14px]">
                             <th>No</th>
                             <th>Nama</th>
                             <th>Asal LPK</th>
@@ -148,11 +157,17 @@ export default function StudentPage() {
                                             </td>
                                             <td className="flex items-center">
                                                 <div className="tooltip" data-tip="Detil Profile">
-                                                <Link href={`/data-student/detail/${user.id}`}>
-                                                    <RiEyeFill 
-                                                        className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
+                                                    <Link href={`/data-student/detail/${user.id}`}>
+                                                        <RiEyeFill 
+                                                            className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
+                                                        />
+                                                    </Link>
+                                                </div>
+                                                <div className="tooltip" data-tip="Hapus Akun">
+                                                    <RiDeleteBin5Fill 
+                                                        onClick={() => handleDelete(user.id)} 
+                                                        className="text-error cursor-pointer p-1 text-3xl"
                                                     />
-                                                </Link>
                                                 </div>
                                             </td>
                                         </tr>

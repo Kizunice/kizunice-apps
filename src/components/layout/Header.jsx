@@ -29,12 +29,12 @@ export default function Header()  {
               <Image src={session?.user.image ? session?.user.image : "/avatar.png"} width={20} height={20} alt="Avatar Kizunice"/> 
             </div>
           </div>
-          <ul tabIndex={0} className="mt-3 z-[9] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"> 
-            <li><Link href={"/profile"}>Profile</Link></li>
-            <li><Link href={"/settings"}>Settings</Link></li>
-            <li><button onClick={() => signOut({ redirect: false }).then(() => {
+          <ul tabIndex={0} className="mt-3 z-[9] p-2 gap-1 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"> 
+            <li><Link href={"/profile"}>Profil</Link></li>
+            <li><Link href={"/settings"}>Pengaturan</Link></li>
+            <li><button className="text-white bg-error" onClick={() => signOut({ redirect: false }).then(() => {
                   router.push("/login"); // Redirect to the dashboard page after signing out
-              })}>Logout</button></li>
+              })}>Keluar</button></li>
           </ul>
         </div>
       </div>

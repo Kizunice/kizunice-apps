@@ -12,6 +12,7 @@ import {
     RiTwitterFill,
     RiInstagramFill
 } from "react-icons/ri"
+import Logo from '../../../public/Logo_ina.png'
 
 export default function Footer() {
     return (
@@ -19,9 +20,9 @@ export default function Footer() {
             <div className="max-w-[78rem] mx-auto p-8 lg:pt-12">
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
                     <div>
-                        <div className="flex justify-start text-left text-white">
-                            <Link href={"/"} className="flex items-center gap-2 text-white text-xl font-semibold">
-                                <Image src="/logo-kizunice-white.png" width={140}  height={100} alt="Logo Kizunice"   />
+                        <div className="flex justify-start text-left ">
+                            <Link href={"/"} className="bg-white px-4 py-2 rounded-sm">
+                                <Image src={Logo} width={140}  height={100} alt="Logo INA" />
                             </Link>
                         </div>
 
@@ -139,7 +140,7 @@ export default function Footer() {
 
                 <div className="mt-10 border-t border-gray-300 pt-6">
                     <div className="text-center ">
-                        <p className="mt-2 text-sm text-gray-200 sm:order-first sm:mt-0">Copyright &copy; 2024 kizunice.com</p>
+                        <p className="mt-2 text-sm text-gray-200 sm:order-first sm:mt-0">Copyright &copy; 2024 INA-APP.com</p>
                     </div>
                 </div>
             </div>

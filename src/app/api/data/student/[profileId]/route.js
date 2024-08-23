@@ -45,3 +45,56 @@ export async function GET(req, { params }) {
 
   return NextResponse.json(profile);
 }
+
+export async function DELETE(req,{ params }) {
+  console.log(params)
+
+  // await prisma.attendance.deleteMany({
+  //   where: {
+  //     studentId: params.profileId,
+  //   },
+  // });
+
+  // await prisma.scores.deleteMany({
+  //   where: {
+  //     studentId: params.profileId,
+  //   },
+  // });
+
+  // await prisma.jobApplications.deleteMany({
+  //   where: {
+  //     studentId: params.profileId,
+  //   },
+  // });
+
+  // await prisma.financeTransactions.deleteMany({
+  //   where: {
+  //     studentId: params.profileId,
+  //   },
+  // });
+
+  // await prisma.learning.deleteMany({
+  //   select: {
+  //     students: {
+  //       where : {
+  //         id : params.profileId
+  //       }
+  //     },
+  //   },
+  // });
+
+  const profile = await prisma.studentProfile.delete({
+    where: {
+      id: params.profileId,
+    },
+  });
+
+  await prisma.user.delete({
+    where: {
+      userId: profile.userId,
+    },
+  });
+
+  return NextResponse.json({ message: "done" });
+}
+

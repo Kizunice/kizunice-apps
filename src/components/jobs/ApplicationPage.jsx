@@ -38,8 +38,8 @@ export default function ApplicationPage() {
         try {  
             const res = await axios.get('/api/jobs-application');
             setValues(res.data)
-            setJobValues(res.data.filter((data) => data.status === true))
-            setNotJobValues(res.data.filter((data) => data.status === false))
+            setJobValues(res.data.filter((data) => data.status === "Diterima"))
+            setNotJobValues(res.data.filter((data) => data.status === "Ditolak"))
             setLoading(false)
         } catch (err) {
           console.log("[collections_GET]", err);
@@ -54,12 +54,10 @@ export default function ApplicationPage() {
     const searchHandler = useCallback(() => {
         if(values) {
             let filterJob = []
-            if (index === 0) {
-                filterJob.push(values)
-            } else if (index === 1) {
-                filterJob.push(jobValues)
-            } else  if (index === 2) {
-                filterJob.push(notjobValues)
+            switch (index) {
+                case 0 : filterJob.push(values)
+                case 1 : filterJob.push(jobValues)
+                case 2 : filterJob.push(notjobValues)
             }
             const filteredData = filterJob[0].filter((value) => {
                 return value.student.name.toLowerCase().includes(query.toLowerCase()) ||
@@ -67,6 +65,7 @@ export default function ApplicationPage() {
                     value.partner.name.toLowerCase().includes(query.toLowerCase()) ||
                     value.job.company.name.toLowerCase().includes(query.toLowerCase()) ||
                     value.job.fieldJob.toLowerCase().includes(query.toLowerCase()) ||
+                    value.status.toLowerCase().includes(query.toLowerCase()) ||
                     value.note.toLowerCase().includes(query.toLowerCase())
             })
             const firstPageIndex = (currentPage - 1) * PageSize;
@@ -103,19 +102,20 @@ export default function ApplicationPage() {
         return(
             <div className="flex flex-col justify-center items-center mb-6 ">
                 <ul className="menu menu-vertical lg:menu-horizontal bg-secondary rounded-md text-white">
-                    <li className={`${index === 0 ? "bg-primary" : "bg-secondary"} rounded-sm`}>
+                    <li className="px-4 py-2">Filter Data</li>
+                    <li className={`${index === 0 ? "bg-primary" : "bg-secondary"} rounded-sm transition ease-in-out delay-150 `}>
                         <button onClick={() => {setIndex(0)}}  >
                             Semua Data
                             <span>({values.length} Siswa)</span>
                         </button>
                     </li>
-                    <li className={`${index === 1 ? "bg-primary" : "bg-secondary"} rounded-sm`}>
+                    <li className={`${index === 1 ? "bg-primary" : "bg-secondary"} rounded-sm transition ease-in-out delay-150 `}>
                         <button onClick={() => {setIndex(1)}}  >
                             Sudah dapat Job 
                             <span>({jobValues.length} Siswa)</span>
                         </button>
                     </li>
-                    <li className={`${index === 2 ? "bg-primary" : "bg-secondary"} rounded-sm`}>
+                    <li className={`${index === 2 ? "bg-primary" : "bg-secondary"} rounded-sm transition ease-in-out delay-150 `}>
                         <button onClick={() => {setIndex(2)}}  >
                             Belum dapat Job 
                             <span>({notjobValues.length} Siswa)</span>
@@ -138,7 +138,7 @@ export default function ApplicationPage() {
             <div className="overflow-x-auto w-full">
                 <table className="table w-full">
                     <thead >
-                    <tr className="font-bold text-primary text-[14px]">
+                    <tr className="font-bold text-secondary text-[14px]">
                         <th></th>
                         <th>Nama</th>
                         <th>Asal LPK</th>
@@ -174,7 +174,7 @@ export default function ApplicationPage() {
                                         <td>{value.job.fieldJob}</td>
                                         <td>{moment(value.job.departure).format("DD/MM/yyyy")}</td>
                                         <td>{value.note}</td>
-                                        <td>{value.status ? "Diterima" : "Belum Diterima"}</td>
+                                        <td>{value.status}</td>
                                         <td className="flex flex-row items-start">
                                             <Link href={`/jobs/detail/${value.job.id}`}>
                                                 <RiEyeFill 

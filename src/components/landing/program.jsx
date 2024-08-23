@@ -8,7 +8,7 @@ export default function Program() {
             <div className="flex flex-col justify-center items-center px-8 mb-[4rem]">
                 <div className="text-center lg:px-12 lg:max-w-3xl lg:mt-[-4em] md:mt-[-2em] mb-8">
                     <h1 className="text-primary font-semibold my-6 w-full leading-snug !text-4xl lg:max-w-4xl lg:!text-7xl">
-                        <span className="text-secondary">Program</span>  Kizunice
+                        <span className="text-secondary">Program</span>  INA
                     </h1>
                     <p className="mx-auto my-6 w-full text-grey ">
                         Program Pelatihan Komprehensif untuk Karier Cemerlang di Jepang
