@@ -40,8 +40,15 @@ model StudentProfile {
   teesSize            String?              @default("")
   waistLine           String?              @default("")
   studyMonth          String?              @default("")
-  smoking             String?
-  drinking            String?
+  smoking             Boolean?             @default(false)
+  smokingPerWeek      String?
+  drinking            Boolean?             @default(false)
+  drinkingPerWeek     String?
+  savingAmount        String?
+  savingGoal          String?
+  specialSkill        String?
+  acquintance         String?
+  aboutMe             String?
   esName              String?              @default("")
   esYearIn            DateTime?
   esYearOut           DateTime?
@@ -111,6 +118,28 @@ model SenseiProfile {
   @@unique([userId])
 }
 
+model StaffProfile {
+  id           String    @id @default(cuid())
+  userId       String
+  user         User?     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  role         String?
+  image        String?
+  name         String?
+  email        String?
+  address      String?
+  phone        String?
+  gender       String?
+  dateOfBirth  DateTime?
+  placeOfBirth String?
+
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  document           Document[]
+  financeTransaction FinanceTransaction[]
+
+  @@unique([userId])
+}
+
 model PartnerProfile {
   id              String           @id @default(cuid())
   userId          String
@@ -127,18 +156,20 @@ model PartnerProfile {
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
-  JobOpportunity JobOpportunity[]
+  jobOpportunity JobOpportunity[]
 
   @@unique([userId])
 }
 
 model Document {
   id        String         @id @default(cuid())
+  studentId String         @unique
+  student   StudentProfile @relation(fields: [studentId], references: [id])
+  staffId   String?
+  staff     StaffProfile?  @relation(fields: [staffId], references: [id])
   link      String?
   name      String?
   created   Boolean?       @default(false)
-  profileId String         @unique
-  profile   StudentProfile @relation(fields: [profileId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -151,7 +182,7 @@ model Companies {
   phone          String           @default("")
   supervisorId   String
   supervisor     PartnerProfile   @relation(fields: [supervisorId], references: [id])
-  JobOpportunity JobOpportunity[]
+  jobOpportunity JobOpportunity[]
 }
 
 model Attendance {
@@ -259,20 +290,23 @@ model JobApplication {
 
 model FinanceTransaction {
   id              String          @id @default(cuid())
-  userId          String
+  staffId         String
+  staff           StaffProfile    @relation(fields: [staffId], references: [id])
+  studentId       String?
+  student         StudentProfile? @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  paymentId       String?
+  payment         StudentPayment? @relation(fields: [paymentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   transactionType Type            @default(EXPENSE)
   amount          Float
   amountLeft      Float           @default(41000000)
   description     String?
   studentPayment  String?         @default("")
   transactionDate DateTime
-  user            User            @relation(fields: [userId], references: [id])
-  studentId       String?
-  student         StudentProfile? @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  paymentId       String?
-  payment         StudentPayment? @relation(fields: [paymentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
 }
 
 model StudentPayment {
@@ -305,6 +339,7 @@ model User {
   FinanceTransaction FinanceTransaction[]
   PartnerProfile     PartnerProfile?
   SenseiProfile      SenseiProfile?
+  StaffProfile       StaffProfile?
 }
 
 model Account {
@@ -345,7 +380,7 @@ enum Role {
   SENSEI
   PARTNER
   FINANCE
-  STAFF
+  DOCUMENT
   MASTER
 }
 
@@ -366,6 +401,8 @@ enum ScoreABC {
   A
   B
   C
+  D
+  E
 }
 
 enum StatusJob {

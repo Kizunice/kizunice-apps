@@ -5,7 +5,7 @@ import TitleCard from "@/components/ui/TitleCards";
 import { useSession } from "next-auth/react";
 import InputField from "../ui/InputField";
 import SelectField from "../ui/SelectField";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Button from "../ui/Button";
 import Loading from "@/app/(dashboard)/loading";
@@ -72,14 +72,21 @@ export default function CreateApplicationPage() {
     }
 
     async function getDataPartner() {
-      const { data } = await axios.get("/api/profile/partner");
+      const { data } = await axios.get("/api/data/partner");
       const results = []
-      data.forEach((value) => {
+      if(data instanceof Array) {
+        data.forEach((value) => {
+          results.push({
+              label: value.name,
+              value: value.id,
+            });
+          });
+      }
       results.push({
-          label: value.name,
-          value: value.id,
-        });
+        label: data.name,
+        value: data.id,
       });
+
       setOptionsP([
         {key: 'Select a company', value: ''}, 
         ...results
@@ -116,7 +123,7 @@ export default function CreateApplicationPage() {
         })
         
         if (response.ok) {
-          toast.success("Berhasil menambahkan data belajar");
+          toast.success("Berhasil membuat lamaran!");
           router.push('/jobs-application')
           setLoading(false);
           setBtnLoading(false);

@@ -24,7 +24,7 @@ export async function GET(req, { params }) {
 export async function DELETE(req,{ params }) {
   console.log(params)
 
-  await prisma.scores.deleteMany({
+  await prisma.scores.delete({
     where: {
       id: params.scoreId,
     },

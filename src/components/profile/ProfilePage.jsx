@@ -10,7 +10,8 @@ import moment from "moment"
 import ImageUpload from "../ui/ImageUpload"
 import Button from "../ui/Button"
 import Loading from "@/app/(dashboard)/loading"
-export default function ProfilePage(){
+
+export default function ProfilePage() {
     const {data:session} =  useSession()
     const [loading, setLoading] = useState(false)
     const [pageLoading, setPageLoading] = useState(true)
@@ -39,7 +40,14 @@ export default function ProfilePage(){
         teesSize,
         waistLine,
         smoking,
+        smokingPerWeek,
         drinking,
+        drinkingPerWeek,
+        savingAmount,
+        savingGoal,
+        specialSkill,
+        acquintance,
+        aboutMe,
         paspor,
         jobCompany,
         jobDesc,
@@ -85,7 +93,16 @@ export default function ProfilePage(){
             value: "Perempuan",
         },
     ])
-
+    const [optionM, setOptionM] = useState([
+        {
+            label: "Iya",
+            value: true,
+        },
+        {
+            label: "Tidak",
+            value: false,
+        },
+    ])
     const getProfileData = async () => {
         try {  
             const res = await axios.get('/api/profile/detail');
@@ -325,20 +342,76 @@ export default function ProfilePage(){
                         name="shoesSize"
                         onChange={handleChange}
                     />
-                    <InputField
-                        type="text"
-                        value={smoking}
-                        placeholder="Merokok atau Tidak Merokok"
+                    <SelectField
+                        defaultValue={optionM.find(({value}) => value === smoking)}
                         label="Merokok"
+                        placeholder={"Pilih"}
                         name="smoking"
+                        options={optionM}
+                        onChange={(value, meta) => handleSelect(value, meta)}
+                    />
+                     <InputField
+                        type="number"
+                        value={smokingPerWeek}
+                        placeholder="3"
+                        label="Jumlah Rokok per Minggu"
+                        name="smokingPerWeek"
+                        onChange={handleChange}
+                    />
+                    <SelectField
+                        defaultValue={optionM.find(({value}) => value === drinking)}
+                        label="Minum Alkohol"
+                        placeholder={"Pilih"}
+                        name="drinking"
+                        options={optionM}
+                        onChange={(value, meta) => handleSelect(value, meta)}
+                    />
+                    <InputField
+                        type="number"
+                        value={drinkingPerWeek}
+                        label="Jumlah botol per Minggu"
+                        placeholder="1"
+                        name="drinkingPerWeek"
                         onChange={handleChange}
                     />
                     <InputField
                         type="text"
-                        value={drinking}
-                        placeholder="Minum Alkohol atau Tidak Minum Alkohol"
-                        label="Minum Alkohol"
-                        name="drinking"
+                        value={savingAmount}
+                        label="Target Tabungan"
+                        placeholder="3000000"
+                        name="savingAmount"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={savingGoal}
+                        label="Guna Tabungan"
+                        placeholder="Untuk beli rumah"
+                        name="savingGoal"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={specialSkill}
+                        label="Skill"
+                        placeholder="Isi keahlianmu"
+                        name="specialSkill"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={acquintance}
+                        label="Kenalan di Jepang"
+                        placeholder="Ya atau Tidak"
+                        name="acquintance"
+                        onChange={handleChange}
+                    />
+                    <InputField
+                        type="text"
+                        value={aboutMe}
+                        label="Tentang Keunggulanmu"
+                        placeholder="Contoh: suka belajar hal baru"
+                        name="aboutMe"
                         onChange={handleChange}
                     />
                 </div>
@@ -492,38 +565,16 @@ export default function ProfilePage(){
                 <div className="divider" ></div>
 
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-                    <InputField
-                        type="text"
-                        value={motherName}
-                        label="Nama Ibu"
-                        placeholder="Nama Ibu"
-                        name="motherName"
-                        onChange={handleChange}
-                    />
-                     <InputField
-                        type="text"
-                        value={motherAge}
-                        label="Umur"
-                        placeholder="Umur"
-                        name="motherAge"
-                        onChange={handleChange}
-                    />
-                     <InputField
-                        type="text"
-                        value={motherJob}
-                        label="Pekerjaan"
-                        placeholder="Pekerjaan"
-                        name="motherJob"
-                        onChange={handleChange}
-                    />
-                    <InputField
-                        type="text"
-                        value={fatherName}
-                        label="Nama Bapak"
-                        placeholder="Nama Bapak"
-                        name="fatherName"
-                        onChange={handleChange}
-                    />
+                    <div className="col-span-2 lg:col-span-1">
+                        <InputField
+                            type="text"
+                            value={fatherName}
+                            label="Nama Bapak"
+                            placeholder="Nama Bapak"
+                            name="fatherName"
+                            onChange={handleChange}
+                        />
+                    </div>
                      <InputField
                         type="text"
                         value={fatherAge}
@@ -540,14 +591,42 @@ export default function ProfilePage(){
                         name="fatherJob"
                         onChange={handleChange}
                     />
-                    <InputField
+                    <div className="col-span-2 lg:col-span-1">
+                        <InputField
+                            type="text"
+                            value={motherName}
+                            label="Nama Ibu"
+                            placeholder="Nama Ibu"
+                            name="motherName"
+                            onChange={handleChange}
+                        />
+                    </div>
+                     <InputField
                         type="text"
-                        value={brotherName}
-                        label="Nama Saudara"
-                        placeholder="Nama Saudara"
-                        name="brotherName"
+                        value={motherAge}
+                        label="Umur"
+                        placeholder="Umur"
+                        name="motherAge"
                         onChange={handleChange}
                     />
+                     <InputField
+                        type="text"
+                        value={motherJob}
+                        label="Pekerjaan"
+                        placeholder="Pekerjaan"
+                        name="motherJob"
+                        onChange={handleChange}
+                    />
+                    <div className="col-span-2 lg:col-span-1">
+                        <InputField
+                            type="text"
+                            value={brotherName}
+                            label="Nama Saudara"
+                            placeholder="Nama Saudara"
+                            name="brotherName"
+                            onChange={handleChange}
+                        />
+                    </div>
                      <InputField
                         type="text"
                         value={brotherAge}
@@ -556,7 +635,7 @@ export default function ProfilePage(){
                         name="brotherAge"
                         onChange={handleChange}
                     />
-                     <InputField
+                    <InputField
                         type="text"
                         value={brotherJob}
                         label="Pekerjaan"
@@ -564,14 +643,16 @@ export default function ProfilePage(){
                         name="brotherJob"
                         onChange={handleChange}
                     />
-                     <InputField
-                        type="text"
-                        value={brother2Name}
-                        label="Nama Saudara"
-                        placeholder="Nama Saudara"
-                        name="brother2Name"
-                        onChange={handleChange}
-                    />
+                    <div className="col-span-2 lg:col-span-1">
+                        <InputField
+                            type="text"
+                            value={brother2Name}
+                            label="Nama Saudara"
+                            placeholder="Nama Saudara"
+                            name="brother2Name"
+                            onChange={handleChange}
+                        />
+                    </div>
                      <InputField
                         type="text"
                         value={brother2Age}

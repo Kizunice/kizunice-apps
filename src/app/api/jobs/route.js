@@ -70,9 +70,8 @@ export async function POST(req,res) {
         benefit ,            
         salary ,       
         linkFile,     
-        deadline: new Date(deadline).toISOString(),
-        departure: new Date(departure).toISOString(),
-        interview: new Date(interview).toISOString()
+        deadline: new Date(deadline).toISOString() || null,
+        departure: new Date(departure).toISOString() || null,
       },
       create: {
         companyId ,
@@ -89,9 +88,8 @@ export async function POST(req,res) {
         benefit ,            
         salary ,  
         linkFile,     
-        deadline: new Date(deadline).toISOString(),
-        departure: new Date(departure).toISOString(),
-        interview: new Date(interview).toISOString()
+        deadline: new Date(deadline).toISOString() || null,
+        departure: new Date(departure).toISOString() || null,
       },
     });
   

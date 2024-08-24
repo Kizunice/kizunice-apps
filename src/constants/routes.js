@@ -52,7 +52,8 @@ export const SCORE_ABC = [
   },
 ]
 
-export const ADMIN_ROUTES = [
+
+export const MASTER_ROUTES = [
   {
     path: '/dashboard',
     icon: <MdDashboard size={22} />,
@@ -140,12 +141,129 @@ export const ADMIN_ROUTES = [
     name: 'Keuangan',
     key: '10',
   },
+];
+
+export const DOK_ROUTES = [
   {
-    path: '/settings',
-    icon: <IoMdSettings size={22} />,
-    name: 'Pengaturan',
-    key: '11',
+    path: '/dashboard',
+    icon: <MdDashboard size={22} />,
+    name: 'Beranda',
+    key: '0',
   },
+  {
+    path: '/jobs',
+    icon: <FaSuitcase size={22} />,
+    name: 'Pekerjaan',
+    key: '1',
+  },
+  {
+    path: '/jobs-application',
+    icon: <BsInboxesFill size={22} />,
+    name: 'Lamaran',
+    key: '2',
+  },
+  {
+    path: '/document',
+    icon: <IoDocumentText size={22} />,
+    name: 'Dokumen CV',
+    key: '3',
+  },
+  {
+    path: '/data-student',
+    icon: <HiUsers size={22} />,
+    name: 'Data Siswa',
+    key: '4',
+  },
+  {
+    path: '/data-partner',
+    icon: <HiUsers size={22} />,
+    name: 'Data Rekanan',
+    key: '5',
+  },
+];
+
+export const ADMIN_ROUTES = [
+  {
+    path: '/dashboard',
+    icon: <MdDashboard size={22} />,
+    name: 'Beranda',
+    key: '0',
+  },
+  {
+    path: '/attendance',
+    icon: <IoCalendar size={22} />,
+    name: 'Kehadiran',
+    key: '1',
+  },
+  {
+    icon: <ImBook size={22} />,
+    name: 'Laporan Belajar',
+    key: '2',
+    sub : [
+      {
+        path: '/learning',
+        name: 'Data Belajar',
+        key: '1',
+      },
+      {
+        path: '/score',
+        name: 'Data Nilai',
+        key: '2',
+      },
+      
+    ]
+  },
+  {
+    icon: <FaSuitcase size={22} />,
+    name: 'Program Kerja',
+    key: '4',
+    sub : [
+      {
+        path: '/jobs',
+        name: 'Data Job',
+        key: '1',
+      },
+      {
+        path: '/jobs-application',
+        name: 'Data Lamaran',
+        key: '2',
+      },
+      
+    ]
+  },
+  {
+    path: '/document',
+    icon: <IoDocumentText size={22} />,
+    name: 'Dokumen CV',
+    key: '6',
+  },
+  {
+    icon: <HiUsers size={22} />,
+    name: 'Data Pengguna',
+    key: '7',
+    sub : [
+      {
+        path: '/data-student',
+        name: 'Data Siswa',
+        key: '1',
+      },
+      {
+        path: '/data-partner',
+        name: 'Data Lembaga',
+        key: '2',
+      },
+      {
+        path: '/data-sensei',
+        name: 'Data Sensei',
+        key: '3',
+      },
+      {
+        path: '/data-staff',
+        name: 'Data Staff',
+        key: '4',
+      },
+    ]
+  }
 ];
 
 export const SENSEI_ROUTES = [
@@ -178,12 +296,6 @@ export const SENSEI_ROUTES = [
     icon: <FaSuitcase size={22} />,
     name: 'Pekerjaan',
     key: '4',
-  },
-  {
-    path: '/settings',
-    icon: <IoMdSettings size={22} />,
-    name: 'Pengaturan',
-    key: '5',
   },
 ];
 
@@ -219,12 +331,6 @@ export const FINANCE_ROUTES = [
     name: 'Data Sensei',
     key: '5',
   },
-  {
-    path: '/settings',
-    icon: <IoMdSettings size={22} />,
-    name: 'Pengaturan',
-    key: '6',
-  },
 ];
 
 
@@ -252,11 +358,5 @@ export const ROUTES = [
     icon: <FaSuitcase size={22} />,
     name: 'Pekerjaan',
     key: '3',
-  },
-  {
-    path: '/settings',
-    icon: <IoMdSettings size={22} />,
-    name: 'Pengaturan',
-    key: '4',
   },
 ];

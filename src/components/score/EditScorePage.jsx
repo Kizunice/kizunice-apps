@@ -165,7 +165,7 @@ export default function EditScorePage() {
                     value={linkFile}
                     placeholder="Link File Youtube / Drive"
                     label="Link File"
-                    name="fileLink"
+                    name="linkFile"
                     onChange={handleChange}
                 />  
             </div>

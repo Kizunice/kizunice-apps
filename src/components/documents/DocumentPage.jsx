@@ -6,6 +6,7 @@ import axios from 'axios';
 import Button from '../ui/Button';
 import toast from "react-hot-toast";
 import moment from 'moment';
+import 'moment/locale/ja';
 import {saveAs} from 'file-saver';
 import { RiFileDownloadFill } from "react-icons/ri";
 import Loading from '@/app/(dashboard)/loading';
@@ -15,9 +16,21 @@ export default function DocumentPage() {
     const [path, setPath] = useState('')
     const [loading, setLoading] = useState(false)
     const [pageLoading, setPageLoading] = useState(true)
-    const [studentId,setStudentId] = useState('')
     const [docs,setDocs] = useState([])
-
+    const [formValues,setFormValues] = useState({
+        studentId: "",
+        name : ""
+    })
+    const [options, setOptions] = useState([
+        {
+            label: "CV",
+            value: "FORMAT_CV.xlsx",
+        },
+        {
+            label: "Kontrak Kerja",
+            value: "FORMAT_Kontrak_Kerja.xlsx",
+        },
+    ])
     async function getDataStudent() {
         const { data } = await axios.get("/api/profile");
         const results = []
@@ -54,8 +67,8 @@ export default function DocumentPage() {
       }, []);
 
     const handleSelect = (value, meta) => {
-        setStudentId({ [meta.name]: value.value});
-        console.log(studentId)
+        setFormValues({ ...formValues, [meta.name]: value.value});
+        console.log(formValues)
     };
 
     async function handleSubmit() {
@@ -63,7 +76,7 @@ export default function DocumentPage() {
         try {
           const response = await fetch("/api/document", {
             method: "POST",
-            body: JSON.stringify(studentId),
+            body: JSON.stringify(formValues),
             headers: {
               "Content-Type": "application/json",
             },
@@ -84,7 +97,7 @@ export default function DocumentPage() {
         setLoading(true);
         try {
             const data = values.link
-            saveAs(data, `CV-${values.profile.name}.xlsx`);
+            saveAs(data, `CV-${values.student.name}.xlsx`);
             setLoading(false);
         } catch (err) {
             console.log("[collections_GET]", err);
@@ -96,14 +109,26 @@ export default function DocumentPage() {
     return (
         <>
         <TitleCard title={"Dokumen CV Siswa"} topMargin="mt-2">
-            <SelectField
-                defaultValue={studentId}
-                placeholder="Pilih Nama Siswa"
-                label="Nama Siswa"
-                name="studentId"
-                options={optionsS}
-                onChange={(value, meta) => handleSelect(value, meta)}
-            />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <SelectField
+                    defaultValue={formValues.studentId}
+                    placeholder="Pilih Nama Siswa"
+                    label="Nama Siswa"
+                    name="studentId"
+                    options={optionsS}
+                    onChange={(value, meta) => handleSelect(value, meta)}
+                />
+                <SelectField
+                    value={options.filter((data) => data.value === formValues.name)}
+                    placeholder="Pilih Dokumen"
+                    label="Pilih Dokumen"
+                    name="name"
+                    options={options}
+                    onChange={(value, meta) => handleSelect(value, meta)}
+                />
+
+            </div>
+            
             <div className="flex flex-col lg:flex-row gap-4 mt-8">
                 <Button handleSubmit={handleSubmit} text={"Buat Data CV"} loading={loading} />
             </div>
@@ -114,10 +139,10 @@ export default function DocumentPage() {
                     <thead >
                     <tr className="font-bold text-secondary text-[14px]">
                         <th>No</th>
+                        <th>Staff</th>
                         <th>Nama Siswa</th>
                         <th>Asal LPK</th>
                         <th>Tanggal Pembuatan</th>
-                        <th>Link CV</th>
                         <th>Download</th>
                     </tr>
                     </thead>
@@ -127,17 +152,15 @@ export default function DocumentPage() {
                                 return (
                                     <tr key={idx} className="text-grey ">
                                         <td>{idx+1}</td>
-                                        <td>{doc.profile.name}</td>
-                                        <td>{doc.profile.asalLPK}</td>
+                                        <td>{doc.staff.name}</td>
+                                        <td>{doc.student.name}</td>
+                                        <td>{doc.student.asalLPK}</td>
                                         <td>{moment(doc.createdAt).format("ll")}</td>
-                                        <td>{doc.link}</td>
                                         <td>
-                                            <div className="lg:tooltip" data-tip="Download CV">
-                                                <RiFileDownloadFill 
-                                                    onClick={() => handleDownload(doc)} 
-                                                    className="text-primary cursor-pointer p-1 text-3xl"
-                                                />
-                                            </div>
+                                            <RiFileDownloadFill 
+                                                onClick={() => handleDownload(doc)} 
+                                                className="text-primary cursor-pointer p-1 text-3xl"
+                                            />
                                         </td>
                                     </tr>
                                 )

@@ -102,7 +102,7 @@ export default function LearningPage() {
                             <th>No</th>
                             <th>Tanggal</th>
                             <th>Sensei</th>
-                            <th>Bagian</th>
+                            <th>Bab</th>
                             <th>Judul</th>
                             <th>Deskripsi</th>                    
                             <th>Link</th>                    

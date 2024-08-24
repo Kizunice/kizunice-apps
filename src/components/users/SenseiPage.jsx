@@ -29,7 +29,7 @@ export default function SenseiPage() {
 
     const getUsers = async () => {
         try {  
-          const res = await axios.get('/api/profile/sensei');
+          const res = await axios.get('/api/data/sensei');
           setUsers(res.data)
           console.log(res.data)
           setLoading(false);
@@ -44,10 +44,12 @@ export default function SenseiPage() {
     }, []);
 
     const searchHandler = useCallback(() => {
-        const filteredData = users.filter((user) => {
-            return user.name.toLowerCase().includes(query.toLowerCase())
-        })
-        setFilteredList(filteredData)
+        if(users) {
+            const filteredData = users.filter((user) => {
+                return user.name.toLowerCase().includes(query.toLowerCase())
+            })
+            setFilteredList(filteredData)
+        }
     }, [users, query])
     
     useEffect(() => {
@@ -67,9 +69,19 @@ export default function SenseiPage() {
     };
 
     const handleDelete = async (value) => {
+        setLoading(true)
         const approval = confirm("Apakah kamu yakin ingin menghapus?")
+
         if (approval) {
-            await fetch(`/api/jobs-application/${value}`, { method: "DELETE" });
+            await fetch("/api/data/sensei", {
+                method: "DELETE",
+                body: JSON.stringify(value),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+            })
+            toast.success("Berhasil hapus akun staff")
+            setLoading(false)
             location.reload()
         }
     }

@@ -94,6 +94,14 @@ export default function ScorePage() {
         setQuery(e.target.value);
     };
 
+    const handleDelete = async (value) => {
+        const approval = confirm("Apakah kamu yakin ingin menghapus?")
+        if (approval) {
+            await fetch(`/api/score/${value}`, { method: "DELETE" });
+            location.reload()
+        }
+    }
+
     const FilterJob = () => {
         return(
             <div className="flex flex-col justify-center items-center mb-6 ">

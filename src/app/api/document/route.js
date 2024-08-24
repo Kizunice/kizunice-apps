@@ -3,17 +3,19 @@ import { NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/session';
 import ExcelJS from 'exceljs';
 import moment from 'moment';
+import 'moment/locale/ja';
 import { put } from "@vercel/blob";
 import fs from 'fs'
 import path from 'path'
 
 export async function GET(req) {
   const doc = await prisma.document.findMany({
-    include : {
-      profile : true
-    },
     orderBy : {
       createdAt : 'desc'
+    },
+    include : {
+      student : true,
+      staff : true
     }
   })
   return NextResponse.json(doc);
@@ -21,20 +23,28 @@ export async function GET(req) {
 
 export async function POST(req,res) {
     const body = await req.json();
+    const session = await getCurrentUser(req, res);
 
     const profile = await prisma.studentProfile.findUnique({
         where: {
-        id: body.studentId,
+          id: body.studentId,
         },
     });
+
+    const staff = await prisma.staffProfile.findUnique({
+      where: {
+        userId: session.id,
+      },
+    });
    
-    const filePath = path.resolve('./public', 'doc', 'default.xlsx');
+    const filePath = path.resolve('./public', 'doc', `${body.name}`);
     
     const wb = new ExcelJS.Workbook()
     
     await wb.xlsx.readFile(filePath)
         .then(async function() {
             let ws = wb.getWorksheet('Sheet1')
+            let row1 = ws.getRow(1);
             let row2 = ws.getRow(2);
             let row3 = ws.getRow(3);
             let row4 = ws.getRow(4);
@@ -48,14 +58,16 @@ export async function POST(req,res) {
             let row12 = ws.getRow(12);
             let row13 = ws.getRow(13);
             let row14 = ws.getRow(14);
-            let row16 = ws.getRow(16);
+            let row15 = ws.getRow(15);
             let row17 = ws.getRow(17);
-            let row18 = ws.getRow(18);
+            let row19 = ws.getRow(19);
             let row20 = ws.getRow(20);
             let row21 = ws.getRow(21);
             let row22 = ws.getRow(22);
             let row24 = ws.getRow(24);
             let row25 = ws.getRow(25);
+            let row26 = ws.getRow(26);
+            let row27 = ws.getRow(27);
             let row28 = ws.getRow(28);
             let row29 = ws.getRow(29);
             let row30 = ws.getRow(30);
@@ -64,6 +76,7 @@ export async function POST(req,res) {
             let row33 = ws.getRow(33);
             let row34 = ws.getRow(34);
             let row36 = ws.getRow(36);
+            let row38 = ws.getRow(38);
 
             if(profile.image) {
               const imageId = wb.addImage({
@@ -73,69 +86,65 @@ export async function POST(req,res) {
               ws.addImage(imageId, 'K3:L7')
             }
            
-            moment.locale('ja');
-            row2.getCell(3).value = "INA-001";
-            row2.getCell(11).value = moment().format('YYYY年MM月D日');
-            row3.getCell(3).value = profile.nihongoName;
-            row4.getCell(3).value = profile.name;
-            row5.getCell(3).value = profile.address;
-            row6.getCell(3).value = moment(profile.dateOfBirth).format('YYYY年MM月D日');
-            row6.getCell(7).value = profile.age + "歳";
-            row6.getCell(10).value = profile.gender;
-            row7.getCell(3).value = profile.phone;
-            row7.getCell(7).value = profile.religion;
-            row7.getCell(10).value = profile.bodyHeight + "cm";
-            row8.getCell(3).value = profile.blood;
-            row8.getCell(8).value = profile.shoesSize;
-            row8.getCell(10).value = profile.bodyWeight + "kg";
-            row8.getCell(12).value = profile.waistLine + "cm";
-            row9.getCell(3).value = "";
-            row9.getCell(9).value = "";
-            row10.getCell(3).value = profile.paspor || "";
-            row10.getCell(9).value = "";
-            row11.getCell(3).value = "";
-            row11.getCell(9).value = "";
-            row12.getCell(3).value = "";
-            row12.getCell(9).value = profile.studyMonth+"ヶ月";
-            row13.getCell(3).value = "";
-            row13.getCell(9).value = profile.asalLPK;
-            row20.getCell(1).value = profile.esYearIn + "~" + profile.esYearOut;
-            row20.getCell(5).value = profile.esName;
-            row21.getCell(1).value = profile.msYearIn + "~" + profile.msYearOut;
-            row21.getCell(5).value = profile.msName;
-            row22.getCell(1).value = profile.hsYearIn + "~" + profile.hsYearOut;
-            row22.getCell(5).value = profile.hsName;
-            row24.getCell(1).value = "2020~2024";
-            row24.getCell(5).value = profile.jobCompany;
-            row25.getCell(1).value = "";
-            row25.getCell(5).value = "";
-            row28.getCell(3).value = "Bapak";
-            row28.getCell(4).value = profile.fatherName;
-            row28.getCell(10).value = profile.fatherAge + "歳";
-            row28.getCell(11).value = profile.fatherJob;
-            row29.getCell(3).value = "Ibu";
-            row29.getCell(4).value = profile.motherName;
-            row29.getCell(10).value = profile.motherAge + "歳";
-            row29.getCell(11).value = profile.motherJob;
-            row30.getCell(3).value = "Adik";
-            row30.getCell(4).value = profile.brotherName;
-            row30.getCell(10).value = profile.brotherAge + "歳";
-            row30.getCell(11).value = profile.brotherJob;
-            row31.getCell(3).value = "";
-            row31.getCell(4).value = "";
-            row31.getCell(10).value = "";
-            row31.getCell(11).value = "";
-            row32.getCell(3).value = "";
-            row32.getCell(6).value = "";
-            row32.getCell(11).value = "";
-            row33.getCell(3).value = profile.smoking;
-            row33.getCell(6).value = "";
-            row33.getCell(10).value = "";
-            row34.getCell(3).value = profile.drinking;
-            row34.getCell(6).value = "";
-            row34.getCell(10).value = "";
-            row36.getCell(1).value = "無";
+            
+            row1.getCell(16).value = moment().format('YYYY年MM月D日');
+            row2.getCell(16).value = "INA-XXX";
+            row4.getCell(5).value = profile.nihongoName;
+            row5.getCell(5).value = profile.name;
+            row6.getCell(5).value = profile.address;
+            row7.getCell(5).value = moment(profile.dateOfBirth).format('YYYY年MM月D日');
+            row7.getCell(10).value = profile.age;
+            row7.getCell(13).value = profile.gender;
+            row8.getCell(5).value = profile.placeOfBirth;
+            row8.getCell(10).value = profile.religion;
+            row8.getCell(13).value = profile.bodyHeight;
+            row9.getCell(5).value = profile.blood;
+            row9.getCell(8).value = profile.status === "Lajang" ? "未婚" : "";
+            row9.getCell(11).value = "無";
+            row9.getCell(13).value = profile.bodyWeight;
+            row9.getCell(17).value = profile.paspor;
+            row10.getCell(5).value = profile.desease ? "" : "無";
+            row10.getCell(11).value = profile.drinking ? "" : "無";
+            row10.getCell(15).value = profile.smoking ? "" : "無";
+            row11.getCell(12).value = profile.drinkingPerWeek;
+            row11.getCell(16).value = profile.smokingPerWeek;
 
+            row13.getCell(5).value = moment(profile.esYearIn).format("YYYY年 MM月");
+            row13.getCell(8).value = moment(profile.esYearOut).format("YYYY年 MM月");
+            row13.getCell(11).value = profile.esName;
+            row14.getCell(5).value = moment(profile.msYearIn).format("YYYY年 MM月");
+            row14.getCell(8).value = moment(profile.msYearOut).format("YYYY年 MM月");
+            row14.getCell(11).value = profile.msName;
+            row15.getCell(5).value = moment(profile.hsYearIn).format("YYYY年 MM月");
+            row15.getCell(8).value = moment(profile.hsYearOut).format("YYYY年 MM月");
+            row15.getCell(11).value = profile.hsName;
+            row17.getCell(5).value = moment(profile.jobYearIn).format("YYYY年 MM月");
+            row17.getCell(8).value = moment(profile.jobYearOut).format("YYYY年 MM月");
+
+            row17.getCell(10).value = profile.jobCompany;
+            row17.getCell(13).value = profile.jobDesc;
+            row19.getCell(8).value = profile.studyMonth;
+
+            row24.getCell(3).value = profile.fatherName;
+            row24.getCell(10).value = profile.fatherAge;
+            row24.getCell(12).value = profile.fatherJob;
+            row25.getCell(3).value = profile.motherName;
+            row25.getCell(10).value = profile.motherAge;
+            row25.getCell(12).value = profile.motherJob;
+            row26.getCell(3).value = profile.brotherName;
+            row26.getCell(10).value = profile.brotherAge;
+            row26.getCell(12).value = profile.brotherJob;
+            row27.getCell(3).value = profile.brother2Name;
+            row27.getCell(10).value = profile.brother2Age;
+            row27.getCell(12).value = profile.brother2Job;
+
+            row30.getCell(10).value = profile.savingAmount;
+            row32.getCell(10).value = profile.savingGoal;
+            row34.getCell(10).value = profile.specialSkill;
+            row36.getCell(10).value = profile.acquintance;
+            row38.getCell(10).value = profile.aboutMe;
+            
+            row1.commit();
             row2.commit();
             row3.commit();
             row4.commit();
@@ -149,20 +158,18 @@ export async function POST(req,res) {
             row12.commit()
             row13.commit()
             row14.commit()
-            row20.commit()
-            row21.commit()
-            row22.commit()
+            row15.commit()
+            row17.commit()
+            row19.commit()
             row24.commit()
             row25.commit()
-            row28.commit()
-            row29.commit()
+            row26.commit()
+            row27.commit()
             row30.commit()
-            row31.commit()
-            row31.commit()
             row32.commit()
-            row33.commit()
             row34.commit()
             row36.commit()
+            row38.commit()
 
             const buffer = await wb.xlsx.writeBuffer();
             const {url} = await put(`public/doc/CV-${profile.name}.xlsx`, buffer, { access: 'public', addRandomSuffix: false });
@@ -170,7 +177,9 @@ export async function POST(req,res) {
             const doc = await prisma.document.create({
               data : {
                 link: url,
-                profileId : profile.id,
+                name: body.name,
+                studentId : profile.id,
+                staffId : staff.id,
                 created : true
               }
             })

@@ -1,5 +1,5 @@
 'use client'
-import { useState,useEffect, useCallback, useMemo } from "react"
+import { useState,useEffect, useCallback } from "react"
 import { useSession } from "next-auth/react"
 import axios from "axios"
 import moment from "moment"
@@ -111,13 +111,13 @@ export default function ApplicationPage() {
                     </li>
                     <li className={`${index === 1 ? "bg-primary" : "bg-secondary"} rounded-sm transition ease-in-out delay-150 `}>
                         <button onClick={() => {setIndex(1)}}  >
-                            Sudah dapat Job 
+                            Diterima  
                             <span>({jobValues.length} Siswa)</span>
                         </button>
                     </li>
                     <li className={`${index === 2 ? "bg-primary" : "bg-secondary"} rounded-sm transition ease-in-out delay-150 `}>
                         <button onClick={() => {setIndex(2)}}  >
-                            Belum dapat Job 
+                            Ditolak 
                             <span>({notjobValues.length} Siswa)</span>
                         </button>
                     </li>
@@ -148,8 +148,8 @@ export default function ApplicationPage() {
                         <th>Perusahaan</th>
                         <th>Pekerjaan</th>
                         <th>Berangkat</th>
-                        <th>Keterangan</th>
                         <th>Status</th>
+                        <th>Keterangan</th>
                         <th>Aksi</th>
                     </tr>
                     </thead>
@@ -157,7 +157,7 @@ export default function ApplicationPage() {
                         {
                             filteredList ? filteredList.map((value,index) =>{
                                 return (
-                                    <tr key={value.id} className="text-grey ">
+                                    <tr key={value.id} className="text-grey">
                                         <td>{index+1}</td>
                                         <td className="hover:text-white hover:bg-primary">
                                             <div className="tooltip" data-tip="Lihat Profil" >
@@ -173,8 +173,8 @@ export default function ApplicationPage() {
                                         <td>{value.job.company.name}</td>
                                         <td>{value.job.fieldJob}</td>
                                         <td>{moment(value.job.departure).format("DD/MM/yyyy")}</td>
+                                        <td className="font-bold">{value.status}</td>
                                         <td>{value.note}</td>
-                                        <td>{value.status}</td>
                                         <td className="flex flex-row items-start">
                                             <Link href={`/jobs/detail/${value.job.id}`}>
                                                 <RiEyeFill 

@@ -1,58 +1,56 @@
 "use client"
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback} from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import TitleCard from "@/components/ui/TitleCards";
+import moment from "moment";
 import Link from "next/link";
 import axios from "axios";
 import Loading from "@/app/(dashboard)/loading"
 import SearchButton from "../ui/SearchButton";
-import { RiEyeFill, RiDeleteBin5Fill } from "react-icons/ri";
+import toast from "react-hot-toast";
+import { RiDeleteBin5Fill, RiEyeFill } from "react-icons/ri";
+
 const TopSideButtons = () => {
     const {data:session} =  useSession()
 
     if (session?.user.role === 'ADMIN') {
         return(
             <div className="inline-block float-right">
-                <Link href="/data-partner/create" className="btn px-4 btn-sm normal-case bg-primary hover:bg-secondary text-white" >Tambah Akun Lembaga</Link>
+                <Link href="/data-staff/create" className="btn px-4 btn-sm normal-case bg-primary hover:bg-secondary text-white" >Tambah Akun Staff</Link>
             </div>
         )
     }
    return
 }
 
-export default function PartnerPage() {
-    const {data:session} =  useSession()
-    const router = useRouter()
-    const [values, setValues] = useState([])
-    const [loading, setLoading] = useState(true)
+export default function StaffPage() {
+    const [loading, setLoading] = useState(true);
+    const [users, setUsers] = useState([])
     const [query, setQuery] = useState('');
     const [filteredList, setFilteredList] = useState('');
 
-    const getPartnerData = async () => {
+    const getUsers = async () => {
         try {  
-            const res = await axios.get('/api/data/partner');
-            console.log(res.data)
-            setValues(res.data)
-            setLoading(false)
+          const res = await axios.get('/api/data/staff');
+          setUsers(res.data)
+          setLoading(false);
         } catch (err) {
           console.log("[collections_GET]", err);
-          setLoading(false)
+          setLoading(false);
         }
       };
 
     useEffect(() => {
-    getPartnerData();
+    getUsers();
     }, []);
 
     const searchHandler = useCallback(() => {
-        if (values) {
-            const filteredData = values.filter((value) => {
-                return value.name.toLowerCase().includes(query.toLowerCase())
-            })
-            setFilteredList(filteredData)
-        }
-    }, [values, query])
+        const filteredData = users.filter((user) => {
+            return user.name.toLowerCase().includes(query.toLowerCase()) ||
+            user.role.toLowerCase().includes(query.toLowerCase())
+        })
+        setFilteredList(filteredData)
+    }, [users, query])
     
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -67,7 +65,6 @@ export default function PartnerPage() {
     const handleChange = (e) => {
         e.preventDefault()
         setQuery(e.target.value);
-        console.log(query);
     };
 
     const handleDelete = async (value) => {
@@ -75,7 +72,7 @@ export default function PartnerPage() {
         const approval = confirm("Apakah kamu yakin ingin menghapus?")
 
         if (approval) {
-            await fetch("/api/data/partner", {
+            await fetch("/api/data/staff", {
                 method: "DELETE",
                 body: JSON.stringify(value),
                 headers: {
@@ -88,42 +85,43 @@ export default function PartnerPage() {
         }
     }
 
-
     if (loading) return <Loading />
     if(filteredList) {
         return (
             <TitleCard 
-                title={"Data Lembaga"} 
+                title={"Data Staff"} 
                 topMargin="mt-2" 
-                TopMiddleButtons={<SearchButton handleChange={handleChange} value={query} placeholder={"Cari Lembaga"} />}
+                TopMiddleButtons={<SearchButton handleChange={handleChange} value={query} placeholder={"Cari Staff"} />}
                 TopSideButtons={<TopSideButtons />} 
                 >
-                <div className="overflow-x-auto lg:overflow-hidden w-full">
+                <div className="overflow-x-auto w-full">
                     <table className="table w-full">
                         <thead >
                         <tr className="font-bold text-secondary text-[14px]">
                             <th>No</th>
-                            <th>Nama Lembaga</th>
-                            <th>Alamat</th>
+                            <th>Nama</th>
+                            <th>Role</th>
                             <th>Email</th>
-                            <th>Phone</th>
+                            <th>No.Handphone</th>
+                            <th>Tanggal Daftar</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
                             {
-                                filteredList.map((user, index) =>{
+                                filteredList.map((user,index) =>{
                                     return (
                                         <tr key={user.id} className="text-grey ">
                                             <td>{index+1}</td>
                                             <td>{user.name}</td>
-                                            <td>{user.address}</td>
+                                            <td>{user.role === "DOCUMENT" ? "Staff Dokumen" : "Staff Keuangan"}</td>
                                             <td>{user.email}</td>
                                             <td>{user.phone}</td>
-                                            {/* <td>{moment(user.createdAt).format('DD-MMM-YYYY')}</td> */}
+                                            <td>{moment(user.createdAt).format('DD-MMM-YYYY')}</td>
                                         
                                             <td className="flex items-center">
                                                 <div className="tooltip" data-tip="Detil Profile">
-                                                    <Link href={`/data-partner/detail/${user.id}`}>
+                                                    <Link href={`/profile/${user.id}`}>
                                                         <RiEyeFill 
                                                             className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
                                                         />
@@ -131,7 +129,7 @@ export default function PartnerPage() {
                                                 </div>
                                                 <div className="tooltip" data-tip="Hapus Akun">
                                                     <RiDeleteBin5Fill 
-                                                        onClick={() => handleDelete(value.id)} 
+                                                        onClick={() => handleDelete(user.id)} 
                                                         className="text-error cursor-pointer p-1 text-3xl"
                                                     />
                                                 </div>

@@ -7,7 +7,7 @@ import TitleCard from "@/components/ui/TitleCards"
 import InputField from "@/components/ui/InputField"
 import SelectField from "../ui/SelectField"
 import Button from "../ui/Button"
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export default function CreateJobsPage() {
     const {data:session} =  useSession()
@@ -50,33 +50,35 @@ export default function CreateJobsPage() {
         },
     ])
     async function fetchDataSupervisor() {
-        const { data } = await axios.get("/api/profile/partner");
+        const {data} = await axios.get("/api/data/partner");
         const supervisor = []
         const company = []
         console.log("my learning :", data)
-        if(session?.user.role === "PARTNER") {
-            setFormValues({...formValues, supervisorId: data.id})
+
+        if(data instanceof Array) {
+            data.forEach((value) => {
                 supervisor.push({
-                label: data.supervisor,
-                value: data.id,
-            });
-                data.company.forEach((com) => {
-                company.push({
+                  label: value.supervisor,
+                  value: value.id,
+                });
+                value.company.forEach((com) => {
+                    company.push({
                     label: com.name,
                     value: com.id,
+                    });
                 });
             });
         }
-        data.forEach((value) => {
-            supervisor.push({
-              label: value.supervisor,
-              value: value.id,
-            });
-            value.company.forEach((com) => {
-                company.push({
+       
+        setFormValues({...formValues, supervisorId: data.id})
+        supervisor.push({
+            label: data.supervisor,
+            value: data.id,
+        });
+        data.company.forEach((com) => {
+            company.push({
                 label: com.name,
                 value: com.id,
-                });
             });
         });
 

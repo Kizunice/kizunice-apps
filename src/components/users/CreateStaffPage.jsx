@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Button from "../ui/Button";
 
-export default function CreateSenseiPage() {
+export default function CreateStaffPage() {
     const {data:session} =  useSession()
     const router = useRouter()
     const [loading, setLoading] = useState(false)
@@ -19,11 +19,12 @@ export default function CreateSenseiPage() {
         password:"", 
         address: "",
         phone: "",
+        role:"",
         gender: "",
         dateOfBirth : "",
         placeOfBirth :""
     })
-    const{name,email,password,address,phone, gender, dateOfBirth, placeOfBirth} = formValues
+    const{name,email,role, password,address,phone, gender, dateOfBirth, placeOfBirth} = formValues
     const [options, setOptions] = useState([
         {
             label: "Laki-Laki",
@@ -35,10 +36,20 @@ export default function CreateSenseiPage() {
         },
     ])
 
+    const [optionsR, setOptionsR] = useState([
+        {
+            label: "Staff Keuangan",
+            value: "FINANCE",
+        },
+        {
+            label: "Staff Dokumen",
+            value: "DOCUMENT",
+        },
+    ])
+
     const handleChange = (e) => {
         e.preventDefault()
         const { name, value } = e.target;
-        
         setFormValues({ ...formValues, [name]: value});
         console.log(formValues);
     };
@@ -51,7 +62,7 @@ export default function CreateSenseiPage() {
     async function handleSubmit() {
         setLoading(true);
         try {
-          const response = await fetch("/api/register/sensei", {
+          const response = await fetch("/api/register/staff", {
             method: "POST",
             body: JSON.stringify(formValues),
             headers: {
@@ -60,8 +71,8 @@ export default function CreateSenseiPage() {
           })
           
           if (response.ok) {
-            toast.success("Berhasil membuat akun rekanan");
-            router.push('/data-sensei')
+            toast.success("Berhasil membuat akun staff");
+            router.push('/data-staff')
             setLoading(false);
 
           } 
@@ -90,6 +101,14 @@ export default function CreateSenseiPage() {
                     name="password"
                     onChange={handleChange}
                 />
+                 <SelectField
+                    defaultValue={role}
+                    label="Pilih Staff"
+                    name="role"
+                    options={optionsR}
+                    onChange={(value, meta) => handleSelect(value, meta)}
+                />
+               
             </div>
             <div className="divider" ></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

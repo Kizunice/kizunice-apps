@@ -32,6 +32,7 @@ export default function CreatePartnerPage() {
     };
 
     async function handleSubmit() {
+        setLoading(true);
         try {
           const response = await fetch("/api/register/partner", {
             method: "POST",
@@ -42,7 +43,7 @@ export default function CreatePartnerPage() {
           })
           
           if (response.ok) {
-            toast.success("Berhasil membuat akun rekanan");
+            toast.success("Berhasil membuat akun lembaga");
             router.push('/data-partner')
             setLoading(false);
 
@@ -54,7 +55,7 @@ export default function CreatePartnerPage() {
       }
 
     return (
-            <TitleCard title="Tambah Akun Rekanan" topMargin="mt-2"  >
+            <TitleCard title="Tambah Akun Lembaga" topMargin="mt-2"  >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <InputField
                         type="email"
@@ -99,15 +100,6 @@ export default function CreatePartnerPage() {
                         name="address"
                         onChange={handleChange}
                     />
-                    <InputField
-                        type="text"
-                        value={country}
-                        placeholder="Jepang"
-                        label="Negara Asal"
-                        name="country"
-                        onChange={handleChange}
-                    />  
-                     
                     <InputField
                         type="text"
                         value={phone}

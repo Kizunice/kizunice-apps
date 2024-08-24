@@ -28,7 +28,7 @@ export async function POST(req,res) {
 
     const defaultTotalAmount = 41000000
 
-    if (session.role === "ADMIN" || session.role === "FINANCE" ) {
+    if (session.role === "FINANCE" ) {
       let payment = []
       const paymentAmount = await prisma.financeTransaction.findMany({
         where : {
@@ -41,10 +41,16 @@ export async function POST(req,res) {
       
       const totalPayment = payment.reduce((amt, a) => amt + a, 0)
 
+      const profile = await prisma.staffProfile.findUnique({
+        where : {
+          userId : session.id
+        }
+      })
+
       const finance = await prisma.financeTransaction.create({
         data: {
-          userId : session.id || userId,
-          studentId : studentId ? studentId : null,
+          staffId : profile.id,
+          studentId : studentId || null,
           studentPayment,
           transactionType,  
           transactionDate: newDate.toISOString(),           
@@ -53,7 +59,6 @@ export async function POST(req,res) {
           description , 
         },
       });
-
-        return NextResponse.json(finance);
+      return NextResponse.json(finance);
     }
   }

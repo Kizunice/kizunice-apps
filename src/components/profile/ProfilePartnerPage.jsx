@@ -30,7 +30,7 @@ const TopSideButtons = () => {
         setLoading(true);
         console.log(formValues)
         try {
-            const response = await fetch('/api/profile/partner', {
+            const response = await fetch('/api/data/partner', {
                 method: "POST",
                 body: JSON.stringify(formValues),
                 headers: {

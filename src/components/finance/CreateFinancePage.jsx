@@ -41,7 +41,6 @@ export default function CreateFinancePage() {
     const [loading, setLoading] = useState(false)
     const [students,setStudents] = useState([])
     const [formValues, setFormValues]  = useState({
-        userId : session?.user.id,
         studentId: "",
         transactionType: '',      
         transactionDate :"",

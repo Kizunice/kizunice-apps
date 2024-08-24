@@ -13,6 +13,10 @@ export async function GET(req, res) {
       orderBy: {
         createdAt: 'desc',
       },
+      include :{
+        sensei :true,
+        student : true
+      }
     });
     return NextResponse.json(allAttendance);
   } else if (session.role === "SENSEI") {
@@ -28,17 +32,32 @@ export async function GET(req, res) {
       orderBy: {
         createdAt: 'desc',
       },
+      include :{
+        sensei :true,
+        student : true
+      }
     });
   
     return NextResponse.json(attendance);
   }
+
+  const profile = await prisma.studentProfile.findUnique({
+    where: {
+      userId : session.id
+    }
+  })
+
   const attendance = await prisma.attendance.findMany({
     where: {
-      userId: session.id,
+      studentId: profile.id,
     },
     orderBy: {
       createdAt: 'desc',
     },
+    include :{
+      sensei :true,
+      student : true
+    }
   });
 
   return NextResponse.json(attendance);
@@ -48,13 +67,20 @@ export async function POST(req, res) {
   const body = await req.json();
   const session = await getCurrentUser(req, res);
 
-  const { userId, name, signIn, signInTime, date, signOut, status } = body;
+  const { senseiId, name, signIn, signInTime, date, signOut, status } = body;
   const newDate = new Date(date);
+
+  const profile = await prisma.studentProfile.findUnique({
+    where : {
+      userId : session.id
+    }
+  })
 
   const newAttendance = await prisma.attendance.create({
     data: {
-      userId: userId || session.id,
-      name: name || session.name,
+      studentId: profile.id,
+      senseiId: senseiId,
+      name: profile.name ,
       date: newDate.toISOString(),
       signIn: signIn,
       signOut: signOut,
