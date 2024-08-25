@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect, useCallback } from "react";
 import moment from "moment";
+import 'moment/locale/ja';
 import axios from "axios";
 import TitleCard from "@/components/ui/TitleCards";
 import { useSession } from "next-auth/react";
@@ -115,7 +116,7 @@ export default function LearningPage() {
                                     return (
                                         <tr key={value.id} className="text-grey ">
                                             <td>{index+1}</td>
-                                            <td>{moment(value.date).format('DD/MM/YYYY')}</td>
+                                            <td>{moment(value.date).format('ll')}</td>
                                             <td>{value.sensei.name}</td>
                                             <td>{value.part}</td>
                                             <td>{value.title}</td>

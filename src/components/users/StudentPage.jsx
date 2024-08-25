@@ -23,7 +23,6 @@ export default function StudentPage() {
     const getUsers = async () => {
         try {  
             const res = await axios.get('/api/profile');
-            console.log(res.data)
             setUsers(res.data)
             setJob(res.data.filter((data) => data.isHired === true))
             setNotJob(res.data.filter((data) => data.isHired === false))
@@ -41,7 +40,6 @@ export default function StudentPage() {
     const handleChange = (e) => {
         e.preventDefault()
         setQuery(e.target.value)
-        console.log(query)
     }
    
     const searchHandler = useCallback(() => {
@@ -111,7 +109,6 @@ export default function StudentPage() {
     }           
 
     const handleDelete = async (value) => {
-        console.log(value)
         const approval = confirm("Apakah kamu yakin ingin menghapus?")
         if (approval) {
             await fetch(`/api/data/student/${value}`, { method: "DELETE" });

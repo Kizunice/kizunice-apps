@@ -38,7 +38,7 @@ function DetailJobsPage() {
 
     const TopSide =() =>{
         if(values) {
-            return <div className="text-primary font-bold text-xl">{values.title}</div>
+            return <div className="bg-primary px-6 py-2 rounded-md text-white font-semibold text-lg">{values.title}</div>
         }
     }
 

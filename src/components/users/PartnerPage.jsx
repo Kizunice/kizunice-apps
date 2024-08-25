@@ -32,7 +32,6 @@ export default function PartnerPage() {
     const getPartnerData = async () => {
         try {  
             const res = await axios.get('/api/data/partner');
-            console.log(res.data)
             setValues(res.data)
             setLoading(false)
         } catch (err) {
@@ -67,7 +66,6 @@ export default function PartnerPage() {
     const handleChange = (e) => {
         e.preventDefault()
         setQuery(e.target.value);
-        console.log(query);
     };
 
     const handleDelete = async (value) => {

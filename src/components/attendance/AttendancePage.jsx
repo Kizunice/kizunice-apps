@@ -1,25 +1,16 @@
 'use client'
-import { useState , useEffect, useMemo} from 'react';
+import { useState , useEffect, useCallback} from 'react';
 import { useSession } from 'next-auth/react'
 import axios from 'axios';
 import moment from 'moment';
 import Link from 'next/link';
 import 'moment/locale/ja';
-import Stats from "@/components/ui/StatsCard";
+import Datepicker from 'react-tailwindcss-datepicker';
 import TitleCard from '@/components/ui/TitleCards';
 import toast from "react-hot-toast";
 import Loading from '@/app/(dashboard)/loading';
 import Pagination from '../ui/Pagination';
-import { IoCalendar } from 'react-icons/io5';
-import { ImBook } from 'react-icons/im';
-import { HiUsers } from 'react-icons/hi2';
 import { RiCheckboxCircleFill, RiCloseCircleFill  } from 'react-icons/ri';
-
-// const statsData = [
-//     {title : "Today", value : "150", icon: <IoCalendar size={30}/>, color:"bg-white"},
-//     {title : "OnTime", value : "145" , icon: <ImBook size={30}/>, color:"bg-green text-primary"},
-//     {title : "Late", value : "5", icon: <HiUsers size={30}/>, color:"bg-red text-primary"},
-// ]
 
 const TopSideButtons= () =>{
     const {data:session} =  useSession()
@@ -40,12 +31,47 @@ export default function AttendancePage() {
     const [values, setValues] = useState([])
     const [loading, setLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1);
+    const [filteredList, setFilteredList] = useState('');
+    const [dateFilter, setDateFilter] = useState({
+        startDate: null,
+        endDate: null,
+    });
 
-    const paginatedList = useMemo(() => {
-      const firstPageIndex = (currentPage - 1) * PageSize;
-      const lastPageIndex = firstPageIndex + PageSize;
-      return values.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage, values]);
+    // const paginatedList = useMemo(() => {
+    //   const firstPageIndex = (currentPage - 1) * PageSize;
+    //   const lastPageIndex = firstPageIndex + PageSize;
+    //   return values.slice(firstPageIndex, lastPageIndex);
+    // }, [currentPage, values]);
+
+    const searchHandler = useCallback(() => {
+        if (values) {
+            const filteredData = values.filter((value) => {
+                let filterPass = true
+                const date = moment(value.date).format("YYYY-MM-DD")
+                if (dateFilter.startDate) {
+                    filterPass = filterPass && dateFilter.startDate <= date
+                }
+                if (dateFilter.endDate) {
+                    filterPass = filterPass && dateFilter.endDate >= date
+                }
+                return filterPass
+            })
+            const firstPageIndex = (currentPage - 1) * PageSize;
+            const lastPageIndex = firstPageIndex + PageSize;
+            const paginatedList = filteredData.slice(firstPageIndex, lastPageIndex);
+            setFilteredList(paginatedList)
+        }
+    }, [currentPage, values, dateFilter])
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            searchHandler()
+        }, 500)
+
+        return () => {
+            clearTimeout(timer)
+        }
+    }, [searchHandler])
 
     const getAttendance = async () => {
         try {  
@@ -81,6 +107,11 @@ export default function AttendancePage() {
         }
     }
 
+    const handleValueChange = (newValue) => {
+        console.log('newValue:', newValue);
+        setDateFilter(newValue);
+    };
+
     const verif = async (value) => {
         try {
             const response = await fetch("/api/attendance/verif", {
@@ -99,79 +130,96 @@ export default function AttendancePage() {
         }
     }
 
+    const DatePicker = () => {
+        return (
+            <div className="border rounded-lg">
+                <Datepicker
+                    placeholder={'Pilih Tanggal'}
+                    showShortcuts={true}
+                    showFooter={true}
+                    configs={{
+                        shortcuts: {
+                            today: "Hari Ini", 
+                            yesterday: "Kemarin", 
+                            currentMonth: "Bulan Ini", 
+                            pastMonth: "Bulan Kemarin",
+                        },
+                    }} 
+                    primaryColor={"blue"} 
+                    value={dateFilter}
+                    onChange={handleValueChange}
+                />
+            </div>
+        )
+    }
+
     if (loading) return <Loading />
 
     return (
-        <>
-            {/* <div className="grid lg:grid-cols-3 mt-2 md:grid-cols-3 grid-cols-1 gap-6 mb-6">
-                {
-                    statsData.map((d, k) => {
-                        return (
-                            <Stats key={k} {...d} />
-                        )
-                    })
-                }
-            </div> */}
-            <TitleCard title={"Daftar Kehadiran Siswa"} topMargin="mt-2" TopSideButtons={<TopSideButtons/>}>
-                <div className="overflow-x-auto w-full">
-                    <table className="table w-full">
-                        <thead >
-                        <tr className="font-bold text-secondary text-[14px]">
-                            <th>No</th>
-                            <th>Hari</th>
-                            <th>Tanggal</th>
-                            <th>Nama Siswa</th>
-                            <th>Nama Sensei</th>
-                            <th>Masuk</th>
-                            <th>Pulang</th>
-                            <th>Verifikasi Sensei</th>
-                            <th>Status</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                paginatedList.map((value,index) =>{
-                                    return (
-                                        <tr key={value.id} className="text-grey ">
-                                        <td>{index+1}</td>
-                                        <td>{moment(value.date).format("dddd")}</td>
-                                        <td>{moment(value.date).format("ll")}</td>
-                                        <td>{value.name}</td>
-                                        <td>{value.sensei.name}</td>
-                                        <td>{moment(value.signInTime).format("hh:mm")}</td>
-                                        <td>{session?.user.role=== 'STUDENT' ? 
-                                                value.signOut ? moment(value.signOutTime).format("hh:mm") : <button className='bg-error px-4 py-1 rounded-md text-white' onClick={() => sign(value.id)}> Absen </button> : 
-                                                value.signOut ? moment(value.signOutTime).format("hh:mm") : <div className='text-error'>Belum absen</div> }
-                                        </td>
-                                        <td>
-                                            {
-                                                session?.user.role=== 'SENSEI' ? 
-                                                    value.accepted ? 
-                                                    <RiCheckboxCircleFill size={24} className='text-success' /> : 
-                                                    <button className='bg-primary px-4 py-1 rounded-md text-white' onClick={() => verif(value.id)}> Absen </button>
-                                                : value.accepted ? 
-                                                <RiCheckboxCircleFill size={20} className='text-success' /> :
-                                                <RiCloseCircleFill size={20} className='text-error' />
-                                            }
-                                        </td>
-                                        <td>{value.status}</td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <div className="flex justify-center items-center mt-4">
-                    <Pagination
-                        className="pagination-bar"
-                        currentPage={currentPage}
-                        totalCount={values.length}
-                        pageSize={PageSize}
-                        onPageChange={page => setCurrentPage(page)}
-                    />
-                </div>
-            </TitleCard>
-        </>
+        <TitleCard 
+            title={"Daftar Kehadiran Siswa"} 
+            topMargin="mt-2" 
+            TopMiddleButtons={<DatePicker />}
+            TopSideButtons={<TopSideButtons/>}
+        >
+            <div className="overflow-x-auto w-full">
+                <table className="table w-full">
+                    <thead >
+                    <tr className="font-bold text-secondary text-[14px]">
+                        <th>No</th>
+                        <th>Hari</th>
+                        <th>Tanggal</th>
+                        <th>Nama Siswa</th>
+                        <th>Nama Sensei</th>
+                        <th>Masuk</th>
+                        <th>Pulang</th>
+                        <th>Verifikasi<br/> Sensei</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            filteredList.map((value,index) =>{
+                                return (
+                                    <tr key={value.id} className="text-grey ">
+                                    <td>{index+1}</td>
+                                    <td>{moment(value.date).format("dddd")}</td>
+                                    <td>{moment(value.date).format("ll")}</td>
+                                    <td>{value.name}</td>
+                                    <td>{value.sensei.name}</td>
+                                    <td>{moment(value.signInTime).format("hh:mm")}</td>
+                                    <td>{session?.user.role=== 'STUDENT' ? 
+                                            value.signOut ? moment(value.signOutTime).format("hh:mm") : <button className='bg-error px-4 py-1 rounded-md text-white' onClick={() => sign(value.id)}> Absen </button> : 
+                                            value.signOut ? moment(value.signOutTime).format("hh:mm") : <div className='text-error'>Belum absen</div> }
+                                    </td>
+                                    <td>
+                                        {
+                                            session?.user.role=== 'SENSEI' ? 
+                                                value.accepted ? 
+                                                <RiCheckboxCircleFill size={24} className='text-success' /> : 
+                                                <button className='bg-primary px-4 py-1 rounded-md text-white' onClick={() => verif(value.id)}> Absen </button>
+                                            : value.accepted ? 
+                                            <RiCheckboxCircleFill size={20} className='text-success' /> :
+                                            <RiCloseCircleFill size={20} className='text-error' />
+                                        }
+                                    </td>
+                                    <td>{value.status}</td>
+                                    </tr>
+                                )
+                            })
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div className="flex justify-center items-center mt-4">
+                <Pagination
+                    className="pagination-bar"
+                    currentPage={currentPage}
+                    totalCount={values.length}
+                    pageSize={PageSize}
+                    onPageChange={page => setCurrentPage(page)}
+                />
+            </div>
+        </TitleCard>
     );
 }

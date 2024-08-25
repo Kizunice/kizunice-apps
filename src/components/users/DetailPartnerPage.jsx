@@ -5,10 +5,8 @@ import { useParams } from 'next/navigation'
 import TitleCard from "@/components/ui/TitleCards"
 import InputField from "@/components/ui/InputField"
 import toast from "react-hot-toast";
-import moment from "moment"
 import Loading from "@/app/(dashboard)/loading"
 import { RiDeleteBin5Fill, RiFileEditFill  } from "react-icons/ri";
-import { Modal } from "../ui/Modal"
 
 const TopSideButtons = () => {
     const params = useParams()
@@ -32,7 +30,6 @@ const TopSideButtons = () => {
 
     async function handleSubmit() {
         setLoading(true);
-        console.log(formValues)
         try {
             const response = await fetch(`/api/data/partner/${params.partnerId}`, {
                 method: "POST",
@@ -99,13 +96,11 @@ const TopSideButtons = () => {
 export default function DetailPartnerPage(){
     const params = useParams()
     const [loading, setLoading] = useState(true)
-    
     const [values, setValues] = useState({})
 
     const getData = async () => {
         try {  
             const res = await axios.get(`/api/data/partner/${params.partnerId}`);
-            console.log(res.data)
             setValues(res.data)
             setLoading(false)
         } catch (err) {
@@ -200,7 +195,9 @@ export default function DetailPartnerPage(){
                 />
                 </div>
                 <div className="divider" ></div>
-                <TableCompanies values={values.company}/>
+                <div className="overflow-x-auto lg:overflow-hidden">
+                    <TableCompanies values={values.company}/>
+                </div>
             </TitleCard>
         </>
       

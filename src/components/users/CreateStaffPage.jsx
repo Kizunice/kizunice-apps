@@ -51,12 +51,10 @@ export default function CreateStaffPage() {
         e.preventDefault()
         const { name, value } = e.target;
         setFormValues({ ...formValues, [name]: value});
-        console.log(formValues);
     };
 
     const handleSelect = (value, meta) => {
         setFormValues({ ...formValues, [meta.name]: value.value});
-        console.log(formValues)
     };
 
     async function handleSubmit() {

@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 import Button from "../ui/Button";
 
 export default function CreateSenseiPage() {
-    const {data:session} =  useSession()
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [formValues, setFormValues]  = useState({
@@ -38,14 +37,11 @@ export default function CreateSenseiPage() {
     const handleChange = (e) => {
         e.preventDefault()
         const { name, value } = e.target;
-        
         setFormValues({ ...formValues, [name]: value});
-        console.log(formValues);
     };
 
     const handleSelect = (value, meta) => {
         setFormValues({ ...formValues, [meta.name]: value.value});
-        console.log(formValues)
     };
 
     async function handleSubmit() {

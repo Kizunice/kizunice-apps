@@ -31,7 +31,6 @@ export default function SenseiPage() {
         try {  
           const res = await axios.get('/api/data/sensei');
           setUsers(res.data)
-          console.log(res.data)
           setLoading(false);
         } catch (err) {
           console.log("[collections_GET]", err);
@@ -65,13 +64,11 @@ export default function SenseiPage() {
     const handleChange = (e) => {
         e.preventDefault()
         setQuery(e.target.value);
-        console.log(query);
     };
 
     const handleDelete = async (value) => {
         setLoading(true)
         const approval = confirm("Apakah kamu yakin ingin menghapus?")
-
         if (approval) {
             await fetch("/api/data/sensei", {
                 method: "DELETE",
@@ -100,11 +97,11 @@ export default function SenseiPage() {
                         <thead >
                         <tr className="font-bold text-secondary text-[14px]">
                             <th>No</th>
-                            <th>Name</th>
+                            <th>Nama</th>
                             <th>Email</th>
-                            <th>Phone</th>
-                            <th>Join Date</th>
-                            <th>Action</th>
+                            <th>No. Handphone</th>
+                            <th>Tanggal Daftar</th>
+                            <th>Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -120,7 +117,7 @@ export default function SenseiPage() {
                                         
                                             <td className="flex items-center">
                                                 <div className="tooltip" data-tip="Detil Profile">
-                                                    <Link href={`/profile/${user.id}`}>
+                                                    <Link href={`/data-sensei/${user.id}`}>
                                                         <RiEyeFill 
                                                             className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
                                                         />

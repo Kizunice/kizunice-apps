@@ -1,14 +1,12 @@
 'use client'
 import { useState } from "react";
 import TitleCard from "@/components/ui/TitleCards";
-import { useSession } from "next-auth/react";
 import InputField from "../ui/InputField";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Button from "../ui/Button";
 
 export default function CreatePartnerPage() {
-    const {data:session} =  useSession()
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [formValues, setFormValues]  = useState({
@@ -21,14 +19,11 @@ export default function CreatePartnerPage() {
         country: "",
     })
     const{name,email,password,address,phone,company,supervisor,country} = formValues
-    const [options,setOptions] = useState([])
 
     const handleChange = (e) => {
         e.preventDefault()
         const { name, value } = e.target;
-        
         setFormValues({ ...formValues, [name]: value});
-        console.log(formValues);
     };
 
     async function handleSubmit() {

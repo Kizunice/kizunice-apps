@@ -1,7 +1,8 @@
 "use client"
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import {ROUTES, ADMIN_ROUTES, SENSEI_ROUTES, FINANCE_ROUTES, MASTER_ROUTES, DOK_ROUTES} from "@/constants/routes"
+import {ROUTES, ADMIN_ROUTES, SENSEI_ROUTES, FINANCE_ROUTES, MASTER_ROUTES, DOK_ROUTES, PARTNER_ROUTES} from "@/constants/routes"
 import { useSession } from "next-auth/react";
 import LogoINA from "../../../public/Logo-INA-Icon.png"
 import moment from "moment";
@@ -9,6 +10,7 @@ import moment from "moment";
 export default function Sidebar()  {
   const {data:session} = useSession()
   const userRole = session?.user.role
+  const path = usePathname();
   
   const SidebarLink =({userRole}) => {
     if (userRole) {
@@ -24,7 +26,7 @@ export default function Sidebar()  {
         break
         case "SENSEI" : navRoutes.push(SENSEI_ROUTES)
         break
-        case "PARTNER" : navRoutes.push(ROUTES)
+        case "PARTNER" : navRoutes.push(PARTNER_ROUTES)
         break
         case "STUDENT" : navRoutes.push(ROUTES)
         break
@@ -34,13 +36,13 @@ export default function Sidebar()  {
           {
             link.sub ? (
               <details>
-                <summary className="flex text-whitegray text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">
+                <summary className="flex text-white text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">
                   {link.icon} {link.name}
                 </summary>
                 <ul>
                   {link.sub.map((s, i) => (
                     <li key={i} >
-                      <Link href={s.path} key={i} className="flex text-whitegray text-[14px] font-[400] py-2 gap-4 cursor-pointer items-center hover:text-white">
+                      <Link href={s.path} key={i} className={`${s.path === path ? "bg-tersier" : "bg-secondary"} flex text-white text-[14px] font-[400] py-2 gap-4 cursor-pointer items-center hover:text-white`}>
                         {s.name}
                       </Link>
                     </li>
@@ -48,7 +50,7 @@ export default function Sidebar()  {
                 </ul>
               </details>
             ) : (
-              <Link href={link.path} key={i} className="flex text-whitegray text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">
+              <Link href={link.path} key={i} className={`${link.path === path ? "bg-tersier" : "bg-secondary"} flex text-white text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white`}>
                 {link.icon}{link.name}
               </Link>
             )
@@ -80,99 +82,3 @@ export default function Sidebar()  {
     </div>
   )
 }
-
-const SidebarLink =({userRole}) => {
-  let navRoutes = []
-  switch(userRole) {
-    case "MASTER" : navRoutes.push(MASTER_ROUTES)
-    case "ADMIN" : navRoutes.push(ADMIN_ROUTES)
-    case "STAFF" : navRoutes.push(STAFF_ROUTES)
-    case "FINANCE" : navRoutes.push(FINANCE_ROUTES)
-    case "SENSEI" : navRoutes.push(SENSEI_ROUTES)
-    case "PARTNER" : navRoutes.push(ROUTES)
-    case "STUDENT" : navRoutes.push(ROUTES)
-  }
-  console.log(navRoutes)
-    // return navRoutes[0].map((link, i) => (
-    //   <li key={i}>
-    //     {
-    //       link.sub ? (
-    //         <details>
-    //           <summary className="flex text-whitegray text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">
-    //             {link.icon} {link.name}
-    //           </summary>
-    //           <ul>
-    //             {link.sub.map((s, i) => (
-    //               <li key={i} >
-    //                 <Link href={s.path} key={i} className="flex text-whitegray text-[14px] font-[400] py-2 gap-4 cursor-pointer items-center hover:text-white">
-    //                   {s.name}
-    //                 </Link>
-    //               </li>
-    //             ))}
-    //           </ul>
-    //         </details>
-    //       ) : (
-    //         <Link href={link.path} key={i} className="flex text-whitegray text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">
-    //           {link.icon}{link.name}
-    //         </Link>
-    //       )
-    //     }
-    //   </li>
-    // )) 
-  }
-//   if(userRole === 'ADMIN'){
-//     return ADMIN_ROUTES.map((link, i) => (
-//       <li key={i}>
-//         {
-//           link.sub ? (
-//             <details>
-//               <summary className="flex text-whitegray text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">
-//                 {link.icon} {link.name}
-//               </summary>
-//               <ul>
-//                 {link.sub.map((s, i) => (
-//                   <li key={i} >
-//                     <Link href={s.path} key={i} className="flex text-whitegray text-[14px] font-[400] py-2 gap-4 cursor-pointer items-center hover:text-white">
-//                       {s.name}
-//                     </Link>
-//                   </li>
-//                 ))}
-//               </ul>
-//             </details>
-//           ) : (
-//             <Link href={link.path} key={i} className="flex text-whitegray text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">
-//               {link.icon}{link.name}
-//             </Link>
-//           )
-//         }
-//       </li>
-//     )) 
-//   } else if(userRole === 'SENSEI'){
-//     return SENSEI_ROUTES.map((link, i) => (
-//       <li key={i}>
-//         <Link href={link.path} key={i} className="flex text-whitegray text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">
-//           {link.icon}{link.name}
-//         </Link>
-//       </li>
-     
-//     )) 
-//   } else if(userRole === 'FINANCE'){
-//     return FINANCE_ROUTES.map((link, i) => (
-//       <li key={i}>
-//         <Link href={link.path} key={i} className="flex text-whitegray text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">
-//           {link.icon}{link.name}
-//         </Link>
-//       </li>
-     
-//     )) 
-//   } 
-//   return ROUTES.map((link, i) => (
-//     <li key={i}>
-//       <Link href={link.path} key={i} className="flex text-whitegray text-[16px] font-[400] py-3 gap-4 cursor-pointer items-center hover:text-white">
-//         {link.icon}{link.name}
-//       </Link>
-//     </li>
-    
-//   ))
-// }
-

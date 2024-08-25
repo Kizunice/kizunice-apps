@@ -25,6 +25,7 @@ const TopSideButtons= () =>{
 }
 
 export default function ApplicationPage() {
+    const {data:session} =  useSession()
     const [values,setValues] = useState([])
     const [jobValues,setJobValues] = useState([])
     const [notjobValues,setNotJobValues] = useState([])
@@ -126,6 +127,36 @@ export default function ApplicationPage() {
         )
     }
 
+    const Action = ({value}) => {
+        if (session?.user.role === "ADMIN" || session?.user.role === "DOCUMENT") {
+            return (
+                <div className="flex flex-row items-start">
+
+                    <div className="tooltip" data-tip="Detil Job">
+                        <Link href={`/jobs/detail/${value.job.id}`}>
+                            <RiEyeFill 
+                                className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
+                            />
+                        </Link>
+                    </div>
+                    <div className="tooltip" data-tip="Ubah Data">
+                        <Link href={`/jobs-application/edit/${value.id}`}>
+                            <RiFileEditFill 
+                                className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
+                            />
+                        </Link> 
+                    </div>
+                    <div className="tooltip" data-tip="Hapus Data">
+                        <RiDeleteBin5Fill 
+                            onClick={() => handleDelete(value.id)} 
+                            className="text-primary cursor-pointer p-1 text-3xl"
+                        />
+                    </div>
+                </div>
+            )
+        }
+    }
+
     if (loading) return <Loading />
     return (
         <TitleCard 
@@ -135,14 +166,14 @@ export default function ApplicationPage() {
             TopMiddleButtons={<SearchButton handleChange={handleChange} value={query} placeholder={"Cari Data Pelamar"} />}
             >
             <FilterJob />
-            <div className="overflow-x-auto w-full">
+            <div className="overflow-x-auto lg:overflow-hidden w-full">
                 <table className="table w-full">
                     <thead >
                     <tr className="font-bold text-secondary text-[14px]">
                         <th></th>
                         <th>Nama</th>
                         <th>Asal LPK</th>
-                        <th>Jenis Kelamin</th>
+                        <th>Jenis<br/> Kelamin</th>
                         <th>Usia</th>
                         <th>Lembaga</th>
                         <th>Perusahaan</th>
@@ -150,7 +181,7 @@ export default function ApplicationPage() {
                         <th>Berangkat</th>
                         <th>Status</th>
                         <th>Keterangan</th>
-                        <th>Aksi</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -172,25 +203,10 @@ export default function ApplicationPage() {
                                         <td>{value.partner.name}</td>
                                         <td>{value.job.company.name}</td>
                                         <td>{value.job.fieldJob}</td>
-                                        <td>{moment(value.job.departure).format("DD/MM/yyyy")}</td>
+                                        <td>{moment(value.job.departure).format("DD/MM/YYYY")}</td>
                                         <td className="font-bold">{value.status}</td>
                                         <td>{value.note}</td>
-                                        <td className="flex flex-row items-start">
-                                            <Link href={`/jobs/detail/${value.job.id}`}>
-                                                <RiEyeFill 
-                                                    className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
-                                                />
-                                            </Link>
-                                            <Link href={`/jobs-application/edit/${value.id}`}>
-                                                <RiFileEditFill 
-                                                    className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
-                                                />
-                                            </Link>
-                                            <RiDeleteBin5Fill 
-                                                onClick={() => handleDelete(value.id)} 
-                                                className="text-primary cursor-pointer p-1 text-3xl"
-                                            />
-                                        </td>
+                                        <td > {<Action value={value} />} </td>
                                     </tr>
                                 )
                             }) : ""

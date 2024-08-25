@@ -53,7 +53,7 @@ export default function DetailProfilePage(){
                     <li><button onClick={() => {setIndex(1)}} >Data Nilai </button></li>
                     <li><button onClick={() => {setIndex(2)}} >Data Job </button></li>
                     <li>
-                        {session?.user.role === "FINANCE" || "MASTER" ? (
+                        {session?.user.role === "FINANCE" || session?.user.role === "MASTER" ? (
                             <button onClick={() => {setIndex(3)}} >Data Pembayaran </button>
                         ) : ''}
                     </li>

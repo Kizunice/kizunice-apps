@@ -274,28 +274,22 @@ export const SENSEI_ROUTES = [
     key: '0',
   },
   {
-    path: '/attendance',
-    icon: <IoCalendar size={22} />,
-    name: 'Kehadiran',
-    key: '1',
-  },
-  {
     path: '/learning',
     icon: <ImBook size={22} />,
     name: 'Belajar',
-    key: '2',
+    key: '1',
   },
   {
     path: '/score',
     icon: <FaRankingStar size={22} />,
     name: 'Nilai',
-    key: '3',
+    key: '2',
   },
   {
     path: '/jobs',
     icon: <FaSuitcase size={22} />,
     name: 'Pekerjaan',
-    key: '4',
+    key: '3',
   },
 ];
 
@@ -333,6 +327,33 @@ export const FINANCE_ROUTES = [
   },
 ];
 
+
+export const PARTNER_ROUTES = [
+  {
+    path: '/dashboard',
+    icon: <MdDashboard size={22} />,
+    name: 'Beranda',
+    key: '0',
+  },
+  {
+    path: '/learning',
+    icon: <ImBook size={22} />,
+    name: 'Belajar',
+    key: '1',
+  },
+  {
+    path: '/jobs',
+    icon: <FaSuitcase size={22} />,
+    name: 'Pekerjaan',
+    key: '2',
+  },
+  {
+    path: '/jobs-application',
+    icon: <BsInboxesFill size={22} />,
+    name: 'Lamaran',
+    key: '3',
+  },
+];
 
 export const ROUTES = [
   {

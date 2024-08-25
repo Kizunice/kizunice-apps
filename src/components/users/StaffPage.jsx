@@ -104,7 +104,7 @@ export default function StaffPage() {
                             <th>Email</th>
                             <th>No.Handphone</th>
                             <th>Tanggal Daftar</th>
-                            <th>Action</th>
+                            <th>Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -121,7 +121,7 @@ export default function StaffPage() {
                                         
                                             <td className="flex items-center">
                                                 <div className="tooltip" data-tip="Detil Profile">
-                                                    <Link href={`/profile/${user.id}`}>
+                                                    <Link href={`/data-staff/${user.id}`}>
                                                         <RiEyeFill 
                                                             className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
                                                         />

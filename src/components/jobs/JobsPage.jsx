@@ -120,7 +120,7 @@ export default function JobsPage() {
                                             <td>{value.gender}</td>
                                             <td>{value.needs}</td>
                                             <td>{formatterJPY(value.salary)}</td>
-                                            <td>{moment(value.departure).format("DD/MM/yyyy")}</td>
+                                            <td>{moment(value.departure).format("DD/MM/YYYY")}</td>
                                             <td>
                                                 { value.linkFile ? (
                                                     <div className="tooltip" data-tip="Link File">

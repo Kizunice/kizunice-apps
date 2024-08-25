@@ -5,6 +5,32 @@ import { getCurrentUser } from '@/lib/session';
 export async function GET(req,res) {
   const session = await getCurrentUser(req, res);
 
+    if (session.role === "PARTNER") {
+      const profile = await prisma.partnerProfile.findUnique({
+        where : {
+          userId : session.id
+        }
+      })
+      const application = await prisma.jobApplication.findMany({
+        where : {
+            partnerId : profile.id
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        include: {
+          job: {
+              include : {
+                  company : true
+              }
+          },
+          student: true,
+          partner: true,
+        }
+      });
+      return NextResponse.json(application);
+    }
+
     const application = await prisma.jobApplication.findMany({
       orderBy: {
         createdAt: 'desc',
@@ -20,7 +46,6 @@ export async function GET(req,res) {
       }
     });
   
-    //return response JSON
     return NextResponse.json(application);
   }
 

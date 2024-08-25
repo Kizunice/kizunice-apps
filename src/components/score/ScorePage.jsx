@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect , useCallback} from "react";
 import moment from "moment";
+import 'moment/locale/ja';
 import axios from "axios";
 import TitleCard from "@/components/ui/TitleCards";
 import { useSession } from "next-auth/react";
@@ -39,14 +40,18 @@ export default function ScorePage() {
     const [gradeE, setGradeE] = useState([])
 
     const getScoresData = async () => {
+        setLoading(true)
         try {  
             const res = await axios.get('/api/score');
-            setValues(res.data.scores)
-            setGradeA(res.data.gradeA)
-            setGradeB(res.data.gradeB)
-            setGradeC(res.data.gradeC)
-            setGradeD(res.data.gradeD)
-            setGradeE(res.data.gradeE)
+            if (res) {
+                setValues(res.data.scores)
+                setGradeA(res.data.gradeA)
+                setGradeB(res.data.gradeB)
+                setGradeC(res.data.gradeC)
+                setGradeD(res.data.gradeD)
+                setGradeE(res.data.gradeE)
+                setLoading(false)
+            }
             setLoading(false)
         } catch (err) {
           console.log("[collections_GET]", err);
@@ -109,7 +114,7 @@ export default function ScorePage() {
                     <li className="px-4 py-2">Grade</li>
                     <li className={`${index === 0 ? "bg-primary" : "bg-secondary"} rounded-sm`}>
                         <button onClick={() => {setIndex(0)}}  >
-                            Semua Nilai
+                            Semua
                         </button>
                     </li>
                     <li className={`${index === 1 ? "bg-primary" : "bg-secondary"} rounded-sm`}>
@@ -160,7 +165,7 @@ export default function ScorePage() {
                             <th>Nama Siswa</th>
                             <th>Bab</th>
                             <th>Grade</th>
-                            <th>Rata-rata</th>
+                            <th>Rata-<br/>rata</th>
                             <th>Bunpou</th>
                             <th>Choukai</th>
                             <th>Kanji</th>
@@ -178,7 +183,7 @@ export default function ScorePage() {
                                 filteredList.map((value,idx) =>{
                                     return (
                                         <tr key={idx} className="text-grey ">
-                                            <td>{moment(value.learning.date).format("DD/MM/YY")}</td>
+                                            <td>{moment(value.learning.date).format("ll")}</td>
                                             <td>{value.sensei.name}</td>
                                             <td>{value.student.name}</td>
                                             <td>{value.learning.part}</td>
