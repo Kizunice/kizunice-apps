@@ -4,8 +4,8 @@ import Image from "next/image"
 import React from "react"
 import {
     RiFacebookCircleFill,
-    RiInstagramLine,
-    RiLinkedinFill,
+    RiYoutubeFill,
+    RiTiktokFill,
     RiMapPinLine,
     RiMessage2Line,
     RiPhoneLine,
@@ -27,12 +27,12 @@ export default function Footer() {
                         </div>
 
                         <p className="mt-6 max-w-md text-left leading-relaxed text-gray-100 text-[13px] sm:max-w-xs ">
-                        Kizuna Indonesia Nippon adalah lembaga pelatihan yang didedikasikan untuk membantu para pencari kerja mewujudkan impian mereka bekerja di Jepang. 
+                        LPK PT INDONESIA NIPPON ANUGERAH berperan dalam pemberdayaan SDM khususnya generasi muda yang meliputi program utama Diklat Bahasa Jepang Terpadu dan Pemagan gan ke Jepang.
                         </p>
 
                         <ul className="mt-4 md:mt-6 flex justify-start gap-4 md:gap-6">
                             <li>
-                                <Link href="#">
+                                <Link href="https://www.facebook.com/profile.php?id=100090210174530&mibextid=ZbWKwL">
                                     <RiFacebookCircleFill
                                         fontSize={26}
                                         className="text-white transition hover:text-white/75"
@@ -40,7 +40,15 @@ export default function Footer() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#">
+                                <Link href="https://www.youtube.com/channel/UClXAuxKJq7L8z5X11bpSQLA">
+                                    <RiYoutubeFill
+                                        fontSize={26}
+                                        className="text-white transition hover:text-white/75"
+                                    />
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="https://www.instagram.com/lpkindonesianippon/">
                                     <RiInstagramFill
                                         fontSize={26}
                                         className="text-white transition hover:text-white/75"
@@ -48,16 +56,8 @@ export default function Footer() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#">
-                                    <RiLinkedinFill
-                                        fontSize={26}
-                                        className="text-white transition hover:text-white/75"
-                                    />
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="#">
-                                    <RiTwitterFill
+                                <Link href="https://www.tiktok.com/@indonesianippon">
+                                    <RiTiktokFill
                                         fontSize={26}
                                         className="text-white transition hover:text-white/75"
                                     />
@@ -72,36 +72,28 @@ export default function Footer() {
 
                             <ul className="mt-4 md:mt-8 space-y-4 text-sm">
                                 <li>
-                                    <Link className="text-gray-100 transition hover:text-gray-100/75" href="/about">
-                                        Tentang Kizunice
+                                    <Link className="text-gray-100 transition hover:text-gray-100/75" href="/#tentang">
+                                        Tentang INA
                                     </Link>
                                 </li>
 
                                 <li>
-                                    <Link className="text-gray-100 transition hover:text-gray-100/75" href="/service">
+                                    <Link className="text-gray-100 transition hover:text-gray-100/75" href="/#program">
                                         Program Kami
                                     </Link>
                                 </li>
 
                                 <li>
-                                    <Link className="text-gray-100 transition hover:text-gray-100/75" href="/project">
-                                        Cara Pendaftaran
+                                    <Link className="text-gray-100 transition hover:text-gray-100/75" href="/#facility">
+                                        Fasilitas LPK
                                     </Link>
                                 </li>
 
-                                <li>
-                                    <Link className="text-gray-100 transition hover:text-gray-100/75" href="/team">
-                                        Artikel
-                                    </Link>
-                                </li>
                             </ul>
                         </div>
 
-                       
-
-
                         <div className="text-left col-span-2">
-                            <p className="text-lg font-medium text-white">Contact Us</p>
+                            <p className="text-lg font-medium text-white">Kontak Kami</p>
 
                             <ul className="mt-4 md:mt-8 space-y-4 text-sm">
                                 <li>
@@ -111,7 +103,7 @@ export default function Footer() {
                                     >
                                         <RiMessage2Line fontSize={18} className="text-gray-100" />
 
-                                        <span className="flex-1 text-gray-100">lpkkizunanippon@gmail.com</span>
+                                        <span className="flex-1 text-gray-100">info.lpkinna@gmail.com</span>
                                     </Link>
                                 </li>
 
@@ -121,8 +113,16 @@ export default function Footer() {
                                         href="/"
                                     >
                                         <RiPhoneLine fontSize={18} className="text-gray-100" />
-
-                                        <span className="flex-1 text-gray-100">0813 8430 4152</span>
+                                        <span className="flex-1 text-gray-100">08111184798</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        className="flex items-center justify-center gap-1.5 ltr:sm:justify-start rtl:sm:justify-end"
+                                        href="/"
+                                    >
+                                        <RiPhoneLine fontSize={18} className="text-gray-100" />
+                                        <span className="flex-1 text-gray-100">08111290562</span>
                                     </Link>
                                 </li>
 
@@ -130,7 +130,9 @@ export default function Footer() {
                                     <RiMapPinLine fontSize={18} className="text-gray-100"/>
 
                                     <address className="-mt-0.5 flex-1 not-italic text-gray-100">
-                                    Jl. Gongseng Raya No.2-4, RT.7/RW.10, Cijantung, Kec. Ps. Rebo, Kota Jakarta Timur 13770
+                                        LPK INA SO Kantor Pusat
+                                        Purwadadi Tim., Kec. Purwadadi, Kabupaten Subang,
+                                        Jawa Barat 46385
                                     </address>
                                 </li>
                             </ul>

@@ -19,6 +19,7 @@ export default function Header() {
             <li><Link href="/">Beranda</Link></li>
             <li><Link href="/#tentang">Tentang INA</Link></li>
             <li><Link href="/#program">Program</Link></li>
+            <li><Link href="/#facility">Fasilitas</Link></li>
             <li><Link href="/#kontak">Kontak Kami</Link></li>
           </ul>
         </div>
@@ -31,6 +32,7 @@ export default function Header() {
               <li><Link href="/" scroll={true}>Beranda</Link></li>
               <li><Link href="/#tentang" scroll={true}>Tentang Kizuna</Link></li>
               <li><Link href="/#program"scroll={true}>Program</Link></li>
+              <li><Link href="/#facility" scroll={true}>Fasilitas</Link></li>
               <li><Link href="/#kontak"scroll={true}>Kontak Kami</Link></li>
               <li><Link href="/login" passHref={true} className="btn px-4 py-0.5">Masuk</Link></li>
               <li><Link href="/register" passHref={true} className="btn bg-secondary text-white px-4 py-0.5">Daftar</Link></li>

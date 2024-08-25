@@ -1,8 +1,8 @@
 'use client'
 import Image from "next/image"
 import { PROGRAMS } from "@/lib/consData"
+
 export default function Program() {
-    
     return (
         <section className="warpper lg:max-w-[80rem] mx-auto py-[4rem] lg:py-[6rem]" id="program" >
             <div className="flex flex-col justify-center items-center px-8 mb-[4rem]">
@@ -20,9 +20,9 @@ export default function Program() {
                             return (
                                 <div key={data.id} className="card w-66 bg-base-100 shadow-sm">
                                     {/* <figure><img src={data.image} alt={data.title} className="object-cover rounded-sm pt-6 md:py-0" /></figure> */}
-                                    <Image src={data.image} width={300} height={100} className="object-cover w-full rounded-t-xl object-center" />
+                                    {/* <Image src={data.image} width={300} height={100} className="object-cover w-full rounded-t-xl object-center" /> */}
                                     <div className="card-body">
-                                        <h2 className="card-title">{data.title}</h2>
+                                        <h2 className="card-title text-secondary font-bold">{data.title}</h2>
                                         <p className="text-gray-500">{data.desc}</p>
                                     </div>
                                 </div>

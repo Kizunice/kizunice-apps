@@ -2,7 +2,7 @@
 import Image from "next/image"
 export default function About() {
     return (
-        <section className="warpper lg:max-w-[80rem] mx-auto py-[4rem] lg:py-[6rem]" id="tentang" >
+        <section className="lg:max-w-[80rem] mx-auto py-[4rem] lg:py-[6rem]" id="tentang" >
             <div className="flex flex-col lg:flex-row justify-center items-center">
                 <div className="px-8 text-center">
                     <Image src="/about-banner.png" width={400} height={550} alt="Kizunice Academy" className="rounded-l-3xl" />
