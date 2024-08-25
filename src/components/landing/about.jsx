@@ -12,21 +12,23 @@ export default function About() {
                         <span className="text-secondary">Tentang</span>  INA
                     </h1>
                     <p className="mx-auto my-6 w-full text-grey ">
-                    LPK PT INDONESIA NIPPON ANUGERAH Dibentuk pada 28 Oktober 2021, berperan 
-                    dalam pemberdayaan SDM khususnya generasi muda melalui program pembentukan sikap mental, keterampilan, serta 
-                    kemandirian yang meliputi program utama Diklat Bahasa Jepang Terpadu dan Pemagan gan ke Jepang. Moto utama 
-                    kami mendidik siswa agar berwawasan luas, bertanggung jawab serta menjadi lebih mandiri dengan menerapkan 
-                    kedisiplinan yang kuat sehingga bisa meminimalisir timbulnya permasalahan selama mereka magang di jepang. 
-                    Untuk memperoleh hasil maksimal, LPK PT INDONESIA NIPPON ANUGERAH bekerja sama dengan lembaga lain yang 
-                    terpercaya. Dengan mengikuti program ini, para peserta diharapkan dapat memiliki keterampilan yang memadai 
-                    dan didukung oleh pengalaman, sikap kerja positif, dan kreatifitas. 
+                    <span className="font-bold">LPK PT INDONESIA NIPPON ANUGERAH</span> didirikan pada 28 Oktober 2021, 
+                    berfokus pada pemberdayaan generasi muda melalui program pembentukan sikap mental, keterampilan, dan 
+                    kemandirian. Program unggulan kami, Diklat Bahasa Jepang Terpadu dan magang ke Jepang, bertujuan mencetak 
+                    siswa yang berwawasan luas, bertanggung jawab, dan mandiri dengan disiplin yang kuat. Kami bekerja sama 
+                    dengan lembaga terpercaya untuk memastikan peserta mendapatkan keterampilan, pengalaman, dan sikap kerja 
+                    positif yang dibutuhkan.
                     <br/>
                     <br/>
-                    Dengan landasan cita-cita luhur untuk 
-                    turut meningkatkan SDM dan terwujudnya kehidupan masyarakat yang sejahtera. Saat ini LPK PT INDONESIA NIPPON 
-                    ANUGERAH bekerja sama dengan beberapa rumah sakit dan panti lansia serta beberapa perusahaan konstruksi,dimana 
-                    nantinya siswa diwajibkan mengikuti praktek kerja sesuai bidang yang akan mereka magangkan. LPK PT INDONESIA 
-                    NIPPON ANUGERAH berpusat di Kota Depok, dan memiliki cabang di
+                    Dengan tujuan mulia meningkatkan kualitas SDM dan mewujudkan kesejahteraan masyarakat, LPK PT Indonesia 
+                    Nippon Anugerah juga bermitra dengan rumah sakit, panti lansia, dan perusahaan konstruksi, di mana siswa 
+                    menjalani praktik kerja sesuai bidang magang mereka. 
+                    <br/>
+                    <br/>
+                    LPK PT INDONESIA NIPPON ANUGERAH berpusat di Kota Depok, dan memiliki cabang di
+                    <br/>
+                    <br/>
+                    <span className="font-bold">SUMBAR - CIKARANG - MANADO - CIJANTUNG</span>
                     </p>
                 </div>
             </div>

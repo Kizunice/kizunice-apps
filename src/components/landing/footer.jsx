@@ -17,8 +17,8 @@ import Logo from '../../../public/Logo_ina.png'
 export default function Footer() {
     return (
         <footer className="bg-secondary" id="kontak">
-            <div className="max-w-[78rem] mx-auto p-8 lg:pt-12">
-                <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+            <div className="max-w-[78rem] mx-auto px-8 py-12 lg:pt-12">
+                <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
                     <div>
                         <div className="flex justify-start text-left ">
                             <Link href={"/"} className="bg-white px-4 py-2 rounded-sm">
@@ -27,7 +27,7 @@ export default function Footer() {
                         </div>
 
                         <p className="mt-6 max-w-md text-left leading-relaxed text-gray-100 text-[13px] sm:max-w-xs ">
-                        LPK PT INDONESIA NIPPON ANUGERAH berperan dalam pemberdayaan SDM khususnya generasi muda yang meliputi program utama Diklat Bahasa Jepang Terpadu dan Pemagan gan ke Jepang.
+                        Lembaga pelatihan kerja yang telah memiliki izin sending organization (SO) khusus untuk pemberangkatan tenaga kerja, pemagang dan study ke Jepang. 🇮🇩🇯🇵
                         </p>
 
                         <ul className="mt-4 md:mt-6 flex justify-start gap-4 md:gap-6">
@@ -66,7 +66,7 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4 lg:col-span-2">
+                    <div className="grid grid-cols-1">
                         <div className="text-left">
                             <p className="text-lg font-medium text-white">Menu</p>
 
@@ -76,23 +76,31 @@ export default function Footer() {
                                         Tentang INA
                                     </Link>
                                 </li>
-
                                 <li>
                                     <Link className="text-gray-100 transition hover:text-gray-100/75" href="/#program">
                                         Program Kami
                                     </Link>
                                 </li>
-
                                 <li>
                                     <Link className="text-gray-100 transition hover:text-gray-100/75" href="/#facility">
                                         Fasilitas LPK
                                     </Link>
                                 </li>
-
+                                <li>
+                                    <Link className="text-gray-100 transition hover:text-gray-100/75" href="/">
+                                        Link Pendaftaran
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link className="text-gray-100 transition hover:text-gray-100/75" href="/">
+                                        Link Pendaftaran Sensei
+                                    </Link>
+                                </li>
                             </ul>
                         </div>
+                    </div>
 
-                        <div className="text-left col-span-2">
+                    <div className="text-left">
                             <p className="text-lg font-medium text-white">Kontak Kami</p>
 
                             <ul className="mt-4 md:mt-8 space-y-4 text-sm">
@@ -137,12 +145,11 @@ export default function Footer() {
                                 </li>
                             </ul>
                         </div>
-                    </div>
                 </div>
 
                 <div className="mt-10 border-t border-gray-300 pt-6">
                     <div className="text-center ">
-                        <p className="mt-2 text-sm text-gray-200 sm:order-first sm:mt-0">Copyright &copy; 2024 INA-APP.com</p>
+                        <p className="mt-2 text-sm text-gray-200 sm:order-first sm:mt-0">Copyright &copy; 2024 ina-apps.com</p>
                     </div>
                 </div>
             </div>

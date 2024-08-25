@@ -1,13 +1,14 @@
 'use client'
 import { useEffect,useState } from 'react';
-import { Livvic } from 'next/font/google';
+import { Montserrat } from 'next/font/google';
 import '@/styles/globals.css';
 import Head from './head';
 import { Providers } from '@/lib/providers';
 import RootLoading from './loading';
 import Header from '@/components/landing/header';
 import Footer from '@/components/landing/footer';
-const livvic = Livvic({ 
+
+const montserrat = Montserrat({ 
   weight: ['100','200','300','400','500','600', '700', '900'],
   style: ['normal', 'italic'],
   subsets: ['latin'] 
@@ -25,7 +26,7 @@ export default function RootLayout({ children }) {
  return (
     <html lang="en">
       <Head/>
-      <body className={livvic.className}>
+      <body className={montserrat.className}>
         {loading ? <RootLoading/> : (
           <Providers>
             <Header/>

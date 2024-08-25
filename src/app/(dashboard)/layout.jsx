@@ -7,8 +7,6 @@ import { Toaster } from 'react-hot-toast';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function DashboardLayout({ children }) {
-  
-
   return (
     <html lang="en" data-theme="light">
       <Head />
