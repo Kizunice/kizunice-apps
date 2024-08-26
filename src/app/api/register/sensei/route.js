@@ -83,14 +83,14 @@ const sendVerificationEmail = async (user) => {
  
   <p style="font-size:16px;text-align:center">Halo ${user.name}</p>
 
-  <p style="font-size:16px;text-align:center">Kamu telah melakukan pendaftaran di Kizunice</p>
+  <p style="font-size:16px;text-align:center">Kamu telah melakukan pendaftaran di INA App</p>
 
   <p style="font-size:16px;text-align:center">Untuk melanjutkan proses pendaftaran, silahkan konfirmasi email kamu
     dengan kunjungi link di bawah ini</p>
   <br />
   <div style="text-align: center;">
     <a class=”link” href="https://kizunice-apps.vercel.app/email/verify/${user.id}"
-      style="background-color:#AF282F;padding:8px 16px;color:white;text-decoration:none;border-radius:4px">
+      style="background-color:#004421;padding:8px 16px;color:white;text-decoration:none;border-radius:4px">
       Konfirmasi email
     </a>
   </div>
@@ -102,7 +102,7 @@ const sendVerificationEmail = async (user) => {
     Jika anda yang memiliki kesulitan atau pertanyaan perihal Aplikasi ini dapat menghubungi kami
     <br />
     WhatsApp ke <b><a href="tel:6285717175912">+6285717175912</a> </b> , atau email ke <b> <a
-        href="mailto:infokizunice@gmail.com"> infokizunice@gmail.com</a></b>
+        href="mailto:info.inaapp@gmail.com"> info.inaapp@gmail.com</a></b>
   </p>
 </div>
 
@@ -110,7 +110,7 @@ const sendVerificationEmail = async (user) => {
   `;
 
   const emailData = {
-    from: '"Kizunice Academy" <infokizunice@gmail.com>',
+    from: '"INA APP" <info.inaapp@gmail.com>',
     to: user.email,
     subject: 'Verifikasi Email Pendaftaran',
     html: output,

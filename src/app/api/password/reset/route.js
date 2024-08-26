@@ -42,8 +42,8 @@ const sendEmailToResetPassword = async (user) => {
           menuju halaman ubah password</p>
     <br />
     <div style="text-align: center;">
-        <a class=”link” href="http://localhost:3000/reset-password/${user.id}" target="_blank"
-        style="background-color:#AF282F;padding:8px 16px;color:white;text-decoration:none;border-radius:5px">
+        <a class=”link” href="https://kizunice-apps.vercel.app/reset-password/${user.id}" target="_blank"
+        style="background-color:#004421;padding:8px 16px;color:white;text-decoration:none;border-radius:5px">
         Ubah Password
         </a>
     </div>
@@ -55,7 +55,7 @@ const sendEmailToResetPassword = async (user) => {
     Jika anda yang memiliki kesulitan atau pertanyaan perihal Aplikasi ini dapat menghubungi kami
     <br />
     WhatsApp ke <b><a href="tel:6285717175912">+6285717175912</a> </b> , atau email ke <b> <a
-        href="mailto:infokizunice@gmail.com"> infokizunice@gmail.com</a></b>
+        href="mailto:info.inaapp@gmail.com"> info.inaapp@gmail.com</a></b>
   </p>
 </div>
 
@@ -63,7 +63,7 @@ const sendEmailToResetPassword = async (user) => {
   `;
 
   const emailData = {
-    from: '"Kizunice Academy" <infokizunice@gmail.com>',
+    from: '"INA APP" <info.inaapp@gmail.com>',
     to: user.email,
     subject: 'Permintaan password baru',
     html: output,
