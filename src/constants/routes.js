@@ -274,22 +274,28 @@ export const SENSEI_ROUTES = [
     key: '0',
   },
   {
+    path: '/attendance',
+    icon: <IoCalendar size={22} />,
+    name: 'Kehadiran',
+    key: '1',
+  },
+  {
     path: '/learning',
     icon: <ImBook size={22} />,
     name: 'Belajar',
-    key: '1',
+    key: '2',
   },
   {
     path: '/score',
     icon: <FaRankingStar size={22} />,
     name: 'Nilai',
-    key: '2',
+    key: '3',
   },
   {
     path: '/jobs',
     icon: <FaSuitcase size={22} />,
     name: 'Pekerjaan',
-    key: '3',
+    key: '4',
   },
 ];
 

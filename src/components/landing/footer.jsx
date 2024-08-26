@@ -9,7 +9,6 @@ import {
     RiMapPinLine,
     RiMessage2Line,
     RiPhoneLine,
-    RiTwitterFill,
     RiInstagramFill
 } from "react-icons/ri"
 import Logo from '../../../public/Logo_ina.png'

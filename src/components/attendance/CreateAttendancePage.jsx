@@ -112,7 +112,7 @@ export default function CreateAttendancePage() {
                 />
             </div>
             <div className="divider" ></div>
-            <Button handleSubmit={handleSubmit} text={"Buat Data Lamaran"} loading={loading} />
+            <Button handleSubmit={handleSubmit} text={"Submit Presensi"} loading={loading} />
         </TitleCard>
     )
 }
