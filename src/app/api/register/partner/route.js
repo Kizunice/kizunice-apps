@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
+import { randomBytes } from 'crypto';
+import nodemailer from 'nodemailer'
 
 export async function POST(request) {
   const body = await request.json();
