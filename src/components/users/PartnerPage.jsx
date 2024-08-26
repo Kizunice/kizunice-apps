@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import TitleCard from "@/components/ui/TitleCards";
+import toast from "react-hot-toast";
 import Link from "next/link";
 import axios from "axios";
 import Loading from "@/app/(dashboard)/loading"
@@ -80,7 +81,7 @@ export default function PartnerPage() {
                   "Content-Type": "application/json",
                 },
             })
-            toast.success("Berhasil hapus akun staff")
+            toast.success("Berhasil hapus akun lembaga")
             setLoading(false)
             location.reload()
         }
@@ -129,7 +130,7 @@ export default function PartnerPage() {
                                                 </div>
                                                 <div className="tooltip" data-tip="Hapus Akun">
                                                     <RiDeleteBin5Fill 
-                                                        onClick={() => handleDelete(value.id)} 
+                                                        onClick={() => handleDelete(user.id)} 
                                                         className="text-error cursor-pointer p-1 text-3xl"
                                                     />
                                                 </div>

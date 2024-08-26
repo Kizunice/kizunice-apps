@@ -25,7 +25,7 @@ export default function Facility() {
                     </h1>
                 </div>
             </div>
-            <div className="px-8">
+            <div className="px-6 lg:px-8">
                 <Slider {...settings} className="my-4">
                     {FACILITY.map((data)=>(
                         <img key={data.key} src={data.image} className="rounded-lg" alt="INA"/>

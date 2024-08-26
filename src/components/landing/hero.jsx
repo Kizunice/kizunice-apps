@@ -11,7 +11,7 @@ export default function Hero() {
                     <Link href="/" className='flex justify-center items-center font-bold text-xl tracking-[-6px] text-white tracking-tighter'>
                         <Image src={Logo} width={150} height={100} alt="Logo LPK Indonesia Nippon Anugerah" />
                     </Link>
-                    <h1 className="text-secondary font-bold my-6 w-full leading-loose !text-2xl lg:max-w-4xl lg:!text-5xl">
+                    <h1 className="text-secondary font-bold my-6 w-full leading-snug !text-2xl lg:max-w-4xl lg:!text-5xl">
                         SELAMAT BERGABUNG DI LPK PT INDONESIA NIPPON ANUGERAH
                     </h1>
                     <p className="mx-auto my-6 w-full text-grey lg:max-w-3xl">

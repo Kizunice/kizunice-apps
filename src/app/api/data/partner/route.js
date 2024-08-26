@@ -58,13 +58,17 @@ export async function POST(req,res) {
   return NextResponse.json(company);
 }
 
-export async function DELETE(req,{ params }) {
-  console.log(params)
-  await prisma.companies.delete({
-    where: {
-      id: params.partnerId,
-    },
-  });
-  return NextResponse.json({ message: "done" });
+export async function DELETE(req,res) {
+  const session = await getCurrentUser(req, res);
+  const body = await req.json();
+
+  if (session.role === "ADMIN") {
+    await prisma.partnerProfile.delete({
+        where: {
+          id: body,
+        },
+    });
+    return NextResponse.json({ message: "done" });
+  }
 }
  

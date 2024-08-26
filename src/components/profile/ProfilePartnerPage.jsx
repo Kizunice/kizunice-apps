@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useParams } from 'next/navigation'
 import TitleCard from "@/components/ui/TitleCards"
 import InputField from "@/components/ui/InputField"
-import toast from "react-hot-toast";
+import toast from "react-hot-toast"
 import moment from "moment"
 import Loading from "@/app/(dashboard)/loading"
 import { RiDeleteBin5Fill, RiFileEditFill  } from "react-icons/ri";
