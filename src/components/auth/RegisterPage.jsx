@@ -184,15 +184,6 @@ export default function RegisterForm() {
           Masuk
         </Link>
       </p>
-      <p className="text-sm font-light text-gray-400">
-        Daftar akun sensei?{" "}
-        <Link
-          href="/register/sensei"
-          className="font-medium hover:underline text-white"
-        >
-          Daftar
-        </Link>
-      </p>
     </form>
   );
 }
