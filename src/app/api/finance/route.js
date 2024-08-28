@@ -5,19 +5,23 @@ import { getCurrentUser } from '@/lib/session';
 
 export async function GET(req,res) {
   const session = await getCurrentUser(req, res);
-    if (session.role === "FINANCE" || session.role === "ADMIN") {
-      const transaction = await prisma.financeTransaction.findMany({
-        orderBy: {
-          transactionDate: 'desc',
-        },
-        include : {
-          student:true
-        }
-      });
-    
-      return NextResponse.json(transaction);
-    }
+  if (!session) {
+    return new NextResponse('Error! Need Authentication!', { status: 400 });
   }
+  
+  if (session.role === "FINANCE" || session.role === "ADMIN" || session.role === "MASTER") {
+    const transaction = await prisma.financeTransaction.findMany({
+      orderBy: {
+        transactionDate: 'desc',
+      },
+      include : {
+        student:true
+      }
+    });
+  
+    return NextResponse.json(transaction);
+  }
+}
 
 
 export async function POST(req,res) {

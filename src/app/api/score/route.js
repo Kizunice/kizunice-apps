@@ -5,7 +5,9 @@ import { data } from 'autoprefixer';
 
 export async function GET(req, res) {
   const session = await getCurrentUser(req, res);
-
+  if (!session) {
+    return new NextResponse('Error! Need Authentication!', { status: 400 });
+  }
   if(session.role === "SENSEI") {
     const profile = await prisma.senseiProfile.findUnique({
       where : {

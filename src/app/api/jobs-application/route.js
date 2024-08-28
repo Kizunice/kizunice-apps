@@ -4,34 +4,20 @@ import { getCurrentUser } from '@/lib/session';
 
 export async function GET(req,res) {
   const session = await getCurrentUser(req, res);
-
-    if (session.role === "PARTNER") {
-      const profile = await prisma.partnerProfile.findUnique({
-        where : {
-          userId : session.id
-        }
-      })
-      const application = await prisma.jobApplication.findMany({
-        where : {
-            partnerId : profile.id
-        },
-        orderBy: {
-          createdAt: 'desc',
-        },
-        include: {
-          job: {
-              include : {
-                  company : true
-              }
-          },
-          student: true,
-          partner: true,
-        }
-      });
-      return NextResponse.json(application);
-    }
-
+  if (!session) {
+    return new NextResponse('Error! Need Authentication!', { status: 400 });
+  }
+  
+  if (session.role === "PARTNER") {
+    const profile = await prisma.partnerProfile.findUnique({
+      where : {
+        userId : session.id
+      }
+    })
     const application = await prisma.jobApplication.findMany({
+      where : {
+          partnerId : profile.id
+      },
       orderBy: {
         createdAt: 'desc',
       },
@@ -45,9 +31,26 @@ export async function GET(req,res) {
         partner: true,
       }
     });
-  
     return NextResponse.json(application);
   }
+
+  const application = await prisma.jobApplication.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+    include: {
+      job: {
+          include : {
+              company : true
+          }
+      },
+      student: true,
+      partner: true,
+    }
+  });
+
+  return NextResponse.json(application);
+}
 
 
   export async function POST(req,res) {

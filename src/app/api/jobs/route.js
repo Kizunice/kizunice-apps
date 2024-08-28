@@ -5,6 +5,10 @@ import { getCurrentUser } from '@/lib/session';
 
 export async function GET(req,res) {
   const session = await getCurrentUser(req, res);
+  
+  if (!session) {
+    return new NextResponse('Error! Need Authentication!', { status: 400 });
+  }
 
   if(session.role === "PARTNER") {
     const profile = await prisma.partnerProfile.findUnique({

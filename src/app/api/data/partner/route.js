@@ -4,7 +4,11 @@ import { getCurrentUser } from '@/lib/session';
 
 export async function GET(req,res) {
   const session = await getCurrentUser(req, res);
-  if(session.role === "ADMIN" || session.role === "DOCUMENT") {
+  if (!session) {
+    return new NextResponse('Error! Need Authentication!', { status: 400 });
+  }
+
+  if(session.role === "ADMIN" || session.role === "MASTER" || session.role === "DOCUMENT") {
     const profile = await prisma.partnerProfile.findMany({
       orderBy : {
         name: "asc"
