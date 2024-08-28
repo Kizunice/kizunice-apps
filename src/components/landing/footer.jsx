@@ -148,7 +148,7 @@ export default function Footer() {
 
                 <div className="mt-10 border-t border-gray-300 pt-6">
                     <div className="text-center ">
-                        <p className="mt-2 text-sm text-gray-200 sm:order-first sm:mt-0">Copyright &copy; 2024 ina-app.com</p>
+                        <p className="mt-2 text-sm text-gray-200 sm:order-first sm:mt-0">Copyright &copy; 2024 ina-nippon.com</p>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 'use client'
 import { useEffect,useState } from 'react';
-import { Montserrat } from 'next/font/google';
+import { Montserrat, Saira_Stencil_One } from 'next/font/google';
 import '@/styles/globals.css';
 import Head from './head';
 import { Providers } from '@/lib/providers';
@@ -8,10 +8,19 @@ import RootLoading from './loading';
 import Header from '@/components/landing/header';
 import Footer from '@/components/landing/footer';
 
-const montserrat = Montserrat({ 
+export const montserrat = Montserrat({ 
   weight: ['100','200','300','400','500','600', '700', '900'],
   style: ['normal', 'italic'],
-  subsets: ['latin'] 
+  subsets: ['latin'],
+  variable: '--font-text',
+});
+
+
+export const stencil = Saira_Stencil_One({ 
+  weight: ['400'],
+  style: ['normal'],
+  subsets: ['latin'],
+  variable: '--font-style',
 });
 
 export default function RootLayout({ children }) {
@@ -26,7 +35,7 @@ export default function RootLayout({ children }) {
  return (
     <html lang="en">
       <Head/>
-      <body className={montserrat.className}>
+      <body className={`${montserrat.variable} font-text`}>
         {loading ? <RootLoading/> : (
           <Providers>
             <Header/>

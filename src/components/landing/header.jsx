@@ -16,11 +16,11 @@ export default function Header() {
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 scroll-smooth">
-            <li><Link href="/">Beranda</Link></li>
-            <li><Link href="/#tentang">Tentang INA</Link></li>
-            <li><Link href="/#program">Program</Link></li>
-            <li><Link href="/#facility">Fasilitas</Link></li>
-            <li><Link href="/#kontak">Kontak Kami</Link></li>
+            <li><Link scroll={true} href="/">Beranda</Link></li>
+            <li><Link scroll={true} href="/#tentang">Tentang INA</Link></li>
+            <li><Link scroll={true} href="/#program">Program</Link></li>
+            <li><Link scroll={true} href="/#facility">Fasilitas</Link></li>
+            <li><Link scroll={true} href="/#kontak">Kontak Kami</Link></li>
           </ul>
         </div>
         <div className="navbar-end gap-4">
@@ -30,7 +30,7 @@ export default function Header() {
             </div>
             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-4 gap-4 shadow bg-white rounded-box w-[350px] z-[30]">
               <li><Link href="/" scroll={true}>Beranda</Link></li>
-              <li><Link href="/#tentang" scroll={true}>Tentang Kizuna</Link></li>
+              <li><Link href="/#tentang" scroll={true}>Tentang INA</Link></li>
               <li><Link href="/#program"scroll={true}>Program</Link></li>
               <li><Link href="/#facility" scroll={true}>Fasilitas</Link></li>
               <li><Link href="/#kontak"scroll={true}>Kontak Kami</Link></li>

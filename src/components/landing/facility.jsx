@@ -1,6 +1,7 @@
 'use client'
 import Image from "next/image"
 import { FACILITY } from "@/lib/consData"
+import { stencil } from "@/app/(root)/layout"
 import Slider from "react-slick"
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
@@ -17,15 +18,15 @@ export default function Facility() {
       };
     
     return (
-        <section className="lg:max-w-[80rem] mx-auto w-full pb-[4rem] lg:py-[6rem]" id="facility" >
-            <div className="flex flex-col justify-center items-center px-8 mb-[2rem]">
+        <section className="bg-white w-full pb-[4rem] lg:py-[6rem]" id="facility" >
+            <div className="flex flex-col lg:max-w-[80rem] mx-auto  justify-center items-center px-8 mb-[2rem]">
                 <div className="text-center lg:px-12 lg:max-w-3xl lg:mt-[-4em] md:mt-[-2em] mb-4">
-                    <h1 className="text-primary font-semibold my-6 w-full leading-snug !text-4xl lg:max-w-4xl lg:!text-7xl">
-                        <span className="text-secondary">FASILITAS</span>  INA
+                    <h1 className={`${stencil.variable} font-style uppercase text-primary font-semibold my-6 w-full leading-snug !text-4xl lg:max-w-4xl lg:!text-6xl`}>
+                        <span className="text-secondary">Fasilitas</span>  INA
                     </h1>
                 </div>
             </div>
-            <div className="px-6 lg:px-8">
+            <div className="lg:max-w-[80rem] mx-auto px-6 lg:px-8">
                 <Slider {...settings} className="my-4">
                     {FACILITY.map((data)=>(
                         <img key={data.key} src={data.image} className="rounded-lg" alt="INA"/>
