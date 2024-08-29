@@ -6,8 +6,8 @@ import { Toaster } from 'react-hot-toast';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Login to INA Apps',
-  description: 'Lembaga Pelatihan Kerja ke Luar Negeri',
+  title: 'INA Nippon APP',
+  description: 'LPK Indonesia nippon Anugerah',
 };
 
 export default function AuthLayout({ children }) {
