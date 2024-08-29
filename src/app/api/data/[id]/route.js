@@ -24,3 +24,44 @@ export async function GET(req, { params }) {
   }
   return NextResponse.json(staff);
 }
+
+
+export async function POST(req, { params }) {
+  if (!params.id) {
+    return new NextResponse('Id is required', { status: 400 });
+  }
+  const body = await req.json();
+  const {
+    userId,
+    accStatus
+  } = body;
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id : userId
+    },
+  });
+
+  if(user.role === "SENSEI") {
+   const status = await prisma.senseiProfile.update({
+      where: {
+        userId: user.id,
+      },
+      data: {
+        accStatus
+      },
+    });
+    return NextResponse.json(status);
+  } else if(user.role === "DOCUMENT" || "FINANCE") {
+    const status = await prisma.staffProfile.update({
+      where: {
+        userId: user.id,
+      },
+      data: {
+        accStatus
+      },
+    });
+    return NextResponse.json(status);
+  }
+  return NextResponse.json({message : "done"});
+}

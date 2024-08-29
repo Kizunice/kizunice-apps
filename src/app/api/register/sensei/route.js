@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 import { randomBytes } from 'crypto';
 import nodemailer from 'nodemailer'    
+import { transporter } from '@/lib/nodemailer';
 
 export async function POST(request) {
   const body = await request.json();
@@ -49,24 +50,13 @@ export async function POST(request) {
 
   await sendVerificationEmail(user)
 
-  return NextResponse.json(user,profile);
+  return NextResponse.json(user, profile);
 }
 
 
 const generateEmailVerificationToken = () => {
   return randomBytes(32).toString('hex')
 }
-
-const transporter = nodemailer.createTransport({
-  service: process.env.MAIL_SERVICE,
-  host: process.env.MAIL_HOST,
-  port: Number(process.env.MAIL_PORT) || 0,
-  secure : true,
-  auth: {
-    user: process.env.MAIL_USERNAME,
-    pass: process.env.MAIL_PASSWORD,
-  },
-});
 
 const sendVerificationEmail = async (user) => {
 

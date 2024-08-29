@@ -9,6 +9,16 @@ export async function GET(req, res) {
   }
   
   if(session.role === "SENSEI") {
+    const profile = await prisma.senseiProfile.findUnique({
+      where : {
+        userId : session.id
+      }
+    })
+
+    if(profile.status === "NONACTIVE") {
+      return new NextResponse('Akunmu sudah tidak aktif', { status: 400 });
+    }
+
     const learning = await prisma.learning.findMany({
       where: {
         sensei: {
@@ -75,6 +85,7 @@ export async function GET(req, res) {
 }
 
 export async function POST(req,res) {
+  const session = await getCurrentUser(req, res);
   const body = await req.json();
   const { title, description, part, date, senseiId, students, fileUrl} = body;
 
@@ -84,7 +95,17 @@ export async function POST(req,res) {
     students.map(id => {
         studentData.push({id})
   })
-  console.log(body)
+
+  const profile = await prisma.senseiProfile.findUnique({
+    where : {
+      userId : session.id
+    }
+  })
+  
+  if(profile.status === "NONACTIVE") {
+    return new NextResponse('Akunmu sudah tidak aktif', { status: 400 });
+  }
+
   const learning = await prisma.learning.create({
     data: {
       title: title,

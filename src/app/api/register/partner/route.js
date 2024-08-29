@@ -45,7 +45,7 @@ export async function POST(request) {
       phone, 
       address, 
       supervisor, 
-      country
+      country,
     },
   });
   await sendVerificationEmail(user)

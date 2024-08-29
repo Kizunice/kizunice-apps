@@ -165,7 +165,7 @@ export default function ScorePage() {
                             <th>Nama Siswa</th>
                             <th>Bab</th>
                             <th>Grade</th>
-                            <th>Rata-<br/>rata</th>
+                            <th>Avg</th>
                             <th>Bunpou</th>
                             <th>Choukai</th>
                             <th>Kanji</th>

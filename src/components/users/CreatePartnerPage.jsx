@@ -52,62 +52,62 @@ export default function CreatePartnerPage() {
       }
 
     return (
-            <TitleCard title="Tambah Akun Lembaga" topMargin="mt-2"  >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <InputField
-                        type="email"
-                        value={email}
-                        placeholder="name@company.com"
-                        label="Email"
-                        name="email"
-                        onChange={handleChange}
-                    />
-                    <InputField
-                        type="password"
-                        value={password}
-                        placeholder="********"
-                        label="Password"
-                        name="password"
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="divider" ></div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <InputField
-                        type="text"
-                        value={name}
-                        placeholder="Nama Rekanan"
-                        label="Nama Rekanan"
-                        name="name"
-                        onChange={handleChange}
-                    />
-                    <InputField
-                        type="text"
-                        value={supervisor}
-                        placeholder="Lembaga Pengawas"
-                        label="Lembaga Pengawas"
-                        name="supervisor"
-                        onChange={handleChange}
-                    />  
-                    <InputField
-                        type="text"
-                        value={address}
-                        placeholder="Alamat Perusahaan"
-                        label="Alamat Perusahaan"
-                        name="address"
-                        onChange={handleChange}
-                    />
-                    <InputField
-                        type="text"
-                        value={phone}
-                        placeholder="+6208XXXXXXX"
-                        label="Nomor Handphone"
-                        name="phone"
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="divider" ></div>
-                <Button handleSubmit={handleSubmit} text={"Buat Akun"} loading={loading} />
-            </TitleCard>
+      <TitleCard title="Buat Akun Lembaga" topMargin="mt-2"  >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <InputField
+                  type="email"
+                  value={email}
+                  placeholder="name@company.com"
+                  label="Email"
+                  name="email"
+                  onChange={handleChange}
+              />
+              <InputField
+                  type="password"
+                  value={password}
+                  placeholder="********"
+                  label="Password"
+                  name="password"
+                  onChange={handleChange}
+              />
+          </div>
+          <div className="divider" ></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <InputField
+                  type="text"
+                  value={name}
+                  placeholder="Nama Rekanan"
+                  label="Nama Rekanan"
+                  name="name"
+                  onChange={handleChange}
+              />
+              <InputField
+                  type="text"
+                  value={supervisor}
+                  placeholder="Lembaga Pengawas"
+                  label="Lembaga Pengawas"
+                  name="supervisor"
+                  onChange={handleChange}
+              />  
+              <InputField
+                  type="text"
+                  value={address}
+                  placeholder="Alamat Perusahaan"
+                  label="Alamat Perusahaan"
+                  name="address"
+                  onChange={handleChange}
+              />
+              <InputField
+                  type="text"
+                  value={phone}
+                  placeholder="+6208XXXXXXX"
+                  label="Nomor Handphone"
+                  name="phone"
+                  onChange={handleChange}
+              />
+          </div>
+          <div className="divider" ></div>
+          <Button handleSubmit={handleSubmit} text={"Buat Akun"} loading={loading} />
+      </TitleCard>
     )
 }

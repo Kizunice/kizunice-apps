@@ -8,7 +8,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Loading from "@/app/(dashboard)/loading"
 import SearchButton from "../ui/SearchButton";
-import { RiDeleteBin5Fill, RiEyeFill } from "react-icons/ri";
+import { RiDeleteBin5Fill, RiFileEditFill} from "react-icons/ri";
 
 const TopSideButtons = () => {
     const {data:session} =  useSession()
@@ -24,6 +24,7 @@ const TopSideButtons = () => {
 }
 
 export default function SenseiPage() {
+    const {data:session} =  useSession()
     const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([])
     const [query, setQuery] = useState('');
@@ -79,8 +80,8 @@ export default function SenseiPage() {
                   "Content-Type": "application/json",
                 },
             })
-            toast.success("Berhasil hapus akun sensei")
             setLoading(false)
+            toast.success("Berhasil hapus akun sensei")
             location.reload()
         }
     }
@@ -103,6 +104,7 @@ export default function SenseiPage() {
                             <th>Email</th>
                             <th>No. Handphone</th>
                             <th>Tanggal Daftar</th>
+                            <th>Status Akun</th>
                             <th>Aksi</th>
                         </tr>
                         </thead>
@@ -116,21 +118,31 @@ export default function SenseiPage() {
                                             <td>{user.email}</td>
                                             <td>{user.phone}</td>
                                             <td>{moment(user.createdAt).format('DD-MM-YYYY')}</td>
+                                            <td>{user.accStatus === "ACTIVE"? 
+                                                    <span className="badge badge-success px-2 text-white font-normal">Aktif</span>
+                                                    :  <span className="badge badge-error px-2 text-white font-normal">Nonaktif</span>}
+                                            </td>
                                         
                                             <td className="flex items-center">
-                                                <div className="tooltip" data-tip="Detil Profile">
-                                                    <Link href={`/data-sensei/${user.id}`}>
-                                                        <RiEyeFill 
-                                                            className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
-                                                        />
-                                                    </Link>
-                                                </div>
-                                                <div className="tooltip" data-tip="Hapus Akun">
-                                                    <RiDeleteBin5Fill 
-                                                        onClick={() => handleDelete(user.id)} 
-                                                        className="text-error cursor-pointer p-1 text-3xl"
-                                                    />
-                                                </div>
+                                                {
+                                                    session?.user.role === "ADMIN" || "MASTER" ? (
+                                                        <>
+                                                        <div className="tooltip" data-tip="Profil Sensei">
+                                                            <Link href={`/data-sensei/${user.id}`}>
+                                                                <RiFileEditFill 
+                                                                    className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
+                                                                />
+                                                            </Link>
+                                                        </div>
+                                                        <div className="tooltip" data-tip="Hapus Akun">
+                                                            <RiDeleteBin5Fill 
+                                                                onClick={() => handleDelete(user.id)} 
+                                                                className="text-error cursor-pointer p-1 text-3xl"
+                                                            />
+                                                        </div>
+                                                        </>
+                                                    ) : ""
+                                                }
                                             </td>
                                         </tr>
                                     )

@@ -33,9 +33,7 @@ export default function CreateLearningPage() {
       try {  
           const res = await axios.get('/api/profile/sensei');
           const users = res.data
-          console.log(users)
           setFormValues({...formValues, senseiId : users.id, senseiName: users.name})
-          console.log(res.data)
           setPageLoading(false)
       } catch (err) {
         console.log("[collections_GET]", err);
@@ -47,7 +45,6 @@ export default function CreateLearningPage() {
       // Fetch data
       const { data } = await axios.get("/api/profile");
       const results = []
-      console.log("my category :", data)
       data.forEach((value) => {
         results.push({
           label: value.name + " " + value.asalLPK,
@@ -69,9 +66,7 @@ export default function CreateLearningPage() {
     const handleChange = (e) => {
         e.preventDefault()
         const { name, value } = e.target;
-        
         setFormValues({ ...formValues, [name]: value});
-        console.log(formValues);
     };
 
     const handleSelect = (value, meta) => {
@@ -80,7 +75,6 @@ export default function CreateLearningPage() {
         res.push(val.value)
       })
       setFormValues({ ...formValues, [meta.name]: res});
-      console.log(formValues)
     };
 
     async function handleSubmit() {
@@ -98,9 +92,13 @@ export default function CreateLearningPage() {
             setLoading(false);
             toast.success("Berhasil menambahkan data belajar");
             router.push('/learning')
-          } 
+          } else {
+            toast.error("Gagal membuat laporan, cek akun mu");
+            setLoading(false);
+          }
         } catch (error) {
           setLoading(false);
+          toast.error(error.response.data);
           console.error("Network Error:", error);
         }
       }

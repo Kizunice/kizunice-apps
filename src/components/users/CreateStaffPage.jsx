@@ -83,7 +83,7 @@ export default function CreateStaffPage() {
       }
 
     return (
-        <TitleCard title="Tambah Akun Sensei" topMargin="mt-2"  >
+        <TitleCard title="Buat Akun Staff" topMargin="mt-2"  >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <InputField
                     type="email"

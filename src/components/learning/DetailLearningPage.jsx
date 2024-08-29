@@ -3,11 +3,12 @@ import { useState, useEffect } from "react";
 import { useParams } from 'next/navigation'
 import { useSession } from "next-auth/react";
 import moment from "moment";
+import 'moment/locale/ja';
 import axios from "axios";
-import Link from "next/link";
 import TitleCard from "@/components/ui/TitleCards";
 import InputField from "../ui/InputField";
 import Loading from "@/app/(dashboard)/loading";
+
 function DetailLearningPage() {
     const params = useParams()
     const {data:session} =  useSession()
@@ -32,7 +33,7 @@ function DetailLearningPage() {
 
     const TopSide =() =>{
         if(values.date) {
-            return <div className="badge rounded-md bg-primary text-white text-md p-4">{moment(values.date).format("dddd, DD/MM/yyyy")}</div>
+            return <div className="badge rounded-md bg-primary text-white text-md p-4">{moment(values.date).format("dddd, ll")}</div>
         }
     }
 
@@ -43,9 +44,9 @@ function DetailLearningPage() {
                 <thead >
                 <tr className="font-bold text-primary text-[14px]">
                     <th>Rank</th>
-                    <th>Nilai Akhir</th>
                     <th>Nama</th>
                     <th>Grade</th>
+                    <th>Avg</th>
                     <th>Bunpou</th>
                     <th>Choukai</th>
                     <th>Kanji</th>
@@ -63,9 +64,9 @@ function DetailLearningPage() {
                             return (
                                 <tr key={value.id} className="text-grey ">
                                     <td>{idx+1}</td>
-                                    <td className="font-bold">{value.scoreAvg}</td>
                                     <td>{value.student.name}</td>
-                                    <td>{value.grade}</td>
+                                    <td className="font-bold">{value.grade}</td>
+                                    <td className="font-bold">{value.scoreAvg}</td>
                                     <td>{value.bunpou}</td>
                                     <td>{value.choukai}</td>
                                     <td>{value.kanji}</td>
@@ -86,7 +87,7 @@ function DetailLearningPage() {
 
     if (loading) return <Loading />
     return (
-        <TitleCard title={"Detil Materi Belajar"} topMargin="mt-2" TopSideButtons={<TopSide/>} >
+        <TitleCard title={"Detil Laporan Belajar"} topMargin="mt-2" TopSideButtons={<TopSide/>} >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <InputField
                     type="text"

@@ -4,13 +4,17 @@ import { useEffect, useState } from "react"
 import { useParams } from 'next/navigation'
 import TitleCard from "@/components/ui/TitleCards"
 import InputField from "@/components/ui/InputField"
+import SelectField from "../ui/SelectField"
 import moment from "moment"
+import toast from "react-hot-toast"
 import ImageUpload from "../ui/ImageUpload"
 import Loading from "@/app/(dashboard)/loading"
+import Button from "../ui/Button"
 
 export default function DetailUsersPage(){
     const params = useParams()
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
+    const [pageLoading, setPageLoading] = useState(true)
     const [options, setOptions] = useState([
         {
             label: "Staff Dokumen",
@@ -25,18 +29,28 @@ export default function DetailUsersPage(){
             value: "SENSEI",
         },
     ])
+
+    const [optionsS, setOptionsS] = useState([
+        {
+            label: "Aktif",
+            value: "ACTIVE",
+        },
+        {
+            label: "Tidak Aktif",
+            value: "NONACTIVE",
+        },
+    ])
     const [formValues, setFormValues]  = useState({})
-    const { image, name, email, role, address, phone, gender, dateOfBirth, placeOfBirth } = formValues;
+    const { image, name, email, role, address, phone, gender, dateOfBirth, placeOfBirth, accStatus } = formValues;
  
     const getUserData = async () => {
-        setLoading(true)
         try {  
             const res = await axios.get(`/api/data/${params.id}`);
             setFormValues(res.data)
-            setLoading(false)
+            setPageLoading(false)
         } catch (err) {
-          console.log("[collections_GET]", err);
-          setLoading(false)
+            console.log("[collections_GET]", err);
+            setPageLoading(false)
         }
       };
 
@@ -51,7 +65,37 @@ export default function DetailUsersPage(){
         }))
     }
 
-    if(loading) return <Loading />
+    const handleSelect = (value, meta) => {
+        setFormValues({ ...formValues, [meta.name]: value.value});
+        console.log(formValues)
+    };
+
+    async function handleSubmit() {
+        setLoading(true);
+        try {
+          const response = await fetch(`/api/data/${params.id}`, {
+            method: "POST",
+            body: JSON.stringify(formValues),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          
+          if (response.ok) {
+            toast.success("Berhasil ubah status akun");
+            location.reload();
+            setLoading(false);
+          } else {
+            toast.error("Gagal ubah status akun, Coba lagi");
+            setLoading(false);
+          }
+        } catch (error) {
+          console.error("Network Error:", error);
+          setLoading(false);
+        }
+      }
+
+    if(pageLoading) return <Loading />
     return(
         <TitleCard title="Profile" topMargin="mt-2"  >
             <ImageUpload onUploadSuccess={saveAvatar} url={image} sizes="w-[200px] h-[200px]" />
@@ -79,7 +123,7 @@ export default function DetailUsersPage(){
                 name="role"
                 readOnly="readOnly"
             />
-                <InputField
+            <InputField
                 type="text"
                 value={address}
                 label="Alamat"
@@ -109,13 +153,21 @@ export default function DetailUsersPage(){
             />
             <InputField
                 type="date"
-                value={moment(dateOfBirth).format("YYYY-MM-DD")}
+                value={dateOfBirth ? moment(dateOfBirth).format("yyyy-MM-dd") : null}
                 label="Tanggal Lahir"
                 name="dateOfBirth"
                 readOnly="readOnly"
             />
+            <SelectField
+                defaultValue={optionsS.find((data) => data.value === accStatus)}
+                label="Status Akun"
+                name="accStatus"
+                options={optionsS}
+                onChange={(value, meta) => handleSelect(value, meta)}
+            />
             </div>
             <div className="divider" ></div>
+            <Button text={"Ubah Status"} handleSubmit={handleSubmit} loading={loading} />
         </TitleCard>
     )
 }

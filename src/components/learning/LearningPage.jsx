@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import moment from "moment";
 import 'moment/locale/ja';
 import axios from "axios";
+import toast from "react-hot-toast";
 import TitleCard from "@/components/ui/TitleCards";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -43,6 +44,7 @@ export default function LearningPage() {
             setLoading(false)
         } catch (err) {
           console.log("[collections_GET]", err);
+          toast.error(err.response.data);
           setLoading(false)
         }
       };

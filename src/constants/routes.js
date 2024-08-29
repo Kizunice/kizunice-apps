@@ -381,9 +381,15 @@ export const ROUTES = [
     key: '2',
   },
   {
+    path: '/score',
+    icon: <FaRankingStar size={22} />,
+    name: 'Nilai',
+    key: '3',
+  },
+  {
     path: '/jobs',
     icon: <FaSuitcase size={22} />,
     name: 'Pekerjaan',
-    key: '3',
+    key: '4',
   },
 ];

@@ -104,6 +104,7 @@ export default function StaffPage() {
                             <th>Email</th>
                             <th>No.Handphone</th>
                             <th>Tanggal Daftar</th>
+                            <th>Status Akun</th>
                             <th>Aksi</th>
                         </tr>
                         </thead>
@@ -118,7 +119,11 @@ export default function StaffPage() {
                                             <td>{user.email}</td>
                                             <td>{user.phone}</td>
                                             <td>{moment(user.createdAt).format('DD-MM-YYYY')}</td>
-                                        
+                                            <td>{user.accStatus === "ACTIVE"? 
+                                                    <span className="badge badge-success px-2 text-white font-normal">Aktif</span>
+                                                    :  <span className="badge badge-error px-2 text-white font-normal">Nonaktif</span>}
+                                            </td>
+
                                             <td className="flex items-center">
                                                 <div className="tooltip" data-tip="Detil Profile">
                                                     <Link href={`/data-staff/${user.id}`}>
