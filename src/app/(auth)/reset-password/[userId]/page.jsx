@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import NewPassPage from '@/components/auth/NewPasswordPage';
-import LogoINA from "../../../../public/Logo_ina.png"
 
 export default function ResetPasswordPage({ params }) {
     return (
@@ -12,7 +11,7 @@ export default function ResetPasswordPage({ params }) {
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <div className="flex mb-6 justify-center items-center w-30 h-auto">
               <Link href={"/"} className='mx-auto bg-white p-2 rounded-md'>
-                <Image src={LogoINA} width={180} height={40} priority={true} alt="Logo INA Nippon"/>
+                <Image src={"/Logo_ina.png"} width={180} height={40} priority={true} alt="Logo INA Nippon"/>
               </Link>
               </div>
                 <NewPassPage params={params} />
