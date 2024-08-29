@@ -12,7 +12,7 @@ import { RiEyeFill, RiDeleteBin5Fill } from "react-icons/ri";
 const TopSideButtons = () => {
     const {data:session} =  useSession()
 
-    if (session?.user.role === 'ADMIN') {
+    if (session?.user.role === 'ADMIN'|| session?.user.role === 'MASTER') {
         return(
             <div className="inline-block float-right">
                 <Link href="/data-partner/create" className="btn px-4 btn-sm normal-case bg-primary hover:bg-secondary text-white" >Tambah Akun Lembaga</Link>

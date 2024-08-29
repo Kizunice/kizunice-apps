@@ -37,12 +37,6 @@ export default function AttendancePage() {
         endDate: null,
     });
 
-    // const paginatedList = useMemo(() => {
-    //   const firstPageIndex = (currentPage - 1) * PageSize;
-    //   const lastPageIndex = firstPageIndex + PageSize;
-    //   return values.slice(firstPageIndex, lastPageIndex);
-    // }, [currentPage, values]);
-
     const searchHandler = useCallback(() => {
         if (values) {
             const filteredData = values.filter((value) => {
@@ -157,7 +151,7 @@ export default function AttendancePage() {
 
     return (
         <TitleCard 
-            title={"Daftar Kehadiran Siswa"} 
+            title={"Laporan Kehadiran"} 
             topMargin="mt-2" 
             TopMiddleButtons={<DatePicker />}
             TopSideButtons={<TopSideButtons/>}
@@ -179,7 +173,7 @@ export default function AttendancePage() {
                     </thead>
                     <tbody>
                         {
-                            filteredList.map((value,index) =>{
+                            filteredList ? filteredList.map((value,index) =>{
                                 return (
                                     <tr key={value.id} className="text-grey ">
                                     <td>{index+1}</td>
@@ -206,7 +200,7 @@ export default function AttendancePage() {
                                     <td>{value.status}</td>
                                     </tr>
                                 )
-                            })
+                            }) : ''
                         }
                     </tbody>
                 </table>

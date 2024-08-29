@@ -18,17 +18,10 @@ export async function GET(req,res) {
     return NextResponse.json(staffprofile);
   }
 
-  if(session.role === "STAFF") {
+  if(session.role === "DOCUMENT" || session.role === "FINANCE") {
     const profile = await prisma.staffProfile.findUnique({
         where : {
-            userId : session.id
-        },
-      });
-    return NextResponse.json(profile);
-  } else if(session.role === "FINANCE") {
-    const profile = await prisma.financeProfile.findUnique({
-        where : {
-            userId : session.id
+          userId : session.id
         },
       });
     return NextResponse.json(profile);
@@ -52,32 +45,19 @@ export async function POST(req,res) {
     placeOfBirth,
   } = body;
 
-  const newDate = new Date(dateOfBirth)
-
-  const newProfile = await prisma.staffProfile.upsert({
+  const newProfile = await prisma.staffProfile.update({
     where: {
       userId: session.id ,
     },
-    update: {
+    data: {
       name,
       email,
       image,
       phone,
       address,
       gender,
-      dateOfBirth: dateOfBirth ? newDate.toISOString() : null,
+      dateOfBirth: dateOfBirth ? new Date(dateOfBirth).toISOString() : null,
       placeOfBirth,
-    },
-    create: {
-      userId: session.id,
-      name: name,
-      image: image,
-      email: email,
-      phone: phone,
-      address: address,
-      gender: gender,
-      dateOfBirth: dateOfBirth ? newDate.toISOString() : null,
-      placeOfBirth: placeOfBirth,
     },
   });
 

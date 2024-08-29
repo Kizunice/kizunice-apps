@@ -5,13 +5,15 @@ import TitleCard from "@/components/ui/TitleCards";
 import moment from "moment";
 import Link from "next/link";
 import axios from "axios";
+import toast from "react-hot-toast";
 import Loading from "@/app/(dashboard)/loading"
 import SearchButton from "../ui/SearchButton";
 import { RiDeleteBin5Fill, RiEyeFill } from "react-icons/ri";
+
 const TopSideButtons = () => {
     const {data:session} =  useSession()
 
-    if (session?.user.role === 'ADMIN') {
+    if (session?.user.role === 'ADMIN' || session?.user.role === 'MASTER') {
         return(
             <div className="inline-block float-right">
                 <Link href="/data-sensei/create" className="btn px-4 btn-sm normal-case bg-primary hover:bg-secondary text-white" >Tambah Akun Sensei</Link>
@@ -77,7 +79,7 @@ export default function SenseiPage() {
                   "Content-Type": "application/json",
                 },
             })
-            toast.success("Berhasil hapus akun staff")
+            toast.success("Berhasil hapus akun sensei")
             setLoading(false)
             location.reload()
         }
@@ -113,7 +115,7 @@ export default function SenseiPage() {
                                             <td>{user.name}</td>
                                             <td>{user.email}</td>
                                             <td>{user.phone}</td>
-                                            <td>{moment(user.createdAt).format('DD-MMM-YYYY')}</td>
+                                            <td>{moment(user.createdAt).format('DD-MM-YYYY')}</td>
                                         
                                             <td className="flex items-center">
                                                 <div className="tooltip" data-tip="Detil Profile">
@@ -125,7 +127,7 @@ export default function SenseiPage() {
                                                 </div>
                                                 <div className="tooltip" data-tip="Hapus Akun">
                                                     <RiDeleteBin5Fill 
-                                                        onClick={() => handleDelete(value.id)} 
+                                                        onClick={() => handleDelete(user.id)} 
                                                         className="text-error cursor-pointer p-1 text-3xl"
                                                     />
                                                 </div>

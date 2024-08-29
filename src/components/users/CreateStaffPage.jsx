@@ -72,8 +72,10 @@ export default function CreateStaffPage() {
             toast.success("Berhasil membuat akun staff");
             router.push('/data-staff')
             setLoading(false);
-
-          } 
+          } else {
+            toast.error("Gagal membuat akun staff, Coba lagi");
+            setLoading(false);
+          }
         } catch (error) {
           console.error("Network Error:", error);
           setLoading(false);

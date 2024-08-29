@@ -56,11 +56,13 @@ export default function CreateSenseiPage() {
           })
           
           if (response.ok) {
-            toast.success("Berhasil membuat akun rekanan");
+            toast.success("Berhasil membuat akun sensei");
             router.push('/data-sensei')
             setLoading(false);
-
-          } 
+          } else {
+            toast.error("Gagal membuat akun sensei, Coba lagi");
+            setLoading(false);
+          }
         } catch (error) {
           console.error("Network Error:", error);
           setLoading(false);

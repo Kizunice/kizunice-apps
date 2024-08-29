@@ -151,7 +151,7 @@ export default function ScorePage() {
     if(filteredList) {
         return (
           <TitleCard 
-                title="Data Nilai Siswa" 
+                title="Laporan Nilai" 
                 topMargin="mt-2" 
                 TopMiddleButtons={<SearchButton handleChange={handleChange} value={query} placeholder={"Cari Nilai Siswa"} />}
                 TopSideButtons={<TopSideButtons/>} >

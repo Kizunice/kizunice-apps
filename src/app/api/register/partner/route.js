@@ -35,15 +35,8 @@ export async function POST(request) {
     },
   });
 
-  const profile = await prisma.partnerProfile.upsert({
-    where: {
-      userId: user.id || '',
-    },
-    update: {
-      name: user.name,
-      email: user.email,
-    },
-    create: {
+  const profile = await prisma.partnerProfile.create({
+    data: {
       userId: user.id,
       name: user.name,
       email: user.email,
@@ -81,17 +74,16 @@ const sendVerificationEmail = async (user) => {
   const output = `
   <div style="background-color: white;padding: 1rem; max-width: 40rem;margin: auto;">
  
-  <p style="font-size:16px;text-align:center">Halo ${user.name}</p>
+  <p style="font-size:16px;text-align:center">こんにちは ${user.name}</p>
 
-  <p style="font-size:16px;text-align:center">Kamu telah melakukan pendaftaran di INA App</p>
+  <p style="font-size:16px;text-align:center">INA NIPPONに登録しました</p>
 
-  <p style="font-size:16px;text-align:center">Untuk melanjutkan proses pendaftaran, silahkan konfirmasi email kamu
-    dengan kunjungi link di bawah ini</p>
+  <p style="font-size:16px;text-align:center">登録プロセスを続行するには、以下のリンクにアクセスしてメールを確認してください。</p>
   <br />
   <div style="text-align: center;">
-    <a class=”link” href="https://kizunice-apps.vercel.app/email/verify/${user.id}"
+    <a class=”link” href="https://ina-nippon.com/email/verify/${user.id}"
       style="background-color:#004421;padding:8px 16px;color:white;text-decoration:none;border-radius:4px">
-      Konfirmasi email
+      メール確認
     </a>
   </div>
 
@@ -99,10 +91,10 @@ const sendVerificationEmail = async (user) => {
   <br />
   <br />
   <p style="font-size:15px;text-align: center;">
-    Jika anda yang memiliki kesulitan atau pertanyaan perihal Aplikasi ini dapat menghubungi kami
+    このアプリケーションに関して問題や質問がある場合は、お問い合わせください。
     <br />
     WhatsApp ke <b><a href="tel:6285717175912">+6285717175912</a> </b> , atau email ke <b> <a
-        href="mailto:info.inaapp@gmail.com"> info.inaapp@gmail.com</a></b>
+        href="mailto:info.inanippon@gmail.com"> info.inanippon@gmail.com</a></b>
   </p>
 </div>
 
@@ -110,9 +102,9 @@ const sendVerificationEmail = async (user) => {
   `;
 
   const emailData = {
-    from: '"INA APP" <info.inaapp@gmail.com>',
+    from: '"INA NIPPON" <info.inanippon@gmail.com>',
     to: user.email,
-    subject: 'Verifikasi Email Pendaftaran',
+    subject: 'メール認証',
     html: output,
   };
 

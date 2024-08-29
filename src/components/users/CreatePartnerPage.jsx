@@ -41,8 +41,10 @@ export default function CreatePartnerPage() {
             toast.success("Berhasil membuat akun lembaga");
             router.push('/data-partner')
             setLoading(false);
-
-          } 
+          } else {
+            toast.error("Gagal membuat akun lembaga, Coba lagi");
+            setLoading(false);
+          }
         } catch (error) {
           console.error("Network Error:", error);
           setLoading(false);

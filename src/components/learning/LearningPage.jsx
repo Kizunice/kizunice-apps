@@ -16,7 +16,7 @@ let PageSize = 10;
 const TopSideButtons = () => {
     const {data:session} =  useSession()
 
-    if (session?.user.role !== 'STUDENT' && session?.user.role !== 'PARTNER' && session?.user.role !== 'ADMIN' ) {
+    if (session?.user.role === 'SENSEI' ) {
         return(
             <div className="inline-block float-right">
                 <Link href="/learning/create" className="btn px-4 btn-sm normal-case bg-primary hover:bg-secondary text-white" >Tambah Baru</Link>
@@ -91,7 +91,7 @@ export default function LearningPage() {
     if(filteredList) {
         return (
             <TitleCard 
-                title={"Laporan Belajar Siswa"} 
+                title={"Laporan Belajar"} 
                 topMargin="mt-2" 
                 TopMiddleButtons={<SearchButton handleChange={handleChange} value={query} placeholder={"Cari Data"} />}
                 TopSideButtons={<TopSideButtons/>} 

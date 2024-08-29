@@ -160,7 +160,7 @@ export default function ApplicationPage() {
     if (loading) return <Loading />
     return (
         <TitleCard 
-            title={"Data Lamaran Kerja"} 
+            title={"Data Pelamar Kerja"} 
             topMargin="mt-2" 
             TopSideButtons={<TopSideButtons/>} 
             TopMiddleButtons={<SearchButton handleChange={handleChange} value={query} placeholder={"Cari Data Pelamar"} />}

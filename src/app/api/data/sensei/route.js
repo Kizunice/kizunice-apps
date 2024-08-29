@@ -86,3 +86,23 @@ export async function POST(req,res) {
   
   return NextResponse.json(newProfile);
 }
+
+
+export async function DELETE(req) {
+  const body = await req.json();
+
+  const profile = await prisma.senseiProfile.delete({
+    where: {
+      id: body,
+    },
+  });
+
+  await prisma.user.delete({
+    where: {
+      id: profile.userId,
+    },
+  });
+  
+  return NextResponse.json({ message: "done" });
+}
+

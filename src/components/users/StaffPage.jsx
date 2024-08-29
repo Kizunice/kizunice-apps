@@ -13,7 +13,7 @@ import { RiDeleteBin5Fill, RiEyeFill } from "react-icons/ri";
 const TopSideButtons = () => {
     const {data:session} =  useSession()
 
-    if (session?.user.role === 'ADMIN') {
+    if (session?.user.role === 'ADMIN'|| session?.user.role === 'MASTER') {
         return(
             <div className="inline-block float-right">
                 <Link href="/data-staff/create" className="btn px-4 btn-sm normal-case bg-primary hover:bg-secondary text-white" >Tambah Akun Staff</Link>
@@ -117,7 +117,7 @@ export default function StaffPage() {
                                             <td>{user.role === "DOCUMENT" ? "Staff Dokumen" : "Staff Keuangan"}</td>
                                             <td>{user.email}</td>
                                             <td>{user.phone}</td>
-                                            <td>{moment(user.createdAt).format('DD-MMM-YYYY')}</td>
+                                            <td>{moment(user.createdAt).format('DD-MM-YYYY')}</td>
                                         
                                             <td className="flex items-center">
                                                 <div className="tooltip" data-tip="Detil Profile">
