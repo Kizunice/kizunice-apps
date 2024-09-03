@@ -80,13 +80,15 @@ export default function ProfileStaffPage(){
           })
           
           if (response.ok) {
-            toast.success("Profile Update Success");
+            toast.success("Berhasil Ubah data");
             setLoading(false);
           } else {
+            toast.error("Gagal Ubah data");
             setLoading(false);
           }
         } catch (error) {
           console.error("Network Error:", error);
+          toast.error("Gagal Ubah data");
           setLoading(false);
         }
     }

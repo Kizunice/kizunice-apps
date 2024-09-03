@@ -192,9 +192,9 @@ export default function ScorePage() {
                                             <td>{value.bunpou}</td>
                                             <td>{value.choukai}</td>
                                             <td>{value.kanji}</td>
-                                            <td>{value.kaiwa}</td>
-                                            <td>{value.bunka}</td>
-                                            <td>{value.aisatsu}</td>
+                                            <td>{value.kaiwa || '-'}</td>
+                                            <td>{value.bunka || '-'}</td>
+                                            <td>{value.aisatsu || '-'}</td>
                                             {/* <td>{value.pushUp}</td>
                                             <td>{value.sitUp}</td>
                                             <td>{value.barbel}</td> */}
@@ -205,7 +205,7 @@ export default function ScorePage() {
                                                             <RiLink className="text-secondary cursor-pointer p-1 text-3xl"/>
                                                         </Link>
                                                     </div>
-                                                    ): null
+                                                    ): "-"
                                                 }
                                             </td>
                                             <td>

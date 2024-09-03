@@ -90,10 +90,10 @@ export default function CreateLearningPage() {
           
           if (response.ok) {
             setLoading(false);
-            toast.success("Berhasil menambahkan data belajar");
+            toast.success("Berhasil membuat laporan belajar");
             router.push('/learning')
           } else {
-            toast.error("Gagal membuat laporan, cek akun mu");
+            toast.error("Gagal membuat laporan");
             setLoading(false);
           }
         } catch (error) {

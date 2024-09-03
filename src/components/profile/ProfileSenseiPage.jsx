@@ -44,7 +44,6 @@ export default function ProfileSenseiPage(){
         try {  
             const res = await axios.get('/api/profile/sensei');
             const profile  = res.data
-            console.log("profile data :", profile)
             if(profile.length !== 0) {
                 setFormValues(profile)
             }
@@ -83,8 +82,7 @@ export default function ProfileSenseiPage(){
     async function handleSubmit() {
         setLoading(true);
         try {
-            console.log(formValues)
-            const response = await fetch("/api/profile/sensei", {
+            const response = await fetch("/api/data/sensei", {
                 method: "POST",
                 body: JSON.stringify(formValues),
                 headers: {
@@ -93,11 +91,16 @@ export default function ProfileSenseiPage(){
           })
           
           if (response.ok) {
-            toast.success("Profile Update Success");
+            console.log(response)
+            toast.success("Berhasil Ubah data");
             setLoading(false);
-          } 
+          } else {
+            toast.error("Gagal Ubah data");
+            setLoading(false);
+          }
         } catch (error) {
           console.error("Network Error:", error);
+          toast.error("Gagal Ubah data");
           setLoading(false);
         }
     }

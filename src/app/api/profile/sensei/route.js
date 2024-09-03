@@ -42,7 +42,7 @@ export async function POST(req,res) {
 
   const newDate = new Date(dateOfBirth);
 
-  const newProfile = await prisma.senseiProfil.upsert({
+  const newProfile = await prisma.senseiProfile.upsert({
     where: {
       userId: session.id ,
     },

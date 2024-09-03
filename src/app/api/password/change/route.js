@@ -9,11 +9,12 @@ export async function POST(req,res) {
   const { currentPassword, newPassword, confirmPassword } = body;
 
   if (!currentPassword || !newPassword || !confirmPassword) {
-    return new NextResponse('Input Password tidak ada', { status: 400 });
+    throw new Error('Isi semua form password');
+
   }
 
   if (newPassword !== confirmPassword) {
-    return new NextResponse('Konfirmasi Password salah', { status: 400 });
+    throw new Error('Konfirmasi Password salah');
   }
 
   const user = await prisma.user.findUnique({

@@ -7,7 +7,7 @@ function Stats({title, icon, value, description, color, size}){
     }
 
     return(
-        <div className={`stats ${color} shadow-sm `} >
+        <div className={`stats w-full ${color} shadow-sm `} >
             <div className="stat gap-2">
                 <div className="stat-figure text-secondary">{icon}</div>
                 <div className="stat-title text-grey">{title}</div>

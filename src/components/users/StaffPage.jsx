@@ -8,7 +8,7 @@ import axios from "axios";
 import Loading from "@/app/(dashboard)/loading"
 import SearchButton from "../ui/SearchButton";
 import toast from "react-hot-toast";
-import { RiDeleteBin5Fill, RiEyeFill } from "react-icons/ri";
+import { RiDeleteBin5Fill, RiFileEditFill } from "react-icons/ri";
 
 const TopSideButtons = () => {
     const {data:session} =  useSession()
@@ -127,7 +127,7 @@ export default function StaffPage() {
                                             <td className="flex items-center">
                                                 <div className="tooltip" data-tip="Detil Profile">
                                                     <Link href={`/data-staff/${user.id}`}>
-                                                        <RiEyeFill 
+                                                        <RiFileEditFill 
                                                             className="text-secondary hover:text-primary cursor-pointer p-1 text-3xl"
                                                         />
                                                     </Link>

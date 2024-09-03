@@ -36,6 +36,7 @@ export default function SettingsPage() {
             toast.success("Berhasil mengganti password");
           } else if (!response.ok) {
             setLoading(false);
+            console.log(response)
             toast.error("Password Salah");
           }
         } catch (error) {

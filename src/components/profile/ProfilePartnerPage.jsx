@@ -43,9 +43,13 @@ const TopSideButtons = () => {
             toast.success("Menambah data perusahaan berhasil");
             document.getElementById('attend_modal').close()
             location.reload();
-          } 
+          } else {
+            setLoading(false);
+            toast.error("Gagal Ubah data");
+          }
         } catch (error) {
           setLoading(false);
+          toast.error("Gagal Ubah data");
           console.error("Network Error:", error);
         }
       }

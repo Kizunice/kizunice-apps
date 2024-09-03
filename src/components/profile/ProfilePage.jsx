@@ -158,10 +158,13 @@ export default function ProfilePage() {
           if (response.ok) {
             toast.success("Profile Update Success");
             setLoading(false);
-          } 
-          setLoading(false);
+          } else {
+            setLoading(false);
+            toast.error("Gagal Ubah data");
+          }
         } catch (error) {
           console.error("Network Error:", error);
+          toast.error("Gagal Ubah data");
           setLoading(false);
         }
     }

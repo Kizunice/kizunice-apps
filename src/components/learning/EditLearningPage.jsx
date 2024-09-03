@@ -66,18 +66,22 @@ export default function EditLearningPage(){
           
           if (response.ok) {
             setLoading(false);
-            toast.success("Update Data Belajar berhasil");
+            toast.success("Berhasil ubah laporan");
             router.push('/learning')
-          } 
+          } else {
+            setLoading(false);
+            toast.error("Gagal ubah laporan");
+          }
         } catch (error) {
           setLoading(false);
+          toast.error("Gagal ubah laporan");
           console.error("Network Error:", error);
         }
       }
 
     if (pageLoading) return <Loading/>
     return(
-        <TitleCard title="Ubah Data Belajar" topMargin="mt-2"  >
+        <TitleCard title="Ubah Laporan Belajar" topMargin="mt-2"  >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <InputField
                   type="date"

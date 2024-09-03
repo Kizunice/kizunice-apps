@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react'
 import { IoCalendar } from 'react-icons/io5';
 import { ImBook } from 'react-icons/im';
 import { FaSuitcase } from 'react-icons/fa6';
@@ -11,6 +12,7 @@ import axios from 'axios';
 import Loading from '@/app/(dashboard)/loading';
 
 export default function DashboardPage() {
+    const {data:session} =  useSession()
     const [loading, setLoading] = useState(true)
     const [totalStudent, setTotalStudent] = useState()
     const [totalLearning, setTotalLearning] = useState()
@@ -42,31 +44,38 @@ export default function DashboardPage() {
     if (loading) return <Loading />
     return (
         <>
-         <div className="grid lg:grid-cols-4 mt-2 md:grid-cols-2 grid-cols-1 gap-6 ">
+         {/* <div className="grid lg:grid-cols-4 mt-2 md:grid-cols-2 grid-cols-1 gap-6 "> */}
+         <div className="flex flex-col md:flex-row gap-6 w-full">
+
             <Stats
                 title="Total Kehadiran"
                 icon={<IoCalendar size={30} />}
                 color="bg-white"
-                value={totalAttendance}
+                value={totalAttendance || 0}
             />
             <Stats
                 title="Total Laporan Belajar "
                 icon={<ImBook size={30} />}
                 color="bg-white"
-                value={totalLearning}
+                value={totalLearning || 0}
             />
             <Stats
                 title="Total Program"
                 icon={<FaSuitcase size={30} />}
                 color="bg-white"
-                value={totalJobs}
+                value={totalJobs || 0}
             />
-            <Stats
-                title="Total Siswa"
-                icon={<HiUsers size={30} />}
-                color="bg-white"
-                value={totalStudent}
-            />
+            {
+                session?.user.role !== "STUDENT" ? (
+                    <Stats
+                    title="Total Siswa"
+                    icon={<HiUsers size={30} />}
+                    color="bg-white"
+                    value={totalStudent}
+                />
+                ) : null
+            }
+           
         </div>
 
         <div className="grid lg:grid-cols-3  grid-cols-1 gap-6">
@@ -76,6 +85,5 @@ export default function DashboardPage() {
             <DoughnutChart/>
         </div>
         </>
-       
     );
 }
