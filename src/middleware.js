@@ -9,14 +9,12 @@ export async function middleware(req) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
-  console.log(session)
   const protectedRoutes = ["/dashboard", "/attendance", "/learning", "/jobs", "/jobs-application", "/document", "/data-student", "/data-partner","/data-sensei","/data-staff","/finance" ]
   
-  if(!session) {
-    return NextResponse.redirect(new URL('/login', req.url))
-  } else if(!session && path.includes(protectedRoutes)) {
+  if(!session && protectedRoutes.includes(path)) {
     return NextResponse.redirect(new URL('/login', req.url))
   }
+
   return NextResponse.next(); 
 }
 
