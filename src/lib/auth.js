@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma';
+import { NextResponse } from 'next/server';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
@@ -47,7 +48,7 @@ export const authOptions = {
           name: user.name,
           image: user.image,
           role: user.role,
-        } && NextResponse.redirect("/dashboard")
+        } 
       },
     }),
   ],
