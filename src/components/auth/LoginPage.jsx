@@ -32,8 +32,8 @@ export default function LoginForm() {
           if(callback?.ok && !callback?.error) {
             setLoading(false)
             toast.success('Berhasil Masuk!')
-            router.refresh()
             router.push("/dashboard");
+            router.refresh()
           }
       } )
   }

@@ -11,20 +11,20 @@ export async function middleware(req) {
 
   const protectedRoutes = ["/dashboard", "/attendance", "/learning", "/jobs", "/jobs-application", "/document", "/data-student", "/data-partner","/data-sensei","/data-staff","/finance" ]
   const authRoutes = ["/login" ]
-  
-  if(!session && protectedRoutes.includes(path)) {
-    return NextResponse.redirect(new URL('/login', req.url))
-  }
 
   if(session && authRoutes.includes(path)) {
     return NextResponse.redirect(new URL('/dashboard', req.url))
   }
 
+  if(!session && protectedRoutes.includes(path)) {
+    return NextResponse.redirect(new URL('/login', req.url))
+  }
+  
   return NextResponse.next(); 
 }
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|images|favicon.ico|login).*)'
+    '/((?!api|_next/static|_next/image|images|favicon.ico).*)'
   ],
 }
