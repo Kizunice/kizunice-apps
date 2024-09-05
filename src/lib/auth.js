@@ -47,7 +47,7 @@ export const authOptions = {
           name: user.name,
           image: user.image,
           role: user.role,
-        };
+        } && NextResponse.redirect("/dashboard")
       },
     }),
   ],
