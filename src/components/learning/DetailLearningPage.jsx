@@ -96,8 +96,14 @@ function DetailLearningPage() {
                     name="senseiName"
                     readOnly="readOnly"
                 />
+                  <InputField
+                    type="text"
+                    value={values.part}
+                    label="Bab"
+                    name="part"
+                    readOnly="readOnly"
+                />
                 <div className="divider md:col-span-2 my-0" ></div>
-
                 <InputField
                     type="text"
                     value={values.title}
@@ -107,20 +113,11 @@ function DetailLearningPage() {
                 />
                 <InputField
                     type="text"
-                    value={values.part}
-                    label="Bab"
-                    name="part"
+                    value={values.description}
+                    label="Deskripsi Materi"
+                    name="description"
                     readOnly="readOnly"
                 />
-                <div className="md:col-span-2">
-                    <InputField
-                        type="text"
-                        value={values.description}
-                        label="Deskripsi Materi"
-                        name="description"
-                        readOnly="readOnly"
-                    />
-                </div>
             </div>
             <div className="divider my-8" ></div>
             <div className="overflow-x-auto w-full">

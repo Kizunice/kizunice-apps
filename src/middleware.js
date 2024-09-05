@@ -9,11 +9,15 @@ export async function middleware(req) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
-  const protectedRoutes = ["/dashboard", "/attendance", "/learning", "/jobs", "/jobs-application", "/document", "/data-student", "/data-partner","/data-sensei", ]
+  console.log(session)
+  const protectedRoutes = ["/dashboard", "/attendance", "/learning", "/jobs", "/jobs-application", "/document", "/data-student", "/data-partner","/data-sensei","/data-staff","/finance" ]
   
-  const financeRoutes = ["/finance"]
-  const adminRoutes = ["/document","/data-student", "/data-partner","/data-sensei" ]
-
+  if(!session) {
+    return NextResponse.redirect(new URL('/login', req.url))
+  } else if(!session && path.includes(protectedRoutes)) {
+    return NextResponse.redirect(new URL('/login', req.url))
+  }
+  return NextResponse.next(); 
 }
 
 export const config = {

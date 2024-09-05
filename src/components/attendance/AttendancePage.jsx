@@ -182,9 +182,16 @@ export default function AttendancePage() {
                                     <td>{value.name}</td>
                                     <td>{value.sensei.name}</td>
                                     <td>{moment(value.signInTime).format("hh:mm")}</td>
-                                    <td>{session?.user.role=== 'STUDENT' ? 
+                                    {/* <td>{session?.user.role=== 'STUDENT' ? 
                                             value.signOut ? moment(value.signOutTime).format("hh:mm") : <button className='bg-error px-4 py-1 rounded-md text-white' onClick={() => sign(value.id)}> Absen </button> : 
                                             value.signOut ? moment(value.signOutTime).format("hh:mm") : <div className='text-error'>Belum absen</div> }
+                                    </td> */}
+                                    <td>
+                                        { 
+                                        value.signOut ? 
+                                            moment(value.signOutTime).format("hh:mm") : 
+                                            <button className='bg-error px-4 py-1 rounded-md text-white' onClick={() => sign(value.id)}> Absen </button>  
+                                        }
                                     </td>
                                     <td>
                                         {

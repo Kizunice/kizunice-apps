@@ -71,7 +71,7 @@ export default function DashboardPage() {
                     title="Total Siswa"
                     icon={<HiUsers size={30} />}
                     color="bg-white"
-                    value={totalStudent}
+                    value={totalStudent || 0}
                 />
                 ) : null
             }

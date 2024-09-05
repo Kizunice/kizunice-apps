@@ -23,7 +23,6 @@ const TopSideButtons = () => {
 }
 
 export default function PartnerPage() {
-    const {data:session} =  useSession()
     const router = useRouter()
     const [values, setValues] = useState([])
     const [loading, setLoading] = useState(true)

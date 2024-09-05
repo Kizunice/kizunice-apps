@@ -1,6 +1,7 @@
 'use client'
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { useSession } from "next-auth/react"
 import { useParams } from 'next/navigation'
 import TitleCard from "@/components/ui/TitleCards"
 import InputField from "@/components/ui/InputField"
@@ -12,6 +13,7 @@ import Loading from "@/app/(dashboard)/loading"
 import Button from "../ui/Button"
 
 export default function DetailUsersPage(){
+    const {data:session} =  useSession()
     const params = useParams()
     const [loading, setLoading] = useState(false)
     const [pageLoading, setPageLoading] = useState(true)
@@ -73,7 +75,14 @@ export default function DetailUsersPage(){
     async function handleSubmit() {
         setLoading(true);
         try {
-          const response = await fetch(`/api/data/${params.id}`, {
+        //   const response = await fetch(`/api/data/${params.id}`, {
+        //     method: "POST",
+        //     body: JSON.stringify(formValues),
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //   })
+          const response = await fetch('/api/data', {
             method: "POST",
             body: JSON.stringify(formValues),
             headers: {
@@ -83,7 +92,6 @@ export default function DetailUsersPage(){
           
           if (response.ok) {
             toast.success("Berhasil ubah status akun");
-            location.reload();
             setLoading(false);
           } else {
             toast.error("Gagal ubah status akun, Coba lagi");
@@ -93,7 +101,7 @@ export default function DetailUsersPage(){
           console.error("Network Error:", error);
           setLoading(false);
         }
-      }
+    }
 
     if(pageLoading) return <Loading />
     return(

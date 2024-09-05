@@ -8,7 +8,7 @@ export async function GET(req,res) {
     return new NextResponse('Error! Need Authentication!', { status: 400 });
   }
 
-  if(session.role === "ADMIN" || session.role === "MASTER"  || session.role === "STUDENT") {
+  if(session) {
     const profile = await prisma.senseiProfile.findMany({
         orderBy : {
           name: "asc"

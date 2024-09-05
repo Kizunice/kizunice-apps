@@ -120,5 +120,43 @@ export async function POST(req,res) {
     },
   });
 
+  // let scoreGrade
+  // if (part <= 10) {
+  //   scoreGrade = 'E'
+  // } else if (part <= 20) {
+  //   scoreGrade = 'D'
+  // } else if (part <= 30) {
+  //   scoreGrade = 'C'
+  // } else if (part <= 40) {
+  //   scoreGrade = 'B'
+  // } else if (part <= 50) {
+  //   scoreGrade = 'A'
+  // }
+ 
+  // let scoreData = []
+  // students.map(id => {
+  //   scoreData.push({
+  //     learningId : learning.id,
+  //     studentId : id,
+  //     senseiId : senseiId,
+  //     grade : scoreGrade,
+  //     linkFile : null,
+  //     bunpou : 0,
+  //     choukai : 0,
+  //     kanji : 0,
+  //     kaiwa : null,
+  //     bunka : null,
+  //     aisatsu : null,
+  //     scoreAvg: 0,
+  //     pushUp : 0,
+  //     sitUp : 0,
+  //     barbel : 0,
+  //   })
+  // })
+
+  // await prisma.scores.createMany({
+  //   data : scoreData
+  // })
+
   return NextResponse.json(learning);
 }

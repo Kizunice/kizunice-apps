@@ -29,6 +29,10 @@ export const authOptions = {
           throw new Error('Belum Verifikasi Email');
         }
 
+        if (user.status === "NONACTIVE") {
+          throw new Error('Akun anda tidak aktif, Silahkan hubungi admin untuk aktivasi kembali');
+        }
+
         const passwordMatch = await bcrypt.compare(
           credentials.password,
           user.password

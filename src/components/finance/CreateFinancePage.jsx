@@ -120,7 +120,7 @@ export default function CreateFinancePage() {
                     onChange={handleChange}
                 />
                 <SelectField
-                    value={transactionType}
+                    defaultValue={transactionType}
                     placeholder="Pilih Tipe Transaksi"
                     label="Tipe Transaksi"
                     name="transactionType"

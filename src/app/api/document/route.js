@@ -36,7 +36,7 @@ export async function POST(req,res) {
         userId: session.id,
       },
     });
-   
+     
     const filePath = path.resolve('./public', 'doc', `${body.name}`);
     
     const wb = new ExcelJS.Workbook()
@@ -179,7 +179,7 @@ export async function POST(req,res) {
                 link: url,
                 name: body.name,
                 studentId : profile.id,
-                staffId : staff.id,
+                staffId : staff.id || null,
                 created : true
               }
             })

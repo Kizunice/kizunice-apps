@@ -105,7 +105,7 @@ export default function SenseiPage() {
                             <th>No. Handphone</th>
                             <th>Tanggal Daftar</th>
                             <th>Status Akun</th>
-                            <th>Aksi</th>
+                            <th>{session?.user.role === "ADMIN" || session?.user.role === "MASTER" ? 'Aksi' : ''}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -125,7 +125,7 @@ export default function SenseiPage() {
                                         
                                             <td className="flex items-center">
                                                 {
-                                                    session?.user.role === "ADMIN" || "MASTER" ? (
+                                                    session?.user.role === "ADMIN" || session?.user.role === "MASTER" ? (
                                                         <>
                                                         <div className="tooltip" data-tip="Profil Sensei">
                                                             <Link href={`/data-sensei/${user.id}`}>
