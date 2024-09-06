@@ -33,14 +33,13 @@ export default function LoginForm() {
             setLoading(false)
             toast.success('Berhasil Masuk!')
             router.push("/dashboard");
-            router.refresh()
           }
       } )
   }
 
-  // useEffect(() => {
-  //   router.prefetch('/dashboard')
-  // }, [router])
+  useEffect(() => {
+    router.prefetch('/dashboard')
+  }, [router])
   
   const handleChange = (e) =>{
     const { name, value } = e.target;
