@@ -3,6 +3,8 @@ import {FaBars} from "react-icons/fa"
 import Image from "next/image";
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from "next/navigation";
+import Avatar from "../../../public/avatar.png"
+
 export default function Header()  {
   const {data:session} = useSession()
   const router = useRouter()
@@ -26,7 +28,7 @@ export default function Header()  {
               <span className="block text-xs text-black">{session?.user.role}</span>
             </span>
             <div className="w-10 rounded-full">
-              <Image src={session?.user.image ? session?.user.image : "/avatar.png"} width={20} height={20} alt="Avatar Kizunice"/> 
+              <Image src={session?.user.image ? session?.user.image : Avatar} width={20} height={20} alt="Avatar Kizunice"/> 
             </div>
           </div>
           <ul tabIndex={0} className="mt-3 z-[9] p-2 gap-1 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"> 
