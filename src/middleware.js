@@ -10,12 +10,15 @@ export async function middleware(req) {
   });
 
   const protectedRoutes = ["/dashboard", "/attendance", "/learning", "/jobs", "/jobs-application", "/document", "/data-student", "/data-partner","/data-sensei","/data-staff","/finance" ]
-  
-  if(!session && protectedRoutes.includes(path)) {
+  const authRoutes = ["/login","/register", "/forgot-password"]
+
+  if (!session && protectedRoutes.includes(path)) {
     return NextResponse.redirect(new URL('/login', req.url))
-  } else {
-    return NextResponse.redirect(new URL('/', req.url))
+  } else if (session && authRoutes.includes(path)) {
+    return NextResponse.redirect(new URL('/dashboard', req.url))
   }
+  return NextResponse.next()
+
   // const f = !session && protectedRoutes.includes(path)
   // console.log("check :", f)
 
