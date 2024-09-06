@@ -13,7 +13,9 @@ export async function middleware(req) {
   
   if(!session && protectedRoutes.includes(path)) {
     return NextResponse.redirect(new URL('/login', req.url))
-  } 
+  } else {
+    return NextResponse.redirect(new URL('/', req.url))
+  }
   // const f = !session && protectedRoutes.includes(path)
   // console.log("check :", f)
 
